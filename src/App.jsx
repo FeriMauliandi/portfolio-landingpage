@@ -254,7 +254,7 @@ export default function PersonalPortfolio() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center px-6 pt-30 md:pt-10 pb-16">
+      <section id="home" className="relative min-h-screen flex items-center justify-center px-6 pt-25 md:pt-10 pb-16">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center mt-8 md:mt-0">
           <div className="space-y-6 scroll-reveal opacity-0" data-animation="animate-slideInLeft">
             <div className="inline-block px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
