@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward } from 'react-icons/fi';
+import fotoFeri from './assets/feri.jpg'; // Pastikan path-nya sesuai
 
 export default function PersonalPortfolio() {
   const [activeTab, setActiveTab] = useState('projects');
@@ -293,7 +294,7 @@ export default function PersonalPortfolio() {
             <div className="relative z-10 p-3 bg-white/40 backdrop-blur-lg rounded-[2.5rem] shadow-2xl border border-white/60">
               <div className="w-full aspect-square rounded-3xl overflow-hidden bg-slate-200 relative group">
                 <img
-                  src="/feri.jpg"
+                  src={fotoFeri}
                   alt="Feri Mauliandi Saputra"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
