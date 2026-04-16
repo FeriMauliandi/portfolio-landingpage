@@ -253,8 +253,8 @@ export default function PersonalPortfolio() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center px-6 pt-20">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <section id="home" className="relative min-h-screen flex items-center justify-center px-6 pt-30 md:pt-10 pb-16">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center mt-8 md:mt-0">
           <div className="space-y-6 scroll-reveal opacity-0" data-animation="animate-slideInLeft">
             <div className="inline-block px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
               👋 Hi, I am Feri Mauliandi Saputra
@@ -293,7 +293,7 @@ export default function PersonalPortfolio() {
             <div className="relative z-10 p-3 bg-white/40 backdrop-blur-lg rounded-[2.5rem] shadow-2xl border border-white/60">
               <div className="w-full aspect-square rounded-3xl overflow-hidden bg-slate-200 relative group">
                 <img
-                  src="src/assets/feri.jpg"
+                  src="/feri.jpg"
                   alt="Feri Mauliandi Saputra"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
