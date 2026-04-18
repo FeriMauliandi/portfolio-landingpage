@@ -49,7 +49,7 @@ export default function PersonalPortfolio() {
         tech: ['YOLOv11', 'Python', 'FastAPI', 'Streamlit'],
         image: '🌶️',
         color: 'from-red-500 to-orange-500',
-        github: 'https://github.com/ferimauliandisaputra'
+        github: 'https://github.com/FeriMauliandi/Chili-Leaf-Disease-Detection-with-YOLOv11-and-LLM-Based-RAG'
       },
       {
         id: 2,
@@ -58,7 +58,7 @@ export default function PersonalPortfolio() {
         tech: ['LangChain', 'ChromaDB', 'Ollama', 'RAGAS'],
         image: '🤖',
         color: 'from-blue-500 to-cyan-500',
-        github: 'https://github.com/ferimauliandisaputra'
+        github: 'https://github.com/FeriMauliandi/RAG-chatbot-Streamlit-FastAPI'
       },
       {
         id: 3,
@@ -76,15 +76,15 @@ export default function PersonalPortfolio() {
         tech: ['Python', 'Data APIs', 'Technical Analysis'],
         image: '📈',
         color: 'from-emerald-500 to-green-500',
-        github: 'https://github.com/ferimauliandisaputra'
+        github: 'https://github.com/FeriMauliandi/LLM-based-IHSG-Stock-Fundamental-Explainer-with-Structured-Data'
       }
     ],
     experience: [
       {
         id: 1,
-        role: 'Software Engineering Intern',
+        role: 'backend developer intern',
         company: 'PT Angkasa Pura',
-        period: 'Late 2025',
+        period: 'september 2025 - oktober 2025',
         description: 'Developed a CRUD application system for recording and tracking UPS inventory data to streamline asset management workflows.',
         color: 'bg-blue-500'
       },
@@ -92,18 +92,10 @@ export default function PersonalPortfolio() {
         id: 2,
         role: 'Robotics Team Member',
         company: 'Kontes Robot Terbang Indonesia (KRTI)',
-        period: '2025 - Present',
+        period: '2023 - 2026',
         description: 'Active participant in Unmanned Aerial Vehicle (UAV) development, focusing on drone configuration, testing, and flight optimization.',
         color: 'bg-purple-500'
       },
-      {
-        id: 3,
-        role: 'Computer Engineering Student',
-        company: 'University',
-        period: 'Present',
-        description: 'Deepening knowledge in hardware-software integration, computer vision, and backend API architecture.',
-        color: 'bg-teal-500'
-      }
     ],
     certifications: [
       {
