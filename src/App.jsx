@@ -90,8 +90,8 @@ export default function PersonalPortfolio() {
       },
       {
         id: 2,
-        role: 'Robotics Team Member',
-        company: 'Kontes Robot Terbang Indonesia (KRTI)',
+        role: 'Lead Programmer & Ground Station Operator',
+        company: 'Seulawah Team & Kontes Robot Terbang Indonesia (KRTI)',
         period: '2023 - 2026',
         description: 'Active participant in Unmanned Aerial Vehicle (UAV) development, focusing on drone configuration, testing, and flight optimization.',
         color: 'bg-purple-500'
