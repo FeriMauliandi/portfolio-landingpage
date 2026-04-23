@@ -100,31 +100,24 @@ export default function PersonalPortfolio() {
     certifications: [
       {
         id: 1,
-        name: 'Deep Learning Specialization',
-        issuer: 'Coursera',
+        name: 'Introduction to Python',
+        issuer: 'Sololearn',
         year: '2025',
         image: 'https://placehold.co/600x400/3b82f6/ffffff?text=Deep+Learning+Cert'
       },
       {
         id: 2,
-        name: 'Computer Vision Practitioner',
-        issuer: 'Tech Institute',
+        name: 'Introduction to Data Science with Python',
+        issuer: 'DQlab',
         year: '2025',
         image: 'https://placehold.co/600x400/8b5cf6/ffffff?text=CV+Practitioner'
       },
       {
         id: 3,
-        name: 'Python for Data Science & AI',
-        issuer: 'DataCamp',
+        name: 'Finalist Kontes Robot Terbang Indonesia 2024',
+        issuer: 'Pusat Prestasi Nasional - Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi',
         year: '2024',
         image: 'https://placehold.co/600x400/10b981/ffffff?text=Python+AI+Cert'
-      },
-      {
-        id: 4,
-        name: 'Backend API Development',
-        issuer: 'Online Bootcamp',
-        year: '2024',
-        image: 'https://placehold.co/600x400/14b8a6/ffffff?text=FastAPI+Cert'
       }
     ]
   };
