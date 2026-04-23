@@ -64,7 +64,7 @@ export default function PersonalPortfolio() {
         id: 3,
         title: 'UAV & FPV Drone Development',
         description: 'Building, configuring, and testing FPV drones and Tinywhoops for competitive robotics and aerial mapping.',
-        tech: ['Betaflight', 'Flight Controllers', 'Hardware'],
+        tech: ['Ardupilot', 'Flight Controllers', 'Jetson Nano', 'DroneKit', 'Raspberry Pi', 'ground station configuration'],
         image: '🚁',
         color: 'from-purple-500 to-indigo-500',
         github: 'https://github.com/ferimauliandisaputra'
