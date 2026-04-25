@@ -435,7 +435,7 @@ export default function PersonalPortfolio() {
             <div className="flex flex-wrap gap-3">
               <span className="px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">Computer Vision</span>
               <span className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">LLMs & RAG</span>
-              <span className="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">Python/FastAPI</span>
+              <span className="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">FastAPI</span>
               <span className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">Robotics & UAVs</span>
             </div>
             <a href="#contact">
@@ -472,8 +472,8 @@ export default function PersonalPortfolio() {
             >
               <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-xl shadow-inner">👁️</div>
               <div className="text-left hidden sm:block">
-                <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">Focus On</p>
-                <p className="text-gray-900 font-bold text-sm">Computer Vision</p>
+                <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">Computer Vision</p>
+                <p className="text-gray-900 font-bold text-sm">YOLO & DETR</p>
               </div>
             </div>
 
