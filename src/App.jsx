@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLeft, FiChevronRight, FiX } from 'react-icons/fi';
-import fotoFeri from './assets/feri.jpg'; // Pastikan path-nya sesuai
+import fotoFeri from './assets/feri.jpg'; 
 
 import chili1 from './assets/chili1.png';
-// import chili2 from './assets/chilicare-slide2.png'; // pastikan formatnya sesuai (.jpg/.png)
-// import rag1 from './assets/rag-slide1.jpg';
 import drone1 from './assets/krti1.jpeg';
 import drone2 from './assets/krti.jpeg';
 import drone3 from './assets/uav.jpeg';
 import drone4 from './assets/uav1.png';
 import drone5 from './assets/uav2.png';
-// Komponen khusus untuk Kartu Proyek agar slider-nya berjalan independen
+
+
 const ProjectCard = ({ project, idx }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
