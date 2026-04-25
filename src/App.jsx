@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-// Tambahkan FiChevronLeft dan FiChevronRight untuk panah slider
-import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLeft, FiChevronRight, FiX } from 'react-icons/fi';
 import fotoFeri from './assets/feri.jpg'; // Pastikan path-nya sesuai
 
-import chili1 from './assets/chili.png';
+import chili1 from './assets/chili1.png';
 // import chili2 from './assets/chilicare-slide2.png'; // pastikan formatnya sesuai (.jpg/.png)
 // import rag1 from './assets/rag-slide1.jpg';
-// import drone1 from './assets/drone-slide1.jpg';
-// import drone2 from './assets/drone-slide2.jpg';
-
+import drone1 from './assets/krti1.jpeg';
+import drone2 from './assets/krti.jpeg';
+import drone3 from './assets/uav.jpeg';
+import drone4 from './assets/uav1.png';
+import drone5 from './assets/uav2.png';
 // Komponen khusus untuk Kartu Proyek agar slider-nya berjalan independen
 const ProjectCard = ({ project, idx }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) =>
@@ -25,76 +27,153 @@ const ProjectCard = ({ project, idx }) => {
     );
   };
 
+  // Efek Auto-Slide (Berpindah otomatis tiap 2 detik)
+  useEffect(() => {
+    // Hanya jalan jika gambarnya lebih dari 1 dan Lightbox sedang tidak dibuka
+    if (project.images.length <= 1 || isLightboxOpen) return;
+
+    const timer = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === project.images.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 2000); // 2000 ms = 2 detik
+
+    // Bersihkan timer setiap pindah gambar agar tidak bertabrakan
+    return () => clearInterval(timer);
+  }, [currentIndex, isLightboxOpen, project.images.length]);
+
+  // Mengunci scroll layar utama (body) saat mode fullscreen terbuka
+  useEffect(() => {
+    if (isLightboxOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isLightboxOpen]);
+
   return (
-    <div
-      className="bg-slate-700/50 backdrop-blur rounded-3xl p-6 md:p-8 card-hover border border-slate-600 scroll-reveal opacity-0 flex flex-col justify-between"
-      data-animation="animate-scaleIn"
-      style={{ animationDelay: `${idx * 0.1}s` }}
-    >
-      <div>
-        {/* Kontainer Image Slider (Mengikuti padding dan sejajar dengan teks) */}
-        <div className="relative w-full h-56 md:h-64 rounded-2xl overflow-hidden mb-6 group bg-slate-800 shadow-inner border border-slate-600/50">
+    <>
+      <div
+        className="bg-slate-700/50 backdrop-blur rounded-3xl p-6 md:p-8 card-hover border border-slate-600 scroll-reveal opacity-0 flex flex-col justify-between"
+        data-animation="animate-scaleIn"
+        style={{ animationDelay: `${idx * 0.1}s` }}
+      >
+        <div>
+          {/* Kontainer Image Slider */}
+          <div className="relative w-full h-56 md:h-64 rounded-2xl overflow-hidden mb-6 group bg-slate-800 shadow-inner border border-slate-600/50">
+            <img
+              src={project.images[currentIndex]}
+              alt={`${project.title} - Slide ${currentIndex + 1}`}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 cursor-zoom-in"
+              onClick={() => setIsLightboxOpen(true)}
+            />
+
+            {/* Overlay gelap di bawah agar dots terlihat jelas */}
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-slate-900/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+
+            {/* Tombol Kiri & Kanan */}
+            {project.images.length > 1 && (
+              <>
+                <button
+                  onClick={prevSlide}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-blue-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm z-10"
+                >
+                  <FiChevronLeft size={24} />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-blue-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm z-10"
+                >
+                  <FiChevronRight size={24} />
+                </button>
+              </>
+            )}
+
+            {/* Titik Indikator (Dots) */}
+            {project.images.length > 1 && (
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                {project.images.map((_, dotIdx) => (
+                  <button
+                    key={dotIdx}
+                    onClick={() => setCurrentIndex(dotIdx)}
+                    className={`h-2 rounded-full transition-all duration-300 shadow-md ${currentIndex === dotIdx ? 'bg-blue-400 w-6' : 'bg-white/60 w-2 hover:bg-white'
+                      }`}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Teks Informasi */}
+          <h3 className="text-2xl font-bold mb-3 text-white">{project.title}</h3>
+          <p className="text-gray-300 mb-6 leading-relaxed text-sm md:text-base">{project.description}</p>
+          <div className="flex flex-wrap gap-2 mb-6">
+            {project.tech.map((tech, i) => (
+              <span key={i} className="px-3 py-1.5 bg-slate-800 rounded-full text-xs font-semibold text-blue-300 border border-slate-600">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Tombol Link Github */}
+        <div className="mt-auto pt-4 border-t border-slate-600/50">
+          <a href={project.github} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-slate-800 hover:bg-slate-900 text-blue-400 hover:text-blue-300 rounded-xl transition-all font-medium border border-slate-700 hover:border-blue-500 w-full sm:w-auto shadow-md">
+            <FiGithub size={18} /> View Repository
+          </a>
+        </div>
+      </div>
+
+      {/* MODAL FULLSCREEN (LIGHTBOX) */}
+      {isLightboxOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/95 backdrop-blur-md p-4 md:p-10 cursor-zoom-out"
+          onClick={() => setIsLightboxOpen(false)}
+        >
+          {/* Tombol Close */}
+          <button
+            className="absolute top-6 right-6 text-white/70 hover:text-white bg-black/50 p-3 rounded-full transition-colors z-50"
+            onClick={() => setIsLightboxOpen(false)}
+          >
+            <FiX size={28} />
+          </button>
+
+          {/* Gambar Fullscreen */}
           <img
             src={project.images[currentIndex]}
-            alt={`${project.title} - Slide ${currentIndex + 1}`}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            alt={`${project.title} Fullscreen`}
+            className="max-w-full max-h-full object-contain rounded-xl shadow-2xl cursor-default animate-scaleIn"
+            onClick={(e) => e.stopPropagation()}
           />
 
-          {/* Overlay gelap di bawah agar dots terlihat jelas */}
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-slate-900/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-          {/* Tombol Kiri & Kanan (Hanya muncul jika gambar lebih dari 1) */}
+          {/* Navigasi Fullscreen */}
           {project.images.length > 1 && (
             <>
               <button
-                onClick={prevSlide}
-                className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-blue-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm z-10"
+                onClick={(e) => { e.stopPropagation(); prevSlide(); }}
+                className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-blue-600 text-white p-4 rounded-full transition-all z-50"
               >
-                <FiChevronLeft size={24} />
+                <FiChevronLeft size={32} />
               </button>
               <button
-                onClick={nextSlide}
-                className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-blue-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm z-10"
+                onClick={(e) => { e.stopPropagation(); nextSlide(); }}
+                className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-blue-600 text-white p-4 rounded-full transition-all z-50"
               >
-                <FiChevronRight size={24} />
+                <FiChevronRight size={32} />
               </button>
             </>
           )}
 
-          {/* Titik Indikator (Dots) */}
-          {project.images.length > 1 && (
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-              {project.images.map((_, dotIdx) => (
-                <button
-                  key={dotIdx}
-                  onClick={() => setCurrentIndex(dotIdx)}
-                  className={`h-2 rounded-full transition-all duration-300 shadow-md ${currentIndex === dotIdx ? 'bg-blue-400 w-6' : 'bg-white/60 w-2 hover:bg-white'
-                    }`}
-                />
-              ))}
-            </div>
-          )}
+          {/* Indikator Teks di Bawah */}
+          <div className="absolute bottom-6 text-white/70 text-sm font-medium tracking-widest bg-black/50 px-4 py-2 rounded-full">
+            {currentIndex + 1} / {project.images.length}
+          </div>
         </div>
-
-        {/* Teks Informasi */}
-        <h3 className="text-2xl font-bold mb-3 text-white">{project.title}</h3>
-        <p className="text-gray-300 mb-6 leading-relaxed text-sm md:text-base">{project.description}</p>
-        <div className="flex flex-wrap gap-2 mb-6">
-          {project.tech.map((tech, i) => (
-            <span key={i} className="px-3 py-1.5 bg-slate-800 rounded-full text-xs font-semibold text-blue-300 border border-slate-600">
-              {tech}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Tombol Link Github */}
-      <div className="mt-auto pt-4 border-t border-slate-600/50">
-        <a href={project.github} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-slate-800 hover:bg-slate-900 text-blue-400 hover:text-blue-300 rounded-xl transition-all font-medium border border-slate-700 hover:border-blue-500 w-full sm:w-auto shadow-md">
-          <FiGithub size={18} /> View Repository
-        </a>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
@@ -137,7 +216,6 @@ export default function PersonalPortfolio() {
   }, [activeTab]);
 
   const portfolioData = {
-    // 💡 PERHATIAN: Field 'images' diganti menjadi ARRAY untuk menampung banyak foto
     projects: [
       {
         id: 1,
@@ -152,9 +230,9 @@ export default function PersonalPortfolio() {
       },
       {
         id: 2,
-        title: 'RAG-Based LLM Application',
-        description: 'Custom Retrieval-Augmented Generation pipelines integrating local LLMs with vector databases for intelligent document QA.',
-        tech: ['LangChain', 'ChromaDB', 'Ollama', 'RAGAS'],
+        title: 'RAG chatbot with Streamlit & FastAPI',
+        description: 'A RAG-powered smart assistant for catfish farming. It extracts knowledge from local PDF documents using ChromaDB and an LLM to provide accurate, context-aware answers to user queries.',
+        tech: ['LangChain', 'ChromaDB', 'Ollama','Python', 'FastAPI', 'Streamlit'],
         images: [
           'https://placehold.co/800x500/0f172a/ffffff?text=LLM+Chat+UI',
           'https://placehold.co/800x500/1e293b/ffffff?text=Vector+DB+Logic'
@@ -164,21 +242,24 @@ export default function PersonalPortfolio() {
       },
       {
         id: 3,
-        title: 'UAV & FPV Drone Development',
-        description: 'Building, configuring, and testing FPV drones and Tinywhoops for competitive robotics and aerial mapping.',
-        tech: ['Ardupilot', 'Flight Controllers', 'Jetson Nano', 'DroneKit', 'Raspberry Pi', 'ground station configuration'],
+        title: 'UAVs Development (programming, hardware & ground station)',
+        description: 'Building, configuring, and testing UAVs (VTOL, Fixed Wing, Long endurance Low altitude) for competitive robotics, surveying and aerial mapping.',
+        tech: ['Ardupilot', 'Flight Controllers', 'Jetson Nano', 'DroneKit', 'Raspberry Pi', 'ground station configuration', 'computer vision for UAVs'],
         images: [
-          'https://placehold.co/800x500/312e81/ffffff?text=Drone+Assembly',
-          'https://placehold.co/800x500/4338ca/ffffff?text=Flight+Test'
+          drone1,
+          drone2,
+          drone3,
+          drone4,
+          drone5
         ],
         color: 'from-purple-500 to-indigo-500',
         github: 'https://github.com/ferimauliandisaputra'
       },
       {
         id: 4,
-        title: 'Market Sentiment & Tech Analysis',
-        description: 'Automated monitoring scripts for IHSG stock screening (PBV ratios) and crypto futures liquidation heatmaps.',
-        tech: ['Python', 'Data APIs', 'Technical Analysis'],
+        title: 'LLM-based IHSG Stock Fundamental Explainer with Structured Data',
+        description: 'An LLM-powered system that explains IHSG stock fundamental indicators using structured financial data (Yahoo Finance) and LangChain.',
+        tech: ['Python', 'LLM', 'LangChain', 'yfinance', 'Streamlit'],
         images: [
           'https://placehold.co/800x500/064e3b/ffffff?text=Dashboard+View',
           'https://placehold.co/800x500/065f46/ffffff?text=Python+Script'
@@ -259,13 +340,11 @@ export default function PersonalPortfolio() {
           font-family: 'Syne', sans-serif;
         }
         
-        /* Animasi berputar untuk blob background */
         @keyframes float {
           0% { transform: translate(0, 0) rotate(0deg); }
           100% { transform: translate(30px, 30px) rotate(180deg); }
         }
 
-        /* Animasi mengambang khusus untuk Badge (tanpa putaran) */
         @keyframes float-badge {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-15px); }
@@ -355,7 +434,7 @@ export default function PersonalPortfolio() {
             </p>
             <div className="flex flex-wrap gap-3">
               <span className="px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">Computer Vision</span>
-              <span className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">LLMs Developer</span>
+              <span className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">LLMs</span>
               <span className="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">Python/FastAPI</span>
               <span className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">Robotics & UAVs</span>
             </div>
@@ -367,7 +446,6 @@ export default function PersonalPortfolio() {
           </div>
 
           <div className="relative scroll-reveal opacity-0" data-animation="animate-slideInRight">
-            {/* Background Blobs (Tetap berputar pelan) */}
             <div
               className="absolute -top-8 -right-8 w-40 h-40 bg-linear-to-br from-purple-400 to-pink-400 rounded-3xl blob opacity-60 z-0"
               style={{ animation: 'float 6s ease-in-out infinite' }}
@@ -377,7 +455,6 @@ export default function PersonalPortfolio() {
               style={{ animation: 'float 8s ease-in-out infinite reverse' }}
             ></div>
 
-            {/* Bingkai Kaca & Foto Utama */}
             <div className="relative z-10 p-3 bg-white/40 backdrop-blur-lg rounded-[2.5rem] shadow-2xl border border-white/60">
               <div className="w-full aspect-square rounded-3xl overflow-hidden bg-slate-200 relative group">
                 <img
@@ -389,7 +466,6 @@ export default function PersonalPortfolio() {
               </div>
             </div>
 
-            {/* Badge 1 - Kiri Atas (Computer Vision) */}
             <div
               className="absolute top-8 -left-4 md:-left-10 z-20 bg-white/90 backdrop-blur-md p-3 md:p-4 rounded-2xl shadow-xl border border-white/50 flex items-center gap-3"
               style={{ animation: 'float-badge 4s ease-in-out infinite' }}
@@ -401,7 +477,6 @@ export default function PersonalPortfolio() {
               </div>
             </div>
 
-            {/* Badge 2 - Kanan Atas (Robotics) */}
             <div
               className="absolute top-28 -right-4 md:-right-12 z-20 bg-white/90 backdrop-blur-md p-3 md:p-4 rounded-2xl shadow-xl border border-white/50 flex items-center gap-3"
               style={{ animation: 'float-badge 4.5s ease-in-out 1s infinite' }}
@@ -413,7 +488,6 @@ export default function PersonalPortfolio() {
               <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center text-xl shadow-inner">🤖</div>
             </div>
 
-            {/* Badge 3 - Kiri Bawah (LLM & RAG) */}
             <div
               className="absolute bottom-28 -left-4 md:-left-12 z-20 bg-white/90 backdrop-blur-md p-3 md:p-4 rounded-2xl shadow-xl border border-white/50 flex items-center gap-3"
               style={{ animation: 'float-badge 5s ease-in-out 2s infinite' }}
@@ -425,7 +499,6 @@ export default function PersonalPortfolio() {
               </div>
             </div>
 
-            {/* Badge 4 - Kanan Bawah (Open to Work) */}
             <div
               className="absolute bottom-8 -right-2 md:-right-6 z-20 bg-white/90 backdrop-blur-md px-5 py-3 rounded-2xl shadow-xl border border-white/50 flex items-center gap-3"
               style={{ animation: 'float-badge 4s ease-in-out 0.5s infinite' }}
@@ -519,7 +592,7 @@ export default function PersonalPortfolio() {
             </button>
           </div>
 
-          {/* Projects Tab -> Menggunakan Komponen ProjectCard */}
+          {/* Projects Tab */}
           {activeTab === 'projects' && (
             <div className="grid md:grid-cols-2 gap-8">
               {portfolioData.projects.map((project, idx) => (
@@ -586,7 +659,7 @@ export default function PersonalPortfolio() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="relative py-20 px-6 bg-linear-to-br from-blue-100 via-indigo-100 to-purple-100">
+      <section id="contact" className="relative py-20 px-6 bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100">
         <div className="max-w-4xl mx-auto text-center">
           <div className="scroll-reveal opacity-0" data-animation="animate-slideInUp">
             <h2 className="text-5xl font-bold mb-6">Let's Work Together!</h2>
