@@ -1,6 +1,102 @@
 import React, { useState, useEffect } from 'react';
-import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward } from 'react-icons/fi';
+// Tambahkan FiChevronLeft dan FiChevronRight untuk panah slider
+import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import fotoFeri from './assets/feri.jpg'; // Pastikan path-nya sesuai
+
+import chili1 from './assets/chili.png';
+// import chili2 from './assets/chilicare-slide2.png'; // pastikan formatnya sesuai (.jpg/.png)
+// import rag1 from './assets/rag-slide1.jpg';
+// import drone1 from './assets/drone-slide1.jpg';
+// import drone2 from './assets/drone-slide2.jpg';
+
+// Komponen khusus untuk Kartu Proyek agar slider-nya berjalan independen
+const ProjectCard = ({ project, idx }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === project.images.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? project.images.length - 1 : prevIndex - 1
+    );
+  };
+
+  return (
+    <div
+      className="bg-slate-700/50 backdrop-blur rounded-3xl p-6 md:p-8 card-hover border border-slate-600 scroll-reveal opacity-0 flex flex-col justify-between"
+      data-animation="animate-scaleIn"
+      style={{ animationDelay: `${idx * 0.1}s` }}
+    >
+      <div>
+        {/* Kontainer Image Slider (Mengikuti padding dan sejajar dengan teks) */}
+        <div className="relative w-full h-56 md:h-64 rounded-2xl overflow-hidden mb-6 group bg-slate-800 shadow-inner border border-slate-600/50">
+          <img
+            src={project.images[currentIndex]}
+            alt={`${project.title} - Slide ${currentIndex + 1}`}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+
+          {/* Overlay gelap di bawah agar dots terlihat jelas */}
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-slate-900/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+          {/* Tombol Kiri & Kanan (Hanya muncul jika gambar lebih dari 1) */}
+          {project.images.length > 1 && (
+            <>
+              <button
+                onClick={prevSlide}
+                className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-blue-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm z-10"
+              >
+                <FiChevronLeft size={24} />
+              </button>
+              <button
+                onClick={nextSlide}
+                className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-blue-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm z-10"
+              >
+                <FiChevronRight size={24} />
+              </button>
+            </>
+          )}
+
+          {/* Titik Indikator (Dots) */}
+          {project.images.length > 1 && (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+              {project.images.map((_, dotIdx) => (
+                <button
+                  key={dotIdx}
+                  onClick={() => setCurrentIndex(dotIdx)}
+                  className={`h-2 rounded-full transition-all duration-300 shadow-md ${currentIndex === dotIdx ? 'bg-blue-400 w-6' : 'bg-white/60 w-2 hover:bg-white'
+                    }`}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Teks Informasi */}
+        <h3 className="text-2xl font-bold mb-3 text-white">{project.title}</h3>
+        <p className="text-gray-300 mb-6 leading-relaxed text-sm md:text-base">{project.description}</p>
+        <div className="flex flex-wrap gap-2 mb-6">
+          {project.tech.map((tech, i) => (
+            <span key={i} className="px-3 py-1.5 bg-slate-800 rounded-full text-xs font-semibold text-blue-300 border border-slate-600">
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Tombol Link Github */}
+      <div className="mt-auto pt-4 border-t border-slate-600/50">
+        <a href={project.github} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-slate-800 hover:bg-slate-900 text-blue-400 hover:text-blue-300 rounded-xl transition-all font-medium border border-slate-700 hover:border-blue-500 w-full sm:w-auto shadow-md">
+          <FiGithub size={18} /> View Repository
+        </a>
+      </div>
+    </div>
+  );
+};
 
 export default function PersonalPortfolio() {
   const [activeTab, setActiveTab] = useState('projects');
@@ -41,13 +137,16 @@ export default function PersonalPortfolio() {
   }, [activeTab]);
 
   const portfolioData = {
+    // 💡 PERHATIAN: Field 'images' diganti menjadi ARRAY untuk menampung banyak foto
     projects: [
       {
         id: 1,
-        title: 'ChiliCare: Leaf Disease Detection',
-        description: 'Automated chili leaf disease detection system integrating deep learning models for agricultural applications.',
-        tech: ['YOLOv11', 'Python', 'FastAPI', 'Streamlit'],
-        image: '🌶️',
+        title: 'Chilicare: Chili Leaf Disease Detection with YOLOv11 and RAG',
+        description: 'An AI-powered diagnostic tool for chili farmers. Combines a YOLOv11 computer vision model with an LLM-based RAG architecture to provide accurate disease detection and actionable treatment explanations.',
+        tech: ['YOLOv11', 'Python', 'LangChain', 'ChromaDB', 'Ollama', 'Streamlit'],
+        images: [
+          chili1
+        ],
         color: 'from-red-500 to-orange-500',
         github: 'https://github.com/FeriMauliandi/Chili-Leaf-Disease-Detection-with-YOLOv11-and-LLM-Based-RAG'
       },
@@ -56,7 +155,10 @@ export default function PersonalPortfolio() {
         title: 'RAG-Based LLM Application',
         description: 'Custom Retrieval-Augmented Generation pipelines integrating local LLMs with vector databases for intelligent document QA.',
         tech: ['LangChain', 'ChromaDB', 'Ollama', 'RAGAS'],
-        image: '🤖',
+        images: [
+          'https://placehold.co/800x500/0f172a/ffffff?text=LLM+Chat+UI',
+          'https://placehold.co/800x500/1e293b/ffffff?text=Vector+DB+Logic'
+        ],
         color: 'from-blue-500 to-cyan-500',
         github: 'https://github.com/FeriMauliandi/RAG-chatbot-Streamlit-FastAPI'
       },
@@ -65,7 +167,10 @@ export default function PersonalPortfolio() {
         title: 'UAV & FPV Drone Development',
         description: 'Building, configuring, and testing FPV drones and Tinywhoops for competitive robotics and aerial mapping.',
         tech: ['Ardupilot', 'Flight Controllers', 'Jetson Nano', 'DroneKit', 'Raspberry Pi', 'ground station configuration'],
-        image: '🚁',
+        images: [
+          'https://placehold.co/800x500/312e81/ffffff?text=Drone+Assembly',
+          'https://placehold.co/800x500/4338ca/ffffff?text=Flight+Test'
+        ],
         color: 'from-purple-500 to-indigo-500',
         github: 'https://github.com/ferimauliandisaputra'
       },
@@ -74,7 +179,10 @@ export default function PersonalPortfolio() {
         title: 'Market Sentiment & Tech Analysis',
         description: 'Automated monitoring scripts for IHSG stock screening (PBV ratios) and crypto futures liquidation heatmaps.',
         tech: ['Python', 'Data APIs', 'Technical Analysis'],
-        image: '📈',
+        images: [
+          'https://placehold.co/800x500/064e3b/ffffff?text=Dashboard+View',
+          'https://placehold.co/800x500/065f46/ffffff?text=Python+Script'
+        ],
         color: 'from-emerald-500 to-green-500',
         github: 'https://github.com/FeriMauliandi/LLM-based-IHSG-Stock-Fundamental-Explainer-with-Structured-Data'
       }
@@ -103,21 +211,21 @@ export default function PersonalPortfolio() {
         name: 'Introduction to Python',
         issuer: 'Sololearn',
         year: '2025',
-        image: 'https://placehold.co/600x400/3b82f6/ffffff?text=Deep+Learning+Cert'
+        image: 'https://placehold.co/600x400/3b82f6/ffffff?text=Python+Cert'
       },
       {
         id: 2,
         name: 'Introduction to Data Science with Python',
         issuer: 'DQlab',
         year: '2025',
-        image: 'https://placehold.co/600x400/8b5cf6/ffffff?text=CV+Practitioner'
+        image: 'https://placehold.co/600x400/8b5cf6/ffffff?text=Data+Science+Cert'
       },
       {
         id: 3,
         name: 'Finalist Kontes Robot Terbang Indonesia 2024',
         issuer: 'Pusat Prestasi Nasional - Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi',
         year: '2024',
-        image: 'https://placehold.co/600x400/10b981/ffffff?text=Python+AI+Cert'
+        image: 'https://placehold.co/600x400/10b981/ffffff?text=KRTI+Finalist'
       }
     ]
   };
@@ -209,12 +317,6 @@ export default function PersonalPortfolio() {
         }
         
         .blob { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
-        
-        .tech-badge { transition: all 0.3s ease; }
-        .tech-badge:hover {
-          transform: scale(1.05);
-          background-color: #475569;
-        }
       `}</style>
 
       {/* Floating Background Shapes */}
@@ -239,7 +341,7 @@ export default function PersonalPortfolio() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center px-6 pt-25 md:pt-10 pb-16">
+      <section id="home" className="relative min-h-screen flex items-center justify-center px-6 pt-32 md:pt-10 pb-16">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center mt-8 md:mt-0">
           <div className="space-y-6 scroll-reveal opacity-0" data-animation="animate-slideInLeft">
             <div className="inline-block px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
@@ -417,37 +519,11 @@ export default function PersonalPortfolio() {
             </button>
           </div>
 
-          {/* Projects Tab */}
+          {/* Projects Tab -> Menggunakan Komponen ProjectCard */}
           {activeTab === 'projects' && (
             <div className="grid md:grid-cols-2 gap-8">
               {portfolioData.projects.map((project, idx) => (
-                <div
-                  key={project.id}
-                  className="bg-slate-700/50 backdrop-blur rounded-3xl p-8 card-hover border border-slate-600 scroll-reveal opacity-0 flex flex-col justify-between"
-                  data-animation="animate-scaleIn"
-                  style={{ animationDelay: `${idx * 0.1}s` }}
-                >
-                  <div>
-                    <div className={`w-20 h-20 bg-linear-to-br ${project.color} rounded-2xl flex items-center justify-center text-4xl mb-6 shadow-lg`}>
-                      {project.image}
-                    </div>
-                    <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
-                    <p className="text-gray-300 mb-6">{project.description}</p>
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {project.tech.map((tech, i) => (
-                        <span key={i} className="px-3 py-1 bg-slate-600 rounded-full text-sm tech-badge">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="mt-auto pt-4 border-t border-slate-600/50">
-                    <a href={project.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-800 hover:bg-slate-900 text-blue-400 hover:text-blue-300 rounded-xl transition-all font-medium border border-slate-700 hover:border-slate-500">
-                      <FiGithub size={18} /> View Repository
-                    </a>
-                  </div>
-                </div>
+                <ProjectCard key={project.id} project={project} idx={idx} />
               ))}
             </div>
           )}
@@ -494,7 +570,7 @@ export default function PersonalPortfolio() {
                       alt={cert.name}
                       className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
+                    <div className="absolute inset-0 bg-linear-to-t from-slate-900/80 to-transparent"></div>
                   </div>
 
                   <div className="p-6 relative">
