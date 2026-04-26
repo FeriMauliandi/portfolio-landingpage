@@ -6,8 +6,8 @@ import chili1 from './assets/chili1.png';
 import drone1 from './assets/krti1.jpeg';
 import drone2 from './assets/krti.jpeg';
 import drone3 from './assets/uav.jpeg';
-import drone4 from './assets/uav1.png';
-import drone5 from './assets/uav2.png';
+// import drone4 from './assets/uav1.png';
+// import drone5 from './assets/uav2.png';
 
 
 const ProjectCard = ({ project, idx }) => {
@@ -247,9 +247,7 @@ export default function PersonalPortfolio() {
         images: [
           drone1,
           drone2,
-          drone3,
-          drone4,
-          drone5
+          drone3
         ],
         color: 'from-purple-500 to-indigo-500',
         github: 'https://github.com/ferimauliandisaputra'
