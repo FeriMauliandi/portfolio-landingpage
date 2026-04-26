@@ -3,6 +3,9 @@ import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLe
 import fotoFeri from './assets/feri.jpg'; 
 
 import chili1 from './assets/chili1.png';
+import lele from './assets/lele.png';
+import ihsg from './assets/saham.png';
+import ihsg1 from './assets/saham1.png';
 import drone1 from './assets/krti1.jpeg';
 import drone2 from './assets/krti.jpeg';
 import drone3 from './assets/uav.jpeg';
@@ -109,7 +112,10 @@ const ProjectCard = ({ project, idx }) => {
 
           {/* Teks Informasi */}
           <h3 className="text-2xl font-bold mb-3 text-white">{project.title}</h3>
-          <p className="text-gray-300 mb-6 leading-relaxed text-sm md:text-base">{project.description}</p>
+          <span className={`px-4 py-2 ${project.badgeColor} rounded-full text-sm font-medium inline-block w-fit`}>
+            {project.level}
+          </span>
+          <p className="text-gray-300 mb-6 leading-relaxed mt-4 text-sm md:text-base">{project.description}</p>
           <div className="flex flex-wrap gap-2 mb-6">
             {project.tech.map((tech, i) => (
               <span key={i} className="px-3 py-1.5 bg-slate-800 rounded-full text-xs font-semibold text-blue-300 border border-slate-600">
@@ -220,29 +226,31 @@ export default function PersonalPortfolio() {
       {
         id: 1,
         title: 'Chilicare: Chili Leaf Disease Detection with YOLOv11 and RAG',
+        level: 'Intermediate',
         description: 'An AI-powered diagnostic tool for chili farmers. Combines a YOLOv11 computer vision model with an LLM-based RAG architecture to provide accurate disease detection and actionable treatment explanations.',
         tech: ['YOLOv11', 'Python', 'LangChain', 'ChromaDB', 'Ollama', 'Streamlit'],
         images: [
           chili1
         ],
-        color: 'from-red-500 to-orange-500',
+        badgeColor: 'bg-blue-500/20 text-blue-400 border border-blue-500/30',
         github: 'https://github.com/FeriMauliandi/Chili-Leaf-Disease-Detection-with-YOLOv11-and-LLM-Based-RAG'
       },
       {
         id: 2,
         title: 'RAG chatbot with Streamlit & FastAPI',
+        level: 'Intermediate',
         description: 'A RAG-powered smart assistant for catfish farming. It extracts knowledge from local PDF documents using ChromaDB and an LLM to provide accurate, context-aware answers to user queries.',
         tech: ['LangChain', 'ChromaDB', 'Ollama','Python', 'FastAPI', 'Streamlit'],
         images: [
-          'https://placehold.co/800x500/0f172a/ffffff?text=LLM+Chat+UI',
-          'https://placehold.co/800x500/1e293b/ffffff?text=Vector+DB+Logic'
+          lele
         ],
-        color: 'from-blue-500 to-cyan-500',
+        badgeColor: 'bg-blue-500/20 text-blue-400 border border-blue-500/30',
         github: 'https://github.com/FeriMauliandi/RAG-chatbot-Streamlit-FastAPI'
       },
       {
         id: 3,
         title: 'UAVs Development (programming, hardware & ground station)',
+        level: 'Advanced',
         description: 'Building, configuring, and testing UAVs (VTOL, Fixed Wing, Long endurance Low altitude) for competitive robotics, surveying and aerial mapping.',
         tech: ['Ardupilot', 'Flight Controllers', 'Jetson Nano', 'DroneKit', 'Raspberry Pi', 'ground station configuration', 'computer vision for UAVs'],
         images: [
@@ -253,19 +261,20 @@ export default function PersonalPortfolio() {
           drone5,
           drone6
         ],
-        color: 'from-purple-500 to-indigo-500',
+        badgeColor: 'bg-red-500/20 text-red-400 border border-red-500/30',
         github: 'https://github.com/ferimauliandisaputra'
       },
       {
         id: 4,
         title: 'LLM-based IHSG Stock Fundamental Explainer with Structured Data',
+        level: 'Basic',
         description: 'An LLM-powered system that explains IHSG stock fundamental indicators using structured financial data (Yahoo Finance) and LangChain.',
         tech: ['Python', 'LLM', 'LangChain', 'yfinance', 'Streamlit'],
         images: [
-          'https://placehold.co/800x500/064e3b/ffffff?text=Dashboard+View',
-          'https://placehold.co/800x500/065f46/ffffff?text=Python+Script'
+          ihsg, 
+          ihsg1
         ],
-        color: 'from-emerald-500 to-green-500',
+        badgeColor: 'bg-green-500/20 text-green-400 border border-green-500/30',
         github: 'https://github.com/FeriMauliandi/LLM-based-IHSG-Stock-Fundamental-Explainer-with-Structured-Data'
       }
     ],
