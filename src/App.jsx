@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLeft, FiChevronRight, FiMenu , FiX } from 'react-icons/fi';
-import fotoFeri from './assets/feri.jpg'; 
+import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLeft, FiChevronRight, FiMenu, FiX } from 'react-icons/fi';
 
+import { SiJavascript, SiPython, SiFastapi, SiPytorch, SiTensorflow, SiNodedotjs, SiGithub, SiGit, SiArduino, SiNotion, SiPostman, SiRaspberrypi } from 'react-icons/si';
+import { FaTerminal, FaDatabase, FaMicrochip, FaPlane } from 'react-icons/fa';
+
+import fotoFeri from './assets/feri.jpg';
 import chili1 from './assets/chili1.png';
 import lele from './assets/lele.png';
 import ihsg from './assets/saham.png';
@@ -222,6 +225,26 @@ export default function PersonalPortfolio() {
     };
   }, [activeTab]);
 
+  const techStack = [
+    { name: 'JAVASCRIPT', bg: 'bg-[#F7DF1E]', text: 'text-black', icon: <SiJavascript /> },
+    { name: 'PYTHON', bg: 'bg-[#3776AB]', text: 'text-white', icon: <SiPython /> },
+    { name: 'LANGCHAIN', bg: 'bg-[#1C3C3A]', text: 'text-white', icon: '🦜' }, // Menggunakan emoji karena logo spesifik Langchain belum standar di react-icons
+    { name: 'CHROMADB', bg: 'bg-[#F04C22]', text: 'text-white', icon: <FaDatabase /> },
+    { name: 'FASTAPI', bg: 'bg-[#009688]', text: 'text-white', icon: <SiFastapi /> },
+    { name: 'PYTORCH', bg: 'bg-[#EE4C2C]', text: 'text-white', icon: <SiPytorch /> },
+    { name: 'TENSORFLOW', bg: 'bg-[#FF6F00]', text: 'text-white', icon: <SiTensorflow /> },
+    { name: 'WINDOWS TERMINAL', bg: 'bg-[#4D4D4D]', text: 'text-white', icon: <FaTerminal /> },
+    { name: 'NODE.JS', bg: 'bg-[#339933]', text: 'text-white', icon: <SiNodedotjs /> },
+    { name: 'GITHUB', bg: 'bg-[#181717]', text: 'text-white', icon: <SiGithub /> },
+    { name: 'GIT', bg: 'bg-[#F05032]', text: 'text-white', icon: <SiGit /> },
+    { name: 'ARDUINO', bg: 'bg-[#00979D]', text: 'text-white', icon: <SiArduino /> },
+    { name: 'NOTION', bg: 'bg-[#000000]', text: 'text-white', icon: <SiNotion /> },
+    { name: 'POSTMAN', bg: 'bg-[#FF6C37]', text: 'text-white', icon: <SiPostman /> },
+    { name: 'RASPBERRYPI', bg: 'bg-[#C51A4A]', text: 'text-white', icon: <SiRaspberrypi /> },
+    { name: 'NVIDIA JETSON', bg: 'bg-[#76B900]', text: 'text-white', icon: <FaMicrochip /> },
+    { name: 'ARDUPILOT', bg: 'bg-[#0066CC]', text: 'text-white', icon: <FaPlane /> }
+  ];
+
   const portfolioData = {
     projects: [
       {
@@ -241,7 +264,7 @@ export default function PersonalPortfolio() {
         title: 'RAG chatbot with Streamlit & FastAPI',
         level: 'Intermediate',
         description: 'A RAG-powered smart assistant for catfish farming. It extracts knowledge from local PDF documents using ChromaDB and an LLM to provide accurate, context-aware answers to user queries.',
-        tech: ['LangChain', 'ChromaDB', 'Ollama','Python', 'FastAPI', 'Streamlit'],
+        tech: ['LangChain', 'ChromaDB', 'Ollama', 'Python', 'FastAPI', 'Streamlit'],
         images: [
           lele
         ],
@@ -272,7 +295,7 @@ export default function PersonalPortfolio() {
         description: 'An LLM-powered system that explains IHSG stock fundamental indicators using structured financial data (Yahoo Finance) and LangChain.',
         tech: ['Python', 'LLM', 'LangChain', 'yfinance', 'Streamlit'],
         images: [
-          ihsg, 
+          ihsg,
           ihsg1
         ],
         badgeColor: 'bg-green-500/20 text-green-400 border border-green-500/30',
@@ -546,9 +569,28 @@ export default function PersonalPortfolio() {
             <p className="text-l md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mt-4">
               I am an AI Engineer with a strong foundation in Computer Engineering. I specialize in developing practical artificial intelligence solutions, focusing on Deep Learning architectures, object detection models (YOLOv8/v11), and building cutting-edge Large Language Model (LLM) applications using Retrieval-Augmented Generation (RAG). My technical stack is heavily centered around Python, FastAPI, and local AI toolchains.
             </p>
+
+            {/* Tech Stack Section (Sesuai Referensi Gambar) */}
+            <div className="mt-16 pt-8 border-t border-gray-200 flex flex-col items-center">
+              <h3 className="text-2xl font-bold mb-8 text-slate-800 flex items-center gap-3">
+                Tech Stack 
+              </h3>
+              <div className="flex flex-wrap justify-center gap-1.5 md:gap-2 max-w-5xl">
+                {techStack.map((tech, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-center gap-2 px-3 py-2 md:px-4 md:py-2.5 ${tech.bg} ${tech.text} text-[10px] md:text-xs font-bold tracking-widest rounded-sm hover:opacity-90 hover:scale-105 transition-all cursor-default shadow-sm`}
+                  >
+                    <span className="text-base md:text-lg">{tech.icon}</span>
+                    {tech.name}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          {/* Grid Cards 3 Kolom */}
+          <div className="grid md:grid-cols-3 gap-8 mt-12">
             <div className="bg-white rounded-3xl p-8 shadow-lg card-hover border-4 border-blue-100 scroll-reveal opacity-0" data-animation="animate-slideInUp" style={{ animationDelay: '0.1s' }}>
               <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 text-3xl">
                 👁️
