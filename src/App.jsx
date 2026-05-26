@@ -6,6 +6,7 @@ import { FaTerminal, FaDatabase, FaMicrochip, FaPlane } from 'react-icons/fa';
 
 import fotoFeri from './assets/feri.jpg';
 import chili1 from './assets/chili1.png';
+import chili2 from './assets/chilicare.jpg';
 import lele from './assets/lele.png';
 import ihsg from './assets/saham.png';
 import ihsg1 from './assets/saham1.png';
@@ -251,10 +252,10 @@ export default function PersonalPortfolio() {
         id: 1,
         title: 'Chilicare: Chili Leaf Disease Detection with YOLOv11 and RAG',
         level: 'Intermediate',
-        description: 'An AI-powered diagnostic tool for chili farmers. Combines a YOLOv11 computer vision model with an LLM-based RAG architecture to provide accurate disease detection and actionable treatment explanations.',
-        tech: ['YOLOv11', 'Python', 'LangChain', 'ChromaDB', 'Ollama', 'Streamlit'],
+        description: 'An integrated agricultural assistant. It uses YOLOv11 for disease detection and a dual-purpose LLM/RAG backend to provide detailed visual diagnosis explanations and interactive expert consultations.',
+        tech: ['YOLOv11', 'Python', 'LangChain', 'ChromaDB', 'Chatbot', 'fastAPI'],
         images: [
-          chili1
+          chili2
         ],
         badgeColor: 'bg-blue-500/20 text-blue-400 border border-blue-500/30',
         github: 'https://github.com/FeriMauliandi/Chili-Leaf-Disease-Detection-with-YOLOv11-and-LLM-Based-RAG'
