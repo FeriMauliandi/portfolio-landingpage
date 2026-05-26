@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLeft, FiChevronRight, FiX } from 'react-icons/fi';
+import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLeft, FiChevronRight, FiMenu , FiX } from 'react-icons/fi';
 import fotoFeri from './assets/feri.jpg'; 
 
 import chili1 from './assets/chili1.png';
@@ -185,6 +185,7 @@ const ProjectCard = ({ project, idx }) => {
 
 export default function PersonalPortfolio() {
   const [activeTab, setActiveTab] = useState('projects');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -419,37 +420,54 @@ export default function PersonalPortfolio() {
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="text-2xl font-bold">🚀<span className='gradient-text'> FeriM.</span></div>
+
+            {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-8">
               <a href="#home" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Home</a>
               <a href="#about" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">About</a>
               <a href="#portfolio" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Portfolio</a>
               <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Contact</a>
             </div>
+
+            {/* Tombol Hamburger (Mobile Only) */}
+            <button className="md:hidden p-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white border-t border-gray-100 flex flex-col p-6 gap-4">
+            <a href="#home" onClick={() => setIsMenuOpen(false)} className="text-gray-700 font-medium">Home</a>
+            <a href="#about" onClick={() => setIsMenuOpen(false)} className="text-gray-700 font-medium">About</a>
+            <a href="#portfolio" onClick={() => setIsMenuOpen(false)} className="text-gray-700 font-medium">Portfolio</a>
+            <a href="#contact" onClick={() => setIsMenuOpen(false)} className="text-gray-700 font-medium">Contact</a>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center px-6 pt-32 md:pt-10 pb-16">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center mt-8 md:mt-0">
-          <div className="space-y-6 scroll-reveal opacity-0" data-animation="animate-slideInLeft">
-            <div className="inline-block px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+      <section id="home" className="relative min-h-screen flex items-center justify-center px-6 pt-14 md:pt-10 pb-16">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6 md:gap-22 items-center mt-8 md:mt-0">
+          <div className="space-y-2 md:space-y-6 scroll-reveal opacity-0" data-animation="animate-slideInLeft">
+            <div className="inline-block px-3 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
               👋 Hi, I am Feri Mauliandi Saputra
             </div>
-            <h1 className="text-6xl md:text-7xl font-bold leading-tight">
+            <h1 className="text-3xl md:text-7xl font-bold leading-tight">
               Aspiring <span className="gradient-text">AI Engineer</span>
             </h1>
-            <p className="text-xl text-gray-600 leading-relaxed">
+            <p className="text-sm md:text-xl text-gray-600 leading-relaxed">
               Computer Engineering student passionate about Computer Vision, Generative AI, and building intelligent backend solutions.
             </p>
-            <div className="flex flex-wrap gap-3">
-              <span className="px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">Computer Vision</span>
-              <span className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">LLMs & RAG</span>
-              <span className="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">FastAPI</span>
-              <span className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">Robotics & UAVs</span>
+            <div className="flex flex-wrap gap-2">
+              <span className="px-3 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">Computer Vision</span>
+              <span className="px-3 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">LLMs & RAG</span>
+              <span className="px-3 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">FastAPI</span>
+              <span className="px-3 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">Robotics & UAVs</span>
             </div>
             <a href="#contact">
-              <button className="px-8 py-4 mt-4 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-full font-semibold hover:shadow-xl transition-all transform hover:scale-105">
+              <button className="px-4 py-2 mt-0 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-full font-semibold hover:shadow-xl transition-all transform hover:scale-105">
                 Let's Connect →
               </button>
             </a>
@@ -524,8 +542,8 @@ export default function PersonalPortfolio() {
       <section id="about" className="relative py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16 scroll-reveal opacity-0" data-animation="animate-slideInUp">
-            <h2 className="text-5xl font-bold mb-4">About Me</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mt-4">
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">About Me</h2>
+            <p className="text-l md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mt-4">
               I am an AI Engineer with a strong foundation in Computer Engineering. I specialize in developing practical artificial intelligence solutions, focusing on Deep Learning architectures, object detection models (YOLOv8/v11), and building cutting-edge Large Language Model (LLM) applications using Retrieval-Augmented Generation (RAG). My technical stack is heavily centered around Python, FastAPI, and local AI toolchains.
             </p>
           </div>
@@ -562,8 +580,8 @@ export default function PersonalPortfolio() {
       <section id="portfolio" className="relative py-20 px-6 bg-linear-to-br from-slate-800 to-slate-900 text-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12 scroll-reveal opacity-0" data-animation="animate-slideInUp">
-            <h2 className="text-5xl font-bold mb-6">Technical Journey</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">Technical Journey</h2>
+            <p className="text-l md:text-xl text-gray-300 max-w-3xl mx-auto">
               Explore my latest AI projects, internships, competitive robotics experience, and technical expertise.
             </p>
           </div>
@@ -672,8 +690,8 @@ export default function PersonalPortfolio() {
       <section id="contact" className="relative py-20 px-6 bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100">
         <div className="max-w-4xl mx-auto text-center">
           <div className="scroll-reveal opacity-0" data-animation="animate-slideInUp">
-            <h2 className="text-5xl font-bold mb-6">Let's Work Together!</h2>
-            <p className="text-xl text-gray-700 mb-12 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">Let's Work Together!</h2>
+            <p className="text-l md:text-xl text-gray-700 mb-12 max-w-2xl mx-auto">
               I am actively looking for AI Engineering internships and collaborative projects. Feel free to reach out via email or connect with me on LinkedIn!
             </p>
 
