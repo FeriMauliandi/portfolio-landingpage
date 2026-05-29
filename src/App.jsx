@@ -482,7 +482,7 @@ export default function PersonalPortfolio() {
               Aspiring <span className="gradient-text">AI Engineer</span>
             </h1>
             <p className="text-sm md:text-xl text-gray-600 leading-relaxed">
-              Computer Engineering student passionate about Computer Vision, Generative AI, and building intelligent backend solutions.
+              Computer Engineering student passionate about Computer Vision, Generative AI, and building intelligent systems that integrate software and hardware.
             </p>
             <div className="flex flex-wrap gap-2">
               <span className="px-3 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">Computer Vision</span>
@@ -574,7 +574,7 @@ export default function PersonalPortfolio() {
             {/* Tech Stack Section (Sesuai Referensi Gambar) */}
             <div className="mt-16 pt-8 border-t border-gray-200 flex flex-col items-center">
               <h3 className="text-2xl font-bold mb-8 text-slate-800 flex items-center gap-3">
-                Tech Stack 
+                Tech Stack
               </h3>
               <div className="flex flex-wrap justify-center gap-1.5 md:gap-2 max-w-5xl">
                 {techStack.map((tech, index) => (
@@ -743,7 +743,7 @@ export default function PersonalPortfolio() {
                 <FiMail className="text-blue-600" size={24} />
                 <span className="font-semibold">Email Me</span>
               </a>
-              <a href="https://github.com/ferimauliandisaputra" target="_blank" rel="noreferrer" className="flex items-center gap-3 px-8 py-4 bg-linear-to-r from-gray-800 to-gray-900 text-white rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+              <a href="https://github.com/FeriMauliandi" target="_blank" rel="noreferrer" className="flex items-center gap-3 px-8 py-4 bg-linear-to-r from-gray-800 to-gray-900 text-white rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
                 <FiGithub size={24} />
                 <span className="font-semibold">GitHub</span>
               </a>
