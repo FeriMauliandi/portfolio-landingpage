@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLeft, FiChevronRight, FiMenu, FiX } from 'react-icons/fi';
 
-import { SiJavascript, SiPython, SiFastapi, SiPytorch, SiTensorflow, SiNodedotjs, SiGithub, SiGit, SiArduino, SiNotion, SiLangchain, SiOpencv ,SiPostman, SiRaspberrypi, SiDocker, SiHuggingface } from 'react-icons/si';
+import { SiJavascript, SiPython, SiFastapi, SiPytorch, SiTensorflow, SiNodedotjs, SiGithub, SiGit, SiUbuntu, SiArduino, SiNotion, SiLangchain, SiOpencv ,SiPostman, SiRaspberrypi, SiDocker, SiHuggingface } from 'react-icons/si';
 import { FaTerminal, FaDatabase, FaMicrochip, FaPlane } from 'react-icons/fa';
 
 import fotoFeri from './assets/feri.jpg';
@@ -238,6 +238,7 @@ export default function PersonalPortfolio() {
     { name: 'HUGGING FACE', bg: 'bg-[#FFD21E]', text: 'text-black', icon: <SiHuggingface /> },
     { name: 'OPENCV', bg: 'bg-[#5C3EE8]', text: 'text-white', icon: <SiOpencv /> },
     { name: 'WINDOWS TERMINAL', bg: 'bg-[#4D4D4D]', text: 'text-white', icon: <FaTerminal /> },
+    { name: 'UBUNTU', bg: 'bg-[#E95420]', text: 'text-white', icon: <SiUbuntu /> },
     { name: 'NODE.JS', bg: 'bg-[#339933]', text: 'text-white', icon: <SiNodedotjs /> },
     { name: 'GITHUB', bg: 'bg-[#181717]', text: 'text-white', icon: <SiGithub /> },
     { name: 'GIT', bg: 'bg-[#F05032]', text: 'text-white', icon: <SiGit /> },
