@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLeft, FiChevronRight, FiMenu, FiX } from 'react-icons/fi';
 
-import { SiJavascript, SiPython, SiFastapi, SiPytorch, SiTensorflow, SiNodedotjs, SiGithub, SiGit, SiArduino, SiNotion, SiPostman, SiRaspberrypi } from 'react-icons/si';
+import { SiJavascript, SiPython, SiFastapi, SiPytorch, SiTensorflow, SiNodedotjs, SiGithub, SiGit, SiArduino, SiNotion, SiLangchain ,SiPostman, SiRaspberrypi, SiDocker, SiHuggingface } from 'react-icons/si';
 import { FaTerminal, FaDatabase, FaMicrochip, FaPlane } from 'react-icons/fa';
 
 import fotoFeri from './assets/feri.jpg';
@@ -227,13 +227,15 @@ export default function PersonalPortfolio() {
   }, [activeTab]);
 
   const techStack = [
-    { name: 'JAVASCRIPT', bg: 'bg-[#F7DF1E]', text: 'text-black', icon: <SiJavascript /> },
     { name: 'PYTHON', bg: 'bg-[#3776AB]', text: 'text-white', icon: <SiPython /> },
-    { name: 'LANGCHAIN', bg: 'bg-[#1C3C3A]', text: 'text-white', icon: '🦜' }, // Menggunakan emoji karena logo spesifik Langchain belum standar di react-icons
+    { name: 'JAVASCRIPT', bg: 'bg-[#F7DF1E]', text: 'text-black', icon: <SiJavascript /> },
+    { name: 'LANGCHAIN', bg: 'bg-[#1C3C3A]', text: 'text-white', icon: <SiLangchain /> },
     { name: 'CHROMADB', bg: 'bg-[#F04C22]', text: 'text-white', icon: <FaDatabase /> },
     { name: 'FASTAPI', bg: 'bg-[#009688]', text: 'text-white', icon: <SiFastapi /> },
     { name: 'PYTORCH', bg: 'bg-[#EE4C2C]', text: 'text-white', icon: <SiPytorch /> },
     { name: 'TENSORFLOW', bg: 'bg-[#FF6F00]', text: 'text-white', icon: <SiTensorflow /> },
+    { name: 'DOCKER', bg: 'bg-[#2496ED]', text: 'text-white', icon: <SiDocker /> },
+    { name: 'HUGGING FACE', bg: 'bg-[#FFD21E]', text: 'text-black', icon: <SiHuggingface /> },
     { name: 'WINDOWS TERMINAL', bg: 'bg-[#4D4D4D]', text: 'text-white', icon: <FaTerminal /> },
     { name: 'NODE.JS', bg: 'bg-[#339933]', text: 'text-white', icon: <SiNodedotjs /> },
     { name: 'GITHUB', bg: 'bg-[#181717]', text: 'text-white', icon: <SiGithub /> },
@@ -243,7 +245,7 @@ export default function PersonalPortfolio() {
     { name: 'POSTMAN', bg: 'bg-[#FF6C37]', text: 'text-white', icon: <SiPostman /> },
     { name: 'RASPBERRYPI', bg: 'bg-[#C51A4A]', text: 'text-white', icon: <SiRaspberrypi /> },
     { name: 'NVIDIA JETSON', bg: 'bg-[#76B900]', text: 'text-white', icon: <FaMicrochip /> },
-    { name: 'ARDUPILOT', bg: 'bg-[#0066CC]', text: 'text-white', icon: <FaPlane /> }
+    { name: 'ARDUPILOT', bg: 'bg-[#0066CC]', text: 'text-white', icon: <FaPlane /> },
   ];
 
   const portfolioData = {
@@ -475,7 +477,7 @@ export default function PersonalPortfolio() {
       <section id="home" className="relative min-h-screen flex items-center justify-center px-6 pt-14 md:pt-10 pb-16">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6 md:gap-22 items-center mt-8 md:mt-0">
           <div className="space-y-2 md:space-y-6 scroll-reveal opacity-0" data-animation="animate-slideInLeft">
-            <div className="inline-block px-3 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+            <div className="inline-block px-3 py-2 bg-blue-100 text-blue-700 rounded-full text-xs md:text-sm font-semibold">
               👋 Hi, I am Feri Mauliandi Saputra
             </div>
             <h1 className="text-3xl md:text-7xl font-bold leading-tight">
@@ -568,7 +570,7 @@ export default function PersonalPortfolio() {
           <div className="text-center mb-16 scroll-reveal opacity-0" data-animation="animate-slideInUp">
             <h2 className="text-3xl md:text-5xl font-bold mb-4">About Me</h2>
             <p className="text-l md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mt-4">
-              I am an AI Engineer with a strong foundation in Computer Engineering. I specialize in developing practical artificial intelligence solutions, focusing on Deep Learning architectures, object detection models (YOLOv8/v11), and building cutting-edge Large Language Model (LLM) applications using Retrieval-Augmented Generation (RAG). My technical stack is heavily centered around Python, FastAPI, and local AI toolchains.
+              I am an AI Engineer with a strong foundation in Computer Engineering. I specialize in developing practical artificial intelligence solutions, focusing on Deep Learning architectures, object detection models (YOLOv8/v11), and building cutting-edge Large Language Model (LLM) applications using Retrieval-Augmented Generation (RAG). My passion lies in creating intelligent systems that seamlessly integrate software and hardware, particularly in the fields of computer vision and robotics. I am eager to apply my skills and knowledge to real-world challenges and contribute to innovative projects in the AI domain.
             </p>
 
             {/* Tech Stack Section (Sesuai Referensi Gambar) */}
@@ -587,33 +589,6 @@ export default function PersonalPortfolio() {
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-
-          {/* Grid Cards 3 Kolom */}
-          <div className="grid md:grid-cols-3 gap-8 mt-12">
-            <div className="bg-white rounded-3xl p-8 shadow-lg card-hover border-4 border-blue-100 scroll-reveal opacity-0" data-animation="animate-slideInUp" style={{ animationDelay: '0.1s' }}>
-              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 text-3xl">
-                👁️
-              </div>
-              <h3 className="text-2xl font-bold mb-3">Computer Vision</h3>
-              <p className="text-gray-600 leading-relaxed">Training and fine-tuning object detection models (YOLO, RT-DETR) for practical use cases, including agricultural monitoring and plant disease detection.</p>
-            </div>
-
-            <div className="bg-linear-to-br from-blue-500 to-indigo-600 rounded-3xl p-8 shadow-lg text-white card-hover scroll-reveal opacity-0" data-animation="animate-slideInUp" style={{ animationDelay: '0.2s' }}>
-              <div className="w-16 h-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center mb-6 text-3xl">
-                🧠
-              </div>
-              <h3 className="text-2xl font-bold mb-3">Generative AI & RAG</h3>
-              <p className="leading-relaxed">Architecting intelligent data-retrieval systems by integrating LangChain, ChromaDB vector stores, and local LLM models (Ollama) evaluated with RAGAS.</p>
-            </div>
-
-            <div className="bg-white rounded-3xl p-8 shadow-lg card-hover border-4 border-indigo-100 scroll-reveal opacity-0" data-animation="animate-slideInUp" style={{ animationDelay: '0.3s' }}>
-              <div className="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center mb-6 text-3xl">
-                ⚙️
-              </div>
-              <h3 className="text-2xl font-bold mb-3">Backend Architecture</h3>
-              <p className="text-gray-600 leading-relaxed">Building robust, high-performance API endpoints and data processing pipelines utilizing Python and FastAPI to seamlessly serve AI models.</p>
             </div>
           </div>
         </div>
