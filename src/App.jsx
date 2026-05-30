@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLeft, FiChevronRight, FiMenu, FiX } from 'react-icons/fi';
 
-import { SiJavascript, SiPython, SiFastapi, SiPytorch, SiTensorflow, SiNodedotjs, SiGithub, SiGit, SiUbuntu, SiArduino, SiNotion, SiLangchain, SiOpencv ,SiPostman, SiRaspberrypi, SiDocker, SiHuggingface } from 'react-icons/si';
+import { SiJavascript, SiPython, SiFastapi, SiPytorch, SiTensorflow, SiNodedotjs, SiGithub, SiGit, SiUbuntu, SiArduino, SiNotion, SiLangchain, SiOpencv, SiPostman, SiRaspberrypi, SiDocker, SiHuggingface } from 'react-icons/si';
 import { FaTerminal, FaDatabase, FaMicrochip, FaPlane } from 'react-icons/fa';
 
 import fotoFeri from './assets/feri.jpg';
@@ -34,22 +34,16 @@ const ProjectCard = ({ project, idx }) => {
     );
   };
 
-  // Efek Auto-Slide (Berpindah otomatis tiap 2 detik)
   useEffect(() => {
-    // Hanya jalan jika gambarnya lebih dari 1 dan Lightbox sedang tidak dibuka
     if (project.images.length <= 1 || isLightboxOpen) return;
-
     const timer = setInterval(() => {
       setCurrentIndex((prevIndex) =>
         prevIndex === project.images.length - 1 ? 0 : prevIndex + 1
       );
-    }, 2000); // 2000 ms = 2 detik
-
-    // Bersihkan timer setiap pindah gambar agar tidak bertabrakan
+    }, 2000);
     return () => clearInterval(timer);
   }, [currentIndex, isLightboxOpen, project.images.length]);
 
-  // Mengunci scroll layar utama (body) saat mode fullscreen terbuka
   useEffect(() => {
     if (isLightboxOpen) {
       document.body.style.overflow = 'hidden';
@@ -64,13 +58,12 @@ const ProjectCard = ({ project, idx }) => {
   return (
     <>
       <div
-        className="bg-slate-700/50 backdrop-blur rounded-3xl p-6 md:p-8 card-hover border border-slate-600 scroll-reveal opacity-0 flex flex-col justify-between"
+        className={`${project.bgColor} brutal-box p-6 md:p-8 card-hover scroll-reveal opacity-0 flex flex-col justify-between`}
         data-animation="animate-scaleIn"
         style={{ animationDelay: `${idx * 0.1}s` }}
       >
         <div>
-          {/* Kontainer Image Slider */}
-          <div className="relative w-full h-56 md:h-64 rounded-2xl overflow-hidden mb-6 group bg-slate-800 shadow-inner border border-slate-600/50">
+          <div className="relative w-full h-56 md:h-64 rounded-[2rem] overflow-hidden mb-6 group bg-white brutal-border">
             <img
               src={project.images[currentIndex]}
               alt={`${project.title} - Slide ${currentIndex + 1}`}
@@ -78,35 +71,32 @@ const ProjectCard = ({ project, idx }) => {
               onClick={() => setIsLightboxOpen(true)}
             />
 
-            {/* Overlay gelap di bawah agar dots terlihat jelas */}
-            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-slate-900/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
 
-            {/* Tombol Kiri & Kanan */}
             {project.images.length > 1 && (
               <>
                 <button
                   onClick={prevSlide}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-blue-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm z-10"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 bg-white brutal-border text-black p-2 rounded-full opacity-0 group-hover:opacity-100 hover:bg-[#FFC27A] transition-all z-10 hover:-translate-y-1"
                 >
-                  <FiChevronLeft size={24} />
+                  <FiChevronLeft size={24} strokeWidth={3} />
                 </button>
                 <button
                   onClick={nextSlide}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-blue-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm z-10"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 bg-white brutal-border text-black p-2 rounded-full opacity-0 group-hover:opacity-100 hover:bg-[#FFC27A] transition-all z-10 hover:-translate-y-1"
                 >
-                  <FiChevronRight size={24} />
+                  <FiChevronRight size={24} strokeWidth={3} />
                 </button>
               </>
             )}
 
-            {/* Titik Indikator (Dots) */}
             {project.images.length > 1 && (
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
                 {project.images.map((_, dotIdx) => (
                   <button
                     key={dotIdx}
                     onClick={() => setCurrentIndex(dotIdx)}
-                    className={`h-2 rounded-full transition-all duration-300 shadow-md ${currentIndex === dotIdx ? 'bg-blue-400 w-6' : 'bg-white/60 w-2 hover:bg-white'
+                    className={`h-3 rounded-full border-[3px] border-black transition-all duration-300 ${currentIndex === dotIdx ? 'bg-[#9b82f3] w-6' : 'bg-white w-3 hover:bg-[#C4F069]'
                       }`}
                   />
                 ))}
@@ -114,25 +104,23 @@ const ProjectCard = ({ project, idx }) => {
             )}
           </div>
 
-          {/* Teks Informasi */}
-          <h3 className="text-2xl font-bold mb-3 text-white">{project.title}</h3>
-          <span className={`px-4 py-2 ${project.badgeColor} rounded-full text-sm font-medium inline-block w-fit`}>
+          <h3 className="text-2xl font-black mb-3 text-black tracking-tight leading-tight">{project.title}</h3>
+          <span className={`px-4 py-1.5 bg-white brutal-border text-black rounded-full text-xs font-bold inline-block w-fit shadow-[2px_2px_0px_#000] mb-4`}>
             {project.level}
           </span>
-          <p className="text-gray-300 mb-6 leading-relaxed mt-4 text-sm md:text-base">{project.description}</p>
+          <p className="text-gray-900 font-medium mb-6 leading-relaxed text-sm md:text-base">{project.description}</p>
           <div className="flex flex-wrap gap-2 mb-6">
             {project.tech.map((tech, i) => (
-              <span key={i} className="px-3 py-1.5 bg-slate-800 rounded-full text-xs font-semibold text-blue-300 border border-slate-600">
+              <span key={i} className="px-3 py-1 bg-white brutal-border rounded-full text-xs font-bold text-black shadow-[2px_2px_0px_#000]">
                 {tech}
               </span>
             ))}
           </div>
         </div>
 
-        {/* Tombol Link Github */}
-        <div className="mt-auto pt-4 border-t border-slate-600/50">
-          <a href={project.github} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-slate-800 hover:bg-slate-900 text-blue-400 hover:text-blue-300 rounded-xl transition-all font-medium border border-slate-700 hover:border-blue-500 w-full sm:w-auto shadow-md">
-            <FiGithub size={18} /> View Repository
+        <div className="mt-auto pt-4 border-t-[3px] border-black">
+          <a href={project.github} target="_blank" rel="noreferrer" className="brutal-btn bg-black text-white w-full sm:w-auto inline-flex items-center justify-center gap-2 hover:bg-white hover:text-black">
+            <FiGithub size={20} strokeWidth={3} /> View Repository
           </a>
         </div>
       </div>
@@ -140,45 +128,41 @@ const ProjectCard = ({ project, idx }) => {
       {/* MODAL FULLSCREEN (LIGHTBOX) */}
       {isLightboxOpen && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/95 backdrop-blur-md p-4 md:p-10 cursor-zoom-out"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#9b82f3]/90 backdrop-blur-sm p-4 md:p-10 cursor-zoom-out"
           onClick={() => setIsLightboxOpen(false)}
         >
-          {/* Tombol Close */}
           <button
-            className="absolute top-6 right-6 text-white/70 hover:text-white bg-black/50 p-3 rounded-full transition-colors z-50"
+            className="absolute top-6 right-6 text-black bg-[#FFB5DA] brutal-border hover:bg-[#C4F069] p-3 rounded-full transition-colors z-50 hover:-translate-y-1"
             onClick={() => setIsLightboxOpen(false)}
           >
-            <FiX size={28} />
+            <FiX size={28} strokeWidth={3} />
           </button>
 
-          {/* Gambar Fullscreen */}
           <img
             src={project.images[currentIndex]}
             alt={`${project.title} Fullscreen`}
-            className="max-w-full max-h-full object-contain rounded-xl shadow-2xl cursor-default animate-scaleIn"
+            className="max-w-full max-h-full object-contain brutal-box bg-white cursor-default animate-scaleIn"
             onClick={(e) => e.stopPropagation()}
           />
 
-          {/* Navigasi Fullscreen */}
           {project.images.length > 1 && (
             <>
               <button
                 onClick={(e) => { e.stopPropagation(); prevSlide(); }}
-                className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-blue-600 text-white p-4 rounded-full transition-all z-50"
+                className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 bg-[#C4F069] brutal-border text-black p-4 rounded-full transition-all z-50 hover:bg-[#FFC27A] hover:-translate-y-1"
               >
-                <FiChevronLeft size={32} />
+                <FiChevronLeft size={32} strokeWidth={3} />
               </button>
               <button
                 onClick={(e) => { e.stopPropagation(); nextSlide(); }}
-                className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-blue-600 text-white p-4 rounded-full transition-all z-50"
+                className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 bg-[#C4F069] brutal-border text-black p-4 rounded-full transition-all z-50 hover:bg-[#FFC27A] hover:-translate-y-1"
               >
-                <FiChevronRight size={32} />
+                <FiChevronRight size={32} strokeWidth={3} />
               </button>
             </>
           )}
 
-          {/* Indikator Teks di Bawah */}
-          <div className="absolute bottom-6 text-white/70 text-sm font-medium tracking-widest bg-black/50 px-4 py-2 rounded-full">
+          <div className="absolute bottom-6 text-black bg-white brutal-border font-bold tracking-widest px-6 py-2 rounded-full shadow-[4px_4px_0px_#000]">
             {currentIndex + 1} / {project.images.length}
           </div>
         </div>
@@ -261,7 +245,7 @@ export default function PersonalPortfolio() {
         images: [
           chili2
         ],
-        badgeColor: 'bg-blue-500/20 text-blue-400 border border-blue-500/30',
+        bgColor: 'bg-[#FFC27A]', // Oranye
         github: 'https://github.com/FeriMauliandi/Chili-Leaf-Disease-Detection-with-YOLOv11-and-LLM-Based-RAG'
       },
       {
@@ -273,7 +257,7 @@ export default function PersonalPortfolio() {
         images: [
           lele
         ],
-        badgeColor: 'bg-blue-500/20 text-blue-400 border border-blue-500/30',
+        bgColor: 'bg-[#C4F069]', // Hijau
         github: 'https://github.com/FeriMauliandi/RAG-chatbot-Streamlit-FastAPI'
       },
       {
@@ -281,7 +265,7 @@ export default function PersonalPortfolio() {
         title: 'UAVs Development (programming, hardware & ground station)',
         level: 'Advanced',
         description: 'Building, configuring, and testing UAVs (VTOL, Fixed Wing, Long endurance Low altitude) for competitive robotics, surveying and aerial mapping.',
-        tech: ['Ardupilot', 'Flight Controllers', 'Jetson Nano', 'DroneKit', 'Raspberry Pi', 'ground station configuration', 'computer vision for UAVs'],
+        tech: ['Ardupilot', 'Flight Controllers', 'Jetson Nano', 'DroneKit', 'Raspberry Pi', 'ground station configuration'],
         images: [
           drone1,
           drone2,
@@ -290,7 +274,7 @@ export default function PersonalPortfolio() {
           drone5,
           drone6
         ],
-        badgeColor: 'bg-red-500/20 text-red-400 border border-red-500/30',
+        bgColor: 'bg-[#FFB5DA]', // Pink
         github: 'https://github.com/ferimauliandisaputra'
       },
       {
@@ -303,26 +287,26 @@ export default function PersonalPortfolio() {
           ihsg,
           ihsg1
         ],
-        badgeColor: 'bg-green-500/20 text-green-400 border border-green-500/30',
+        bgColor: 'bg-[#FFC27A]', // Oranye
         github: 'https://github.com/FeriMauliandi/LLM-based-IHSG-Stock-Fundamental-Explainer-with-Structured-Data'
       }
     ],
     experience: [
       {
         id: 1,
-        role: 'backend developer intern',
+        role: 'Backend Developer Intern',
         company: 'PT Angkasa Pura',
-        period: 'september 2025 - oktober 2025',
+        period: 'September 2025 - Oktober 2025',
         description: 'Developed a CRUD application system for recording and tracking UPS inventory data to streamline asset management workflows.',
-        color: 'bg-blue-500'
+        color: 'bg-[#C4F069]'
       },
       {
         id: 2,
         role: 'Lead Programmer & Ground Station Operator',
-        company: 'Seulawah Team & Kontes Robot Terbang Indonesia (KRTI)',
+        company: 'Seulawah Team & KRTI',
         period: '2023 - 2026',
         description: 'Active participant in Unmanned Aerial Vehicle (UAV) development, focusing on drone configuration, testing, and flight optimization.',
-        color: 'bg-purple-500'
+        color: 'bg-[#FFC27A]'
       },
     ],
     certifications: [
@@ -331,28 +315,28 @@ export default function PersonalPortfolio() {
         name: 'Introduction to Python',
         issuer: 'Sololearn',
         year: '2025',
-        image: 'https://placehold.co/600x400/3b82f6/ffffff?text=Python+Cert'
+        image: 'https://placehold.co/600x400/9b82f3/ffffff?text=Python+Cert'
       },
       {
         id: 2,
         name: 'Introduction to Data Science with Python',
         issuer: 'DQlab',
         year: '2025',
-        image: 'https://placehold.co/600x400/8b5cf6/ffffff?text=Data+Science+Cert'
+        image: 'https://placehold.co/600x400/c4f069/000000?text=Data+Science+Cert'
       },
       {
         id: 3,
         name: 'Finalist Kontes Robot Terbang Indonesia 2024',
-        issuer: 'Pusat Prestasi Nasional - Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi',
+        issuer: 'Pusat Prestasi Nasional',
         year: '2024',
-        image: 'https://placehold.co/600x400/10b981/ffffff?text=KRTI+Finalist'
+        image: 'https://placehold.co/600x400/ffb5da/000000?text=KRTI+Finalist'
       }
     ]
   };
 
   const FloatingShape = ({ delay, duration, className }) => (
     <div
-      className={`absolute rounded-full opacity-20 ${className}`}
+      className={`absolute brutal-border shadow-[4px_4px_0px_#000] ${className}`}
       style={{
         animation: `float ${duration}s ease-in-out ${delay}s infinite alternate`
       }}
@@ -360,9 +344,9 @@ export default function PersonalPortfolio() {
   );
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-indigo-50 overflow-hidden">
+    <div className="min-h-screen bg-[#9b82f3] overflow-hidden text-black font-sans selection:bg-black selection:text-[#C4F069]">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800;900&family=DM+Sans:wght@400;500;700;800&display=swap');
         
         html {
           scroll-behavior: smooth;
@@ -373,20 +357,23 @@ export default function PersonalPortfolio() {
           font-family: 'DM Sans', sans-serif;
           margin: 0;
           padding: 0;
+          background-color: #9b82f3;
+          color: #000;
         }
         
         h1, h2, h3, h4, h5, h6 {
-          font-family: 'Syne', sans-serif;
+          font-family: 'Space Grotesk', sans-serif;
+          letter-spacing: -0.02em;
         }
         
         @keyframes float {
           0% { transform: translate(0, 0) rotate(0deg); }
-          100% { transform: translate(30px, 30px) rotate(180deg); }
+          100% { transform: translate(15px, 25px) rotate(10deg); }
         }
 
         @keyframes float-badge {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
+          0%, 100% { transform: translateY(0px) rotate(-2deg); }
+          50% { transform: translateY(-10px) rotate(2deg); }
         }
         
         @keyframes slideInUp {
@@ -409,184 +396,198 @@ export default function PersonalPortfolio() {
           to { opacity: 1; transform: scale(1); }
         }
         
-        @keyframes gradientShift {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-        
         .animate-slideInUp { animation: slideInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
         .animate-slideInLeft { animation: slideInLeft 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
         .animate-slideInRight { animation: slideInRight 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
         .animate-scaleIn { animation: scaleIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
         
-        .gradient-text {
-          background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #db2777 100%);
-          background-size: 200% 200%;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: gradientShift 3s ease infinite;
+        .brutal-border {
+          border: 3px solid #111;
+        }
+
+        .brutal-shadow {
+          box-shadow: 6px 6px 0px #111;
+        }
+
+        .brutal-box {
+          border: 3px solid #111;
+          border-radius: 2rem;
+          box-shadow: 6px 6px 0px #111;
+          transition: all 0.2s ease-in-out;
+        }
+
+        .brutal-btn {
+          border: 2px solid #111;
+          border-radius: 999px;
+          box-shadow: 4px 4px 0px #111;
+          font-weight: 800;
+          padding: 0.65rem 1.65rem;
+          transition: all 0.2s ease-in-out;
+          cursor: pointer;
+        }
+
+        .brutal-btn:hover {
+          transform: translate(2px, 2px);
+          box-shadow: 2px 2px 0px #111;
         }
         
-        .card-hover { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .brutal-btn:active {
+          transform: translate(4px, 4px);
+          box-shadow: 0px 0px 0px #111;
+        }
+
         .card-hover:hover {
-          transform: translateY(-8px) scale(1.02);
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+          transform: translate(-4px, -4px);
+          box-shadow: 10px 10px 0px #111;
         }
-        
-        .blob { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
       `}</style>
 
       {/* Floating Background Shapes */}
-      <FloatingShape delay="0" duration="8" className="w-64 h-64 bg-blue-300 blob top-20 left-10" />
-      <FloatingShape delay="1" duration="10" className="w-48 h-48 bg-indigo-300 blob top-1/3 right-20" />
-      <FloatingShape delay="2" duration="12" className="w-56 h-56 bg-purple-300 blob bottom-20 left-1/4" />
-      <FloatingShape delay="1.5" duration="9" className="w-40 h-40 bg-teal-300 blob top-2/3 right-1/3" />
+      <FloatingShape delay="0" duration="8" className="w-48 h-48 bg-[#FFC27A] rounded-full top-20 left-10" />
+      <FloatingShape delay="1" duration="10" className="w-32 h-32 bg-[#C4F069] rounded-full top-1/3 right-20" />
+      <FloatingShape delay="2" duration="12" className="w-56 h-56 bg-[#FFB5DA] rounded-full bottom-20 left-1/4" />
+      <FloatingShape delay="1.5" duration="9" className="w-40 h-40 bg-white rounded-full top-2/3 right-1/3" />
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white brutal-border border-t-0 border-l-0 border-r-0">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="text-2xl font-bold">🚀<span className='gradient-text'> FeriM.</span></div>
+            <div className="text-2xl font-black tracking-tight uppercase">🚀 Feri<span className="text-[#9b82f3]">.M</span></div>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-8">
-              <a href="#home" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Home</a>
-              <a href="#about" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">About</a>
-              <a href="#portfolio" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Portfolio</a>
-              <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Contact</a>
+              <a href="#home" className="text-black hover:text-[#9b82f3] transition-colors font-bold">Home</a>
+              <a href="#about" className="text-black hover:text-[#FFC27A] transition-colors font-bold">About</a>
+              <a href="#portfolio" className="text-black hover:text-[#C4F069] transition-colors font-bold">Portfolio</a>
+              <a href="#contact" className="text-black hover:text-[#FFB5DA] transition-colors font-bold">Contact</a>
             </div>
 
-            {/* Tombol Hamburger (Mobile Only) */}
-            <button className="md:hidden p-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            <button className="md:hidden bg-[#C4F069] brutal-border p-2 rounded-xl shadow-[4px_4px_0px_#111]" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <FiX size={24} strokeWidth={3} /> : <FiMenu size={24} strokeWidth={3} />}
             </button>
           </div>
         </div>
 
         {/* Mobile Menu Dropdown */}
         {isMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-100 flex flex-col p-6 gap-4">
-            <a href="#home" onClick={() => setIsMenuOpen(false)} className="text-gray-700 font-medium">Home</a>
-            <a href="#about" onClick={() => setIsMenuOpen(false)} className="text-gray-700 font-medium">About</a>
-            <a href="#portfolio" onClick={() => setIsMenuOpen(false)} className="text-gray-700 font-medium">Portfolio</a>
-            <a href="#contact" onClick={() => setIsMenuOpen(false)} className="text-gray-700 font-medium">Contact</a>
+          <div className="md:hidden bg-white border-b-[3px] border-black flex flex-col p-6 gap-4">
+            <a href="#home" onClick={() => setIsMenuOpen(false)} className="text-black font-bold text-lg">Home</a>
+            <a href="#about" onClick={() => setIsMenuOpen(false)} className="text-black font-bold text-lg">About</a>
+            <a href="#portfolio" onClick={() => setIsMenuOpen(false)} className="text-black font-bold text-lg">Portfolio</a>
+            <a href="#contact" onClick={() => setIsMenuOpen(false)} className="text-black font-bold text-lg">Contact</a>
           </div>
         )}
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center px-6 pt-14 md:pt-10 pb-16">
+      <section id="home" className="relative min-h-screen flex items-center justify-center px-5 pt-16 md:pt-10 pb-16">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6 md:gap-22 items-center mt-8 md:mt-0">
-          <div className="space-y-2 md:space-y-6 scroll-reveal opacity-0" data-animation="animate-slideInLeft">
-            <div className="inline-block px-3 py-2 bg-blue-100 text-blue-700 rounded-full text-xs md:text-sm font-semibold">
+          <div className="space-y-2 md:space-y-6 scroll-reveal opacity-0 relative z-10" data-animation="animate-slideInLeft">
+            <div className="inline-block px-4 py-2 bg-[#C4F069] text-black brutal-border rounded-full text-xs md:text-sm font-black shadow-[4px_4px_0px_#111]">
               👋 Hi, I am Feri Mauliandi Saputra
             </div>
-            <h1 className="text-3xl md:text-7xl font-bold leading-tight">
-              Aspiring <span className="gradient-text">AI Engineer</span>
+            <h1 className="text-[40px] md:text-7xl font-black leading-none text-black uppercase">
+              Aspiring <br /><span className="bg-white px-2 inline-block brutal-border mt-1 shadow-[4px_4px_0px_#111] -rotate-1">AI Engineer</span>
             </h1>
-            <p className="text-sm md:text-xl text-gray-600 leading-relaxed">
+            <p className="text-sm md:text-xl text-black font-bold leading-relaxed bg-white/60 backdrop-blur-sm p-3 brutal-border rounded-2xl shadow-[4px_4px_0px_#111]">
               Computer Engineering student passionate about Computer Vision, Generative AI, and building intelligent systems that integrate software and hardware.
             </p>
-            <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">Computer Vision</span>
-              <span className="px-3 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">LLMs & RAG</span>
-              <span className="px-3 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">FastAPI</span>
-              <span className="px-3 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">Robotics & UAVs</span>
+            <div className="flex flex-wrap gap-1 py-0">
+              <span className="px-3 py-2 bg-[#FFB5DA] brutal-border shadow-[3px_3px_0px_#111] text-black rounded-full text-xs md:text-sm font-bold">Computer Vision</span>
+              <span className="px-3 py-2 bg-[#C4F069] brutal-border shadow-[3px_3px_0px_#111] text-black rounded-full text-xs md:text-sm font-bold">LLMs & RAG</span>
+              <span className="px-3 py-2 bg-[#FFC27A] brutal-border shadow-[3px_3px_0px_#111] text-black rounded-full text-xs md:text-sm font-bold">UAVs & Robotics</span>
             </div>
-            <a href="#contact">
-              <button className="px-4 py-2 mt-0 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-full font-semibold hover:shadow-xl transition-all transform hover:scale-105">
+            <div className="">
+              <a href="#contact" className="brutal-btn bg-white text-black inline-block text-lg hover:bg-black hover:text-white">
                 Let's Connect →
-              </button>
-            </a>
+              </a>
+            </div>
           </div>
 
-          <div className="relative scroll-reveal opacity-0" data-animation="animate-slideInRight">
-            <div
-              className="absolute -top-8 -right-8 w-40 h-40 bg-linear-to-br from-purple-400 to-pink-400 rounded-3xl blob opacity-60 z-0"
-              style={{ animation: 'float 6s ease-in-out infinite' }}
-            ></div>
-            <div
-              className="absolute -bottom-8 -left-8 w-48 h-48 bg-linear-to-br from-teal-400 to-blue-400 rounded-3xl blob opacity-60 z-0"
-              style={{ animation: 'float 8s ease-in-out infinite reverse' }}
-            ></div>
+          <div className="w-full max-w-md mx-auto transform scale-95 md:scale-110 origin-center transition-all duration-300">
+            <div className="-mt-20 md:mt-0 relative scroll-reveal opacity-0" data-animation="animate-slideInRight">
 
-            <div className="relative z-10 p-3 bg-white/40 backdrop-blur-lg rounded-[2.5rem] shadow-2xl border border-white/60">
-              <div className="w-full aspect-square rounded-3xl overflow-hidden bg-slate-200 relative group">
-                <img
-                  src={fotoFeri}
-                  alt="Feri Mauliandi Saputra"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-indigo-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              {/* Kontainer Foto Utama */}
+              <div className="relative z-10 p-2 bg-[#FFC27A] brutal-box">
+                <div className="w-full aspect-square rounded-[1.5rem] overflow-hidden bg-white brutal-border relative group">
+                  <img
+                    src={fotoFeri}
+                    alt="Feri Mauliandi Saputra"
+                    className="w-full h-full object-cover group-hover:grayscale-0 transition-all duration-500"
+                  />
+                </div>
               </div>
-            </div>
 
-            <div
-              className="absolute top-8 -left-4 md:-left-10 z-20 bg-white/90 backdrop-blur-md p-3 md:p-4 rounded-2xl shadow-xl border border-white/50 flex items-center gap-3"
-              style={{ animation: 'float-badge 4s ease-in-out infinite' }}
-            >
-              <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-xl shadow-inner">👁️</div>
-              <div className="text-left hidden sm:block">
-                <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">Computer Vision</p>
-                <p className="text-gray-900 font-bold text-sm">YOLO & DETR</p>
+              {/* Badge 1: Computer Vision */}
+              <div
+                className="absolute top-5 -left-4 md:-left-10 z-20 bg-white brutal-border p-3 md:p-4 rounded-3xl shadow-[4px_4px_0px_#111] flex items-center gap-3"
+                style={{ animation: 'float-badge 4s ease-in-out infinite' }}
+              >
+                <div className="w-12 h-12 bg-[#FFB5DA] brutal-border rounded-full flex items-center justify-center text-2xl">👁️</div>
+                <div className="text-left hidden sm:block">
+                  <p className="text-[10px] text-black font-black uppercase tracking-wider">Computer Vision</p>
+                  <p className="text-gray-900 font-bold text-sm">YOLO & DETR</p>
+                </div>
               </div>
-            </div>
 
-            <div
-              className="absolute top-28 -right-4 md:-right-12 z-20 bg-white/90 backdrop-blur-md p-3 md:p-4 rounded-2xl shadow-xl border border-white/50 flex items-center gap-3"
-              style={{ animation: 'float-badge 4.5s ease-in-out 1s infinite' }}
-            >
-              <div className="text-right hidden sm:block">
-                <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">Hardware</p>
-                <p className="text-gray-900 font-bold text-sm">Robotics & UAVs</p>
+              {/* Badge 2: Hardware */}
+              <div
+                className="absolute top-30 -right-4 md:-right-12 z-20 bg-white brutal-border p-3 md:p-4 rounded-3xl shadow-[4px_4px_0px_#111] flex items-center gap-3"
+                style={{ animation: 'float-badge 4.5s ease-in-out 1s infinite' }}
+              >
+                <div className="text-right hidden sm:block">
+                  <p className="text-[10px] text-black font-black uppercase tracking-wider">Hardware</p>
+                  <p className="text-gray-900 font-bold text-sm">Robotics & UAVs</p>
+                </div>
+                <div className="w-12 h-12 bg-[#C4F069] brutal-border rounded-full flex items-center justify-center text-2xl">🤖</div>
               </div>
-              <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center text-xl shadow-inner">🤖</div>
-            </div>
 
-            <div
-              className="absolute bottom-28 -left-4 md:-left-12 z-20 bg-white/90 backdrop-blur-md p-3 md:p-4 rounded-2xl shadow-xl border border-white/50 flex items-center gap-3"
-              style={{ animation: 'float-badge 5s ease-in-out 2s infinite' }}
-            >
-              <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-xl shadow-inner">🧠</div>
-              <div className="text-left hidden sm:block">
-                <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">Generative AI</p>
-                <p className="text-gray-900 font-bold text-sm">LLMs & RAG</p>
+              {/* Badge 3: Generative AI */}
+              <div
+                className="absolute bottom-24 -left-4 md:-left-12 z-20 bg-white brutal-border p-3 md:p-4 rounded-3xl shadow-[4px_4px_0px_#111] flex items-center gap-3"
+                style={{ animation: 'float-badge 5s ease-in-out 2s infinite' }}
+              >
+                <div className="w-12 h-12 bg-[#FFC27A] brutal-border rounded-full flex items-center justify-center text-2xl">🧠</div>
+                <div className="text-left hidden sm:block">
+                  <p className="text-[10px] text-black font-black uppercase tracking-wider">Generative AI</p>
+                  <p className="text-gray-900 font-bold text-sm">LLMs & RAG</p>
+                </div>
               </div>
-            </div>
 
-            <div
-              className="absolute bottom-8 -right-2 md:-right-6 z-20 bg-white/90 backdrop-blur-md px-5 py-3 rounded-2xl shadow-xl border border-white/50 flex items-center gap-3"
-              style={{ animation: 'float-badge 4s ease-in-out 0.5s infinite' }}
-            >
-              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.7)]"></div>
-              <p className="text-gray-900 font-bold text-sm">Open to Work & Internship Opportunity</p>
+              {/* Badge 4: Open for Work */}
+              <div
+                className="absolute bottom-6 -right-2 md:-right-10 z-20 bg-[#C4F069] brutal-border px-5 py-3 rounded-full shadow-[4px_4px_0px_#111] flex items-center gap-3"
+                style={{ animation: 'float-badge 4s ease-in-out 0.5s infinite' }}
+              >
+                <div className="w-4 h-4 bg-[#9b82f3] border-2 border-black rounded-full animate-pulse"></div>
+                <p className="text-black font-black text-xs md:text-sm uppercase tracking-tight">Open for Work & Internship Opportunities</p>
+              </div>
+
             </div>
           </div>
         </div>
       </section>
 
       {/* About Me Section */}
-      <section id="about" className="relative py-20 px-6">
+      <section id="about" className="relative py-20 px-6 bg-[#FFC27A] border-y-[3px] border-black">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16 scroll-reveal opacity-0" data-animation="animate-slideInUp">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">About Me</h2>
-            <p className="text-l md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mt-4">
+            <h2 className="text-4xl md:text-6xl font-black mb-2 inline-block bg-white text-black px-8 py-3 brutal-border shadow-[6px_6px_0px_#111] -rotate-2 uppercase">About Me</h2>
+            <p className="text-lg md:text-xl text-black font-medium max-w-4xl mx-auto leading-relaxed mt-6 brutal-box p-6 bg-[#C4F069] text-left md:text-center">
               I am an AI Engineer with a strong foundation in Computer Engineering. I specialize in developing practical artificial intelligence solutions, focusing on Deep Learning architectures, object detection models (YOLOv8/v11), and building cutting-edge Large Language Model (LLM) applications using Retrieval-Augmented Generation (RAG). My passion lies in creating intelligent systems that seamlessly integrate software and hardware, particularly in the fields of computer vision and robotics. I am eager to apply my skills and knowledge to real-world challenges and contribute to innovative projects in the AI domain.
             </p>
 
-            {/* Tech Stack Section (Sesuai Referensi Gambar) */}
-            <div className="mt-16 pt-8 border-t border-gray-200 flex flex-col items-center">
-              <h3 className="text-2xl font-bold mb-8 text-slate-800 flex items-center gap-3">
+            <div className="mt-10 pt-4 flex flex-col items-center">
+              <h3 className="text-3xl font-black mb-10 text-black flex items-center gap-3 bg-[#FFB5DA] px-8 py-3 brutal-border shadow-[4px_4px_0px_#111] rotate-1 uppercase">
                 Tech Stack
               </h3>
-              <div className="flex flex-wrap justify-center gap-1.5 md:gap-2 max-w-5xl">
+              <div className="flex flex-wrap justify-center gap-3 md:gap-4 max-w-5xl">
                 {techStack.map((tech, index) => (
                   <div
                     key={index}
-                    className={`flex items-center gap-2 px-3 py-2 md:px-4 md:py-2.5 ${tech.bg} ${tech.text} text-[10px] md:text-xs font-bold tracking-widest rounded-sm hover:opacity-90 hover:scale-105 transition-all cursor-default shadow-sm`}
+                    className={`flex items-center gap-2 px-4 py-2.5 ${tech.bg} ${tech.text} text-[11px] md:text-sm font-black tracking-widest rounded-full brutal-border shadow-[4px_4px_0px_#111] hover:-translate-y-1 hover:shadow-[6px_6px_0px_#111] transition-all cursor-default`}
                   >
-                    <span className="text-base md:text-lg">{tech.icon}</span>
+                    <span className="text-lg md:text-xl">{tech.icon}</span>
                     {tech.name}
                   </div>
                 ))}
@@ -597,45 +598,45 @@ export default function PersonalPortfolio() {
       </section>
 
       {/* Portfolio Showcase Section */}
-      <section id="portfolio" className="relative py-20 px-6 bg-linear-to-br from-slate-800 to-slate-900 text-white">
+      <section id="portfolio" className="relative py-20 px-6 bg-[#9b82f3]">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12 scroll-reveal opacity-0" data-animation="animate-slideInUp">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">Technical Journey</h2>
-            <p className="text-l md:text-xl text-gray-300 max-w-3xl mx-auto">
+          <div className="text-center mb-8 scroll-reveal opacity-0" data-animation="animate-slideInUp">
+            <h2 className="text-4xl md:text-6xl font-black mb-6 text-black uppercase">Technical Journey</h2>
+            <p className="text-lg text-black font-bold max-w-3xl mx-auto bg-[#FFC27A] inline-block px-6 py-4 brutal-border shadow-[4px_4px_0px_#111]">
               Explore my latest AI projects, internships, competitive robotics experience, and technical expertise.
             </p>
           </div>
 
           {/* Tab Navigation */}
-          <div className="flex justify-center gap-4 mb-12 flex-wrap scroll-reveal opacity-0" data-animation="animate-scaleIn">
+          <div className="flex justify-center gap-2 mb-8 flex-wrap scroll-reveal opacity-0" data-animation="animate-scaleIn">
             <button
               onClick={() => setActiveTab('projects')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold transition-all ${activeTab === 'projects'
-                ? 'bg-linear-to-r from-blue-500 to-indigo-500 text-white shadow-lg scale-105'
-                : 'bg-slate-700 text-gray-300 hover:bg-slate-600'
+              className={`flex items-center gap-2 px-6 py-3 font-black transition-all brutal-btn ${activeTab === 'projects'
+                ? 'bg-black text-white shadow-[2px_2px_0px_#111] translate-y-1'
+                : 'bg-white text-black hover:bg-[#C4F069]'
                 }`}
             >
-              <FiCode size={20} />
+              <FiCode size={20} strokeWidth={3} />
               Projects
             </button>
             <button
               onClick={() => setActiveTab('experience')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold transition-all ${activeTab === 'experience'
-                ? 'bg-linear-to-r from-blue-500 to-indigo-500 text-white shadow-lg scale-105'
-                : 'bg-slate-700 text-gray-300 hover:bg-slate-600'
+              className={`flex items-center gap-2 px-6 py-3 font-black transition-all brutal-btn ${activeTab === 'experience'
+                ? 'bg-black text-white shadow-[2px_2px_0px_#111] translate-y-1'
+                : 'bg-white text-black hover:bg-[#C4F069]'
                 }`}
             >
-              <FiBriefcase size={20} />
+              <FiBriefcase size={20} strokeWidth={3} />
               Experience
             </button>
             <button
               onClick={() => setActiveTab('certifications')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold transition-all ${activeTab === 'certifications'
-                ? 'bg-linear-to-r from-blue-500 to-indigo-500 text-white shadow-lg scale-105'
-                : 'bg-slate-700 text-gray-300 hover:bg-slate-600'
+              className={`flex items-center gap-2 px-6 py-3 font-black transition-all brutal-btn ${activeTab === 'certifications'
+                ? 'bg-black text-white shadow-[2px_2px_0px_#111] translate-y-1'
+                : 'bg-white text-black hover:bg-[#C4F069]'
                 }`}
             >
-              <FiAward size={20} />
+              <FiAward size={20} strokeWidth={3} />
               Certificates
             </button>
           </div>
@@ -651,23 +652,23 @@ export default function PersonalPortfolio() {
 
           {/* Experience Tab */}
           {activeTab === 'experience' && (
-            <div className="space-y-6 max-w-3xl mx-auto">
+            <div className="space-y-8 max-w-3xl mx-auto">
               {portfolioData.experience.map((exp, idx) => (
                 <div
                   key={exp.id}
-                  className="bg-slate-700/50 backdrop-blur rounded-3xl p-8 card-hover border border-slate-600 scroll-reveal opacity-0"
+                  className="bg-white brutal-box p-8 card-hover scroll-reveal opacity-0"
                   data-animation="animate-slideInLeft"
                   style={{ animationDelay: `${idx * 0.1}s` }}
                 >
-                  <div className="flex items-start gap-6">
-                    <div className={`w-16 h-16 ${exp.color} rounded-2xl flex items-center justify-center text-2xl shrink-0 shadow-lg`}>
+                  <div className="flex items-start gap-6 flex-col md:flex-row">
+                    <div className={`w-20 h-20 ${exp.color} brutal-border rounded-[1.5rem] flex items-center justify-center text-4xl shrink-0 shadow-[4px_4px_0px_#111] -rotate-3`}>
                       💼
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-2xl font-bold mb-2">{exp.role}</h3>
-                      <p className="text-blue-400 font-semibold mb-2">{exp.company}</p>
-                      <p className="text-gray-400 text-sm mb-3">{exp.period}</p>
-                      <p className="text-gray-300">{exp.description}</p>
+                      <h3 className="text-3xl font-black mb-2 text-black leading-tight">{exp.role}</h3>
+                      <p className="text-lg font-bold bg-[#FFB5DA] inline-block px-4 py-1.5 brutal-border rounded-full mb-3 shadow-[2px_2px_0px_#111]">{exp.company}</p>
+                      <p className="text-gray-800 font-bold text-sm mb-4 bg-[#FFC27A] px-3 py-1 inline-block brutal-border rounded-full ml-2">{exp.period}</p>
+                      <p className="text-black font-medium text-base md:text-lg leading-relaxed">{exp.description}</p>
                     </div>
                   </div>
                 </div>
@@ -677,27 +678,27 @@ export default function PersonalPortfolio() {
 
           {/* Certifications Tab */}
           {activeTab === 'certifications' && (
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {portfolioData.certifications.map((cert, idx) => (
                 <div
                   key={cert.id}
-                  className="bg-slate-700/50 backdrop-blur rounded-3xl overflow-hidden card-hover border border-slate-600 scroll-reveal opacity-0"
+                  className="bg-white brutal-box overflow-hidden card-hover scroll-reveal opacity-0 flex flex-col"
                   data-animation="animate-scaleIn"
                   style={{ animationDelay: `${idx * 0.1}s` }}
                 >
-                  <div className="h-48 w-full bg-slate-800 relative group">
+                  <div className="h-48 w-full border-b-[3px] border-black">
                     <img
                       src={cert.image}
                       alt={cert.name}
-                      className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                      className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-linear-to-t from-slate-900/80 to-transparent"></div>
                   </div>
-
-                  <div className="p-6 relative">
-                    <h3 className="text-xl font-bold mb-2">{cert.name}</h3>
-                    <p className="text-blue-400 font-semibold mb-1">{cert.issuer}</p>
-                    <p className="text-gray-400 text-sm">{cert.year}</p>
+                  <div className="p-6 flex-1 flex flex-col justify-between bg-white">
+                    <div>
+                      <h3 className="text-xl font-black mb-3 leading-tight">{cert.name}</h3>
+                      <p className="text-black font-bold bg-[#C4F069] inline-block px-3 py-1 brutal-border shadow-[2px_2px_0px_#111] rounded-full text-xs mb-4">{cert.issuer}</p>
+                    </div>
+                    <p className="text-black font-black text-right text-lg">{cert.year}</p>
                   </div>
                 </div>
               ))}
@@ -707,55 +708,58 @@ export default function PersonalPortfolio() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="relative py-20 px-6 bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100">
+      <section id="contact" className="relative py-20 px-6 bg-[#FFB5DA] border-t-[3px] border-black">
         <div className="max-w-4xl mx-auto text-center">
           <div className="scroll-reveal opacity-0" data-animation="animate-slideInUp">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">Let's Work Together!</h2>
-            <p className="text-l md:text-xl text-gray-700 mb-12 max-w-2xl mx-auto">
+            <h2 className="text-4xl md:text-6xl font-black mb-6 text-black uppercase">Let's Work Together!</h2>
+            <p className="text-lg text-black font-bold mb-12 max-w-2xl mx-auto bg-white inline-block px-6 py-3 brutal-border shadow-[4px_4px_0px_#111] rotate-1">
               I am actively looking for AI Engineering internships and collaborative projects. Feel free to reach out via email or connect with me on LinkedIn!
             </p>
 
-            <div className="flex flex-wrap justify-center gap-6 mb-12">
-              <a href="mailto:your.email@example.com" className="flex items-center gap-3 px-8 py-4 bg-white rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
-                <FiMail className="text-blue-600" size={24} />
-                <span className="font-semibold">Email Me</span>
+            <div className="flex flex-wrap justify-center gap-4 mb-16">
+              <a href="mailto:your.email@example.com" className="flex items-center gap-2 bg-white text-black brutal-btn hover:bg-[#FFC27A]">
+                <FiMail size={24} strokeWidth={3} />
+                <span className="font-black text-base">Email Me</span>
               </a>
-              <a href="https://github.com/FeriMauliandi" target="_blank" rel="noreferrer" className="flex items-center gap-3 px-8 py-4 bg-linear-to-r from-gray-800 to-gray-900 text-white rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
-                <FiGithub size={24} />
-                <span className="font-semibold">GitHub</span>
+              <a href="https://github.com/FeriMauliandi" target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-black text-white brutal-btn hover:bg-white hover:text-black">
+                <FiGithub size={24} strokeWidth={3} />
+                <span className="font-black text-base">GitHub</span>
               </a>
-              <a href="https://www.linkedin.com/in/ferimauliandisaputra/" target="_blank" rel="noreferrer" className="flex items-center gap-3 px-8 py-4 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
-                <FiLinkedin size={24} />
-                <span className="font-semibold">LinkedIn</span>
+              <a href="https://www.linkedin.com/in/ferimauliandisaputra/" target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-[#9b82f3] text-black brutal-btn hover:bg-[#C4F069]">
+                <FiLinkedin size={24} strokeWidth={3} />
+                <span className="font-black text-base">LinkedIn</span>
               </a>
             </div>
 
-            <div className="bg-white rounded-3xl p-12 shadow-xl max-w-2xl mx-auto">
-              <h3 className="text-3xl font-bold mb-8">Send a Message</h3>
+            <div className="bg-white brutal-box p-8 md:p-12 max-w-2xl mx-auto text-left relative bg-[#C4F069]">
+              <div className="absolute -top-6 -right-6 w-16 h-16 bg-[#FFC27A] brutal-border rounded-full flex items-center justify-center text-3xl shadow-[4px_4px_0px_#111] rotate-12">
+                ✉️
+              </div>
+              <h3 className="text-3xl font-black mb-8 uppercase">Add more</h3>
               <form className="space-y-6">
                 <div>
                   <input
                     type="text"
                     placeholder="Your Name"
-                    className="w-full px-6 py-4 rounded-2xl border-2 border-gray-200 focus:border-blue-500 outline-none transition-colors"
+                    className="w-full px-6 py-4 rounded-[1.5rem] brutal-border focus:border-black focus:ring-0 outline-none transition-colors shadow-[4px_4px_0px_#111] font-bold text-lg bg-white"
                   />
                 </div>
                 <div>
                   <input
                     type="email"
                     placeholder="Your Email"
-                    className="w-full px-6 py-4 rounded-2xl border-2 border-gray-200 focus:border-blue-500 outline-none transition-colors"
+                    className="w-full px-6 py-4 rounded-[1.5rem] brutal-border focus:border-black focus:ring-0 outline-none transition-colors shadow-[4px_4px_0px_#111] font-bold text-lg bg-white"
                   />
                 </div>
                 <div>
                   <textarea
-                    rows="6"
+                    rows="4"
                     placeholder="Your Message"
-                    className="w-full px-6 py-4 rounded-2xl border-2 border-gray-200 focus:border-blue-500 outline-none transition-colors resize-none"
+                    className="w-full px-6 py-4 rounded-[1.5rem] brutal-border focus:border-black focus:ring-0 outline-none transition-colors shadow-[4px_4px_0px_#111] font-bold text-lg bg-white resize-none"
                   ></textarea>
                 </div>
-                <button className="w-full px-8 py-4 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-full font-semibold hover:shadow-xl transition-all transform hover:scale-105">
-                  Send Message →
+                <button type="button" className="w-full bg-black text-white text-xl brutal-btn hover:bg-[#9b82f3] hover:text-black mt-2">
+                  Send Message
                 </button>
               </form>
             </div>
@@ -764,16 +768,17 @@ export default function PersonalPortfolio() {
       </section>
 
       {/* Footer */}
-      <footer className="relative py-12 px-6 bg-slate-900 text-white">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="text-3xl font-bold gradient-text mb-4">Feri Mauliandi Saputra</div>
-          <p className="text-gray-400 mb-6">Aspiring AI Engineer • Computer Engineering</p>
-          <div className="flex justify-center gap-6">
-            <a href="#" className="hover:text-blue-400 transition-colors">Privacy</a>
-            <a href="#" className="hover:text-blue-400 transition-colors">Terms</a>
-            <a href="#contact" className="hover:text-blue-400 transition-colors">Contact</a>
+      <footer className="relative py-12 px-6 bg-white border-t-[3px] border-black text-black">
+        <div className="max-w-6xl mx-auto text-center flex flex-col items-center">
+          <div className="text-4xl font-black tracking-tight mb-4 uppercase">Feri<span className="text-[#9b82f3]">.M</span></div>
+          <p className="bg-[#C4F069] px-4 py-1 rounded-full brutal-border font-bold text-sm mb-8 shadow-[2px_2px_0px_#111]">Aspiring AI Engineer • Computer Engineering</p>
+          <div className="flex justify-center gap-8 mb-8">
+            <a href="#" className="font-bold hover:text-[#9b82f3] hover:-translate-y-1 transition-all">Privacy</a>
+            <a href="#" className="font-bold hover:text-[#FFC27A] hover:-translate-y-1 transition-all">Terms</a>
+            <a href="#contact" className="font-bold hover:text-[#FFB5DA] hover:-translate-y-1 transition-all">Contact</a>
           </div>
-          <p className="mt-6 text-sm text-gray-500">© 2026 All rights reserved.</p>
+          <div className="w-24 h-1 bg-black rounded-full mb-6"></div>
+          <p className="text-sm font-bold text-gray-500">© 2026 All rights reserved.</p>
         </div>
       </footer>
     </div>
