@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLeft, FiChevronRight, FiMenu, FiX } from 'react-icons/fi';
 
 import { SiJavascript, SiPython, SiFastapi, SiPytorch, SiTensorflow, SiNodedotjs, SiGithub, SiGit, SiUbuntu, SiArduino, SiNotion, SiLangchain, SiOpencv, SiPostman, SiRaspberrypi, SiDocker, SiHuggingface } from 'react-icons/si';
-import { FaTerminal, FaDatabase, FaMicrochip, FaPlane } from 'react-icons/fa';
+import { FaTerminal, FaNetworkWired, FaTools, FaDatabase, FaMicrochip, FaPlane } from 'react-icons/fa';
 
 import fotoFeri from './assets/feri.jpg';
 import chili1 from './assets/chili1.png';
@@ -16,6 +16,8 @@ import drone3 from './assets/uav.jpeg';
 import drone4 from './assets/uav1.png';
 import drone5 from './assets/uav2.jpeg';
 import drone6 from './assets/uav3.jpg';
+import dietary from './assets/dietary.png';
+import dietary1 from './assets/dietary_tracker.png';
 
 
 const ProjectCard = ({ project, idx }) => {
@@ -214,6 +216,8 @@ export default function PersonalPortfolio() {
     { name: 'PYTHON', bg: 'bg-[#3776AB]', text: 'text-white', icon: <SiPython /> },
     { name: 'JAVASCRIPT', bg: 'bg-[#F7DF1E]', text: 'text-black', icon: <SiJavascript /> },
     { name: 'LANGCHAIN', bg: 'bg-[#1C3C3A]', text: 'text-white', icon: <SiLangchain /> },
+    { name: 'LANGGRAPH', bg: 'bg-[#1C3C3A]', text: 'text-white', icon: <FaNetworkWired/>},
+    { name: 'LANGSMITH', bg: 'bg-[#00979D]', text: 'text-white', icon: <FaTools /> },
     { name: 'CHROMADB', bg: 'bg-[#F04C22]', text: 'text-white', icon: <FaDatabase /> },
     { name: 'FASTAPI', bg: 'bg-[#009688]', text: 'text-white', icon: <SiFastapi /> },
     { name: 'PYTORCH', bg: 'bg-[#EE4C2C]', text: 'text-white', icon: <SiPytorch /> },
@@ -250,6 +254,19 @@ export default function PersonalPortfolio() {
       },
       {
         id: 2,
+        title: 'Dietary_tracker: nutrition Estimation with agentic RAG',
+        level: 'Intermediate',
+        description: 'A Python-based Agentic RAG AI for nutritional analysis. Orchestrated with LangGraph, this multi-agent system executes text extraction, USDA API data fetching, and Hybrid Search (Vector + BM25) via ChromaDB in parallel, utilizing a cleanly decoupled architecture between a FastAPI backend and a Streamlit frontend.',
+        tech: ['Python', 'LLM', 'LangChain', 'LangSmith','langgraph', 'Streamlit', 'fastAPI'],
+        images: [
+          dietary,
+          dietary1
+        ],
+        bgColor: 'bg-[#FFB5DA]', // Pink
+        github: 'https://github.com/FeriMauliandi/dietary_tracker-agentic-RAG'
+      },
+      {
+        id: 3,
         title: 'RAG chatbot with Streamlit & FastAPI',
         level: 'Intermediate',
         description: 'A RAG-powered smart assistant for catfish farming. It extracts knowledge from local PDF documents using ChromaDB and an LLM to provide accurate, context-aware answers to user queries.',
@@ -261,7 +278,7 @@ export default function PersonalPortfolio() {
         github: 'https://github.com/FeriMauliandi/RAG-chatbot-Streamlit-FastAPI'
       },
       {
-        id: 3,
+        id: 4,
         title: 'UAVs Development (programming, hardware & ground station)',
         level: 'Advanced',
         description: 'Building, configuring, and testing UAVs (VTOL, Fixed Wing, Long endurance Low altitude) for competitive robotics, surveying and aerial mapping.',
@@ -278,7 +295,7 @@ export default function PersonalPortfolio() {
         github: 'https://github.com/ferimauliandisaputra'
       },
       {
-        id: 4,
+        id: 5,
         title: 'LLM-based IHSG Stock Fundamental Explainer with Structured Data',
         level: 'Basic',
         description: 'An LLM-powered system that explains IHSG stock fundamental indicators using structured financial data (Yahoo Finance) and LangChain.',
