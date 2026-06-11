@@ -18,6 +18,7 @@ import drone5 from './assets/uav2.jpeg';
 import drone6 from './assets/uav3.jpg';
 import dietary from './assets/dietary.png';
 import dietary1 from './assets/dietary_tracker.png';
+import sertif from './assets/sertif.png';
 
 
 const ProjectCard = ({ project, idx }) => {
@@ -256,11 +257,10 @@ export default function PersonalPortfolio() {
         id: 2,
         title: 'Dietary_tracker: nutrition Estimation with agentic RAG',
         level: 'Intermediate',
-        description: 'A Python-based Agentic RAG AI for nutritional analysis. Orchestrated with LangGraph, this multi-agent system executes text extraction, USDA API data fetching, and Hybrid Search (Vector + BM25) via ChromaDB in parallel, utilizing a cleanly decoupled architecture between a FastAPI backend and a Streamlit frontend.',
-        tech: ['Python', 'LLM', 'LangChain', 'LangSmith','langgraph', 'Streamlit', 'fastAPI'],
+        description: 'A Python-based Agentic RAG AI for nutritional analysis. Orchestrated with LangGraph, this multi-agent system executes text extraction, USDA API data fetching, and Advance Search (Vector + Multiquerry + BM25), utilizing a cleanly decoupled architecture between a FastAPI backend and a Streamlit frontend.',
+        tech: ['Python', 'LLM', 'LangChain', 'langgraph', 'Streamlit', 'fastAPI'],
         images: [
-          dietary,
-          dietary1
+          dietary
         ],
         bgColor: 'bg-[#FFB5DA]', // Pink
         github: 'https://github.com/FeriMauliandi/dietary_tracker-agentic-RAG'
@@ -329,10 +329,10 @@ export default function PersonalPortfolio() {
     certifications: [
       {
         id: 1,
-        name: 'Introduction to Python',
-        issuer: 'Sololearn',
-        year: '2025',
-        image: 'https://placehold.co/600x400/9b82f3/ffffff?text=Python+Cert'
+        name: 'Finalist Kontes Robot Terbang Indonesia 2024',
+        issuer: 'Pusat Prestasi Nasional',
+        year: '2024',
+        image: sertif
       },
       {
         id: 2,
@@ -340,13 +340,6 @@ export default function PersonalPortfolio() {
         issuer: 'DQlab',
         year: '2025',
         image: 'https://placehold.co/600x400/c4f069/000000?text=Data+Science+Cert'
-      },
-      {
-        id: 3,
-        name: 'Finalist Kontes Robot Terbang Indonesia 2024',
-        issuer: 'Pusat Prestasi Nasional',
-        year: '2024',
-        image: 'https://placehold.co/600x400/ffb5da/000000?text=KRTI+Finalist'
       }
     ]
   };
@@ -504,7 +497,7 @@ export default function PersonalPortfolio() {
               👋 Hi, I am Feri Mauliandi Saputra
             </div>
             <h1 className="text-[40px] md:text-7xl font-black leading-none text-black uppercase">
-              Aspiring <br /><span className="bg-white px-2 inline-block brutal-border mt-1 shadow-[4px_4px_0px_#111] -rotate-1">AI Engineer</span>
+              junior <br /><span className="bg-white px-2 inline-block brutal-border mt-1 shadow-[4px_4px_0px_#111] -rotate-1">AI Engineer</span>
             </h1>
             <p className="text-sm md:text-xl text-black font-bold leading-relaxed bg-white/60 backdrop-blur-sm p-3 brutal-border rounded-2xl shadow-[4px_4px_0px_#111]">
               Computer Engineering student passionate about Computer Vision, Generative AI, and building intelligent systems that integrate software and hardware.
@@ -591,7 +584,7 @@ export default function PersonalPortfolio() {
           <div className="text-center mb-16 scroll-reveal opacity-0" data-animation="animate-slideInUp">
             <h2 className="text-4xl md:text-6xl font-black mb-2 inline-block bg-white text-black px-8 py-3 brutal-border shadow-[6px_6px_0px_#111] -rotate-2 uppercase">About Me</h2>
             <p className="text-lg md:text-xl text-black font-medium max-w-4xl mx-auto leading-relaxed mt-6 brutal-box p-6 bg-[#C4F069] text-left md:text-center">
-              I am an AI Engineer with a strong foundation in Computer Engineering. I specialize in developing practical artificial intelligence solutions, focusing on Deep Learning architectures, object detection models (YOLOv8/v11), and building cutting-edge Large Language Model (LLM) applications using Retrieval-Augmented Generation (RAG). My passion lies in creating intelligent systems that seamlessly integrate software and hardware, particularly in the fields of computer vision and robotics. I am eager to apply my skills and knowledge to real-world challenges and contribute to innovative projects in the AI domain.
+              I am a junior AI Engineer with a strong foundation in Computer Engineering. I specialize in developing practical artificial intelligence solutions, focusing on Deep Learning architectures, object detection models (YOLOv8/v11), and building cutting-edge Large Language Model (LLM) applications using Retrieval-Augmented Generation (RAG). My passion lies in creating intelligent systems that integrate software and hardware, particularly in the fields of computer vision and robotics. I am eager to apply my skills and knowledge to real-world challenges and contribute to innovative projects in the AI domain.
             </p>
 
             <div className="mt-10 pt-4 flex flex-col items-center">
