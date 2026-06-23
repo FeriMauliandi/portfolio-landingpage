@@ -255,15 +255,15 @@ export default function PersonalPortfolio() {
       },
       {
         id: 2,
-        title: 'Dietary_tracker: nutrition Estimation with agentic RAG',
+        title: 'NutriGraph AI: nutrition Estimation with VLM + agentic RAG',
         level: 'Intermediate',
         description: 'A Python-based Agentic RAG AI for nutritional analysis. Orchestrated with LangGraph, this multi-agent system executes text extraction, USDA API data fetching, and Advance Search (Vector + Multiquerry + BM25), utilizing a cleanly decoupled architecture between a FastAPI backend and a Streamlit frontend.',
-        tech: ['Python', 'LLM', 'LangChain', 'langgraph', 'Streamlit', 'fastAPI'],
+        tech: ['Python', 'LLM', 'VLM', 'langgraph', 'Streamlit', 'fastAPI'],
         images: [
           dietary
         ],
         bgColor: 'bg-[#FFB5DA]', // Pink
-        github: 'https://github.com/FeriMauliandi/dietary_tracker-agentic-RAG'
+        github: 'https://github.com/FeriMauliandi/NutriGraph_AI-nutrition-agentic-RAG'
       },
       {
         id: 3,
