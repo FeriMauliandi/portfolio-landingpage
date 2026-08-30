@@ -4,7 +4,7 @@ import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLe
 import { SiJavascript, SiPython, SiFastapi, SiPytorch, SiTensorflow, SiNodedotjs, SiGithub, SiGit, SiUbuntu, SiArduino, SiNotion, SiLangchain, SiOpencv, SiPostman, SiRaspberrypi, SiDocker, SiHuggingface } from 'react-icons/si';
 import { FaTerminal, FaNetworkWired, FaTools, FaDatabase, FaMicrochip, FaPlane } from 'react-icons/fa';
 
-import fotoFeri from './assets/feri.jpg';
+import fotoFeri from './assets/feri.jpeg';
 import chili1 from './assets/chili1.png';
 import chili2 from './assets/chilicare.jpg';
 import lele from './assets/lele.png';
