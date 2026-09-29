@@ -4,8 +4,7 @@ import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLe
 import { SiJavascript, SiPython, SiFastapi, SiPytorch, SiTensorflow, SiNodedotjs, SiGithub, SiGit, SiUbuntu, SiArduino, SiNotion, SiLangchain, SiOpencv, SiPostman, SiRaspberrypi, SiDocker, SiHuggingface } from 'react-icons/si';
 import { FaTerminal, FaNetworkWired, FaTools, FaDatabase, FaMicrochip, FaPlane } from 'react-icons/fa';
 
-import fotoFeri from './assets/feri.jpeg';
-import chili1 from './assets/chili1.png';
+import fotoFeri from './assets/feri1.jpg';
 import chili2 from './assets/chilicare.jpg';
 import lele from './assets/lele.png';
 import ihsg from './assets/saham.png';
@@ -17,9 +16,17 @@ import drone4 from './assets/uav1.png';
 import drone5 from './assets/uav2.jpeg';
 import drone6 from './assets/uav3.jpg';
 import dietary from './assets/dietary.png';
-import dietary1 from './assets/dietary_tracker.png';
 import sertif from './assets/sertif.png';
 
+
+const FloatingShape = ({ delay, duration, className }) => (
+  <div
+    className={`absolute brutal-border shadow-[4px_4px_0px_#000] ${className}`}
+    style={{
+      animation: `float ${duration}s ease-in-out ${delay}s infinite alternate`
+    }}
+  />
+);
 
 const ProjectCard = ({ project, idx }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -70,6 +77,7 @@ const ProjectCard = ({ project, idx }) => {
             <img
               src={project.images[currentIndex]}
               alt={`${project.title} - Slide ${currentIndex + 1}`}
+              loading="lazy"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 cursor-zoom-in"
               onClick={() => setIsLightboxOpen(true)}
             />
@@ -144,6 +152,7 @@ const ProjectCard = ({ project, idx }) => {
           <img
             src={project.images[currentIndex]}
             alt={`${project.title} Fullscreen`}
+            loading="lazy"
             className="max-w-full max-h-full object-contain brutal-box bg-white cursor-default animate-scaleIn"
             onClick={(e) => e.stopPropagation()}
           />
@@ -344,15 +353,6 @@ export default function PersonalPortfolio() {
     ]
   };
 
-  const FloatingShape = ({ delay, duration, className }) => (
-    <div
-      className={`absolute brutal-border shadow-[4px_4px_0px_#000] ${className}`}
-      style={{
-        animation: `float ${duration}s ease-in-out ${delay}s infinite alternate`
-      }}
-    />
-  );
-
   return (
     <div className="min-h-screen bg-[#9b82f3] overflow-hidden text-black font-sans selection:bg-black selection:text-[#C4F069]">
       <style>{`
@@ -450,6 +450,33 @@ export default function PersonalPortfolio() {
           transform: translate(-4px, -4px);
           box-shadow: 10px 10px 0px #111;
         }
+
+        @keyframes pulseScale {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+        }
+
+        .animate-pulse-scale {
+          animation: pulseScale 3s ease-in-out infinite;
+        }
+
+        .tech-badge {
+          transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .tech-badge:hover {
+          transform: translateY(-4px) scale(1.05) rotate(1deg);
+          box-shadow: 6px 6px 0px #111 !important;
+        }
+
+        .social-btn {
+          transition: all 0.2s ease-in-out;
+        }
+
+        .social-btn:hover {
+          transform: translateY(-3px) scale(1.1);
+          box-shadow: 4px 4px 0px #111;
+        }
       `}</style>
 
       {/* Floating Background Shapes */}
@@ -493,7 +520,7 @@ export default function PersonalPortfolio() {
       <section id="home" className="relative min-h-screen flex items-center justify-center px-5 pt-16 md:pt-10 pb-16">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6 md:gap-22 items-center mt-8 md:mt-0">
           <div className="space-y-2 md:space-y-6 scroll-reveal opacity-0 relative z-10" data-animation="animate-slideInLeft">
-            <div className="inline-block px-4 py-2 bg-[#C4F069] text-black brutal-border rounded-full text-xs md:text-sm font-black shadow-[4px_4px_0px_#111]">
+            <div className="inline-block px-4 py-2 bg-[#C4F069] text-black brutal-border rounded-full text-xs md:text-sm font-black shadow-[4px_4px_0px_#111] animate-pulse-scale">
               👋 Hi, I am Feri Mauliandi Saputra
             </div>
             <h1 className="text-[40px] md:text-7xl font-black leading-none text-black uppercase">
@@ -523,6 +550,7 @@ export default function PersonalPortfolio() {
                   <img
                     src={fotoFeri}
                     alt="Feri Mauliandi Saputra"
+                    loading="lazy"
                     className="w-full h-full object-cover group-hover:grayscale-0 transition-all duration-500"
                   />
                 </div>
@@ -595,7 +623,7 @@ export default function PersonalPortfolio() {
                 {techStack.map((tech, index) => (
                   <div
                     key={index}
-                    className={`flex items-center gap-2 px-4 py-2.5 ${tech.bg} ${tech.text} text-[11px] md:text-sm font-black tracking-widest rounded-full brutal-border shadow-[4px_4px_0px_#111] hover:-translate-y-1 hover:shadow-[6px_6px_0px_#111] transition-all cursor-default`}
+                    className={`tech-badge flex items-center gap-2 px-4 py-2.5 ${tech.bg} ${tech.text} text-[11px] md:text-sm font-black tracking-widest rounded-full brutal-border shadow-[4px_4px_0px_#111] cursor-default`}
                   >
                     <span className="text-lg md:text-xl">{tech.icon}</span>
                     {tech.name}
@@ -700,6 +728,7 @@ export default function PersonalPortfolio() {
                     <img
                       src={cert.image}
                       alt={cert.name}
+                      loading="lazy"
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -727,15 +756,15 @@ export default function PersonalPortfolio() {
             </p>
 
             <div className="flex flex-wrap justify-center gap-4 mb-16">
-              <a href="mailto:your.email@example.com" className="flex items-center gap-2 bg-white text-black brutal-btn hover:bg-[#FFC27A]">
+              <a href="mailto:your.email@example.com" className="social-btn flex items-center gap-2 bg-white text-black brutal-btn hover:bg-[#FFC27A]">
                 <FiMail size={24} strokeWidth={3} />
                 <span className="font-black text-base">Email Me</span>
               </a>
-              <a href="https://github.com/FeriMauliandi" target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-black text-white brutal-btn hover:bg-white hover:text-black">
+              <a href="https://github.com/FeriMauliandi" target="_blank" rel="noreferrer" className="social-btn flex items-center gap-2 bg-black text-white brutal-btn hover:bg-white hover:text-black">
                 <FiGithub size={24} strokeWidth={3} />
                 <span className="font-black text-base">GitHub</span>
               </a>
-              <a href="https://www.linkedin.com/in/ferimauliandisaputra/" target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-[#9b82f3] text-black brutal-btn hover:bg-[#C4F069]">
+              <a href="https://www.linkedin.com/in/ferimauliandisaputra/" target="_blank" rel="noreferrer" className="social-btn flex items-center gap-2 bg-[#9b82f3] text-black brutal-btn hover:bg-[#C4F069]">
                 <FiLinkedin size={24} strokeWidth={3} />
                 <span className="font-black text-base">LinkedIn</span>
               </a>
