@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { GitHubCalendar } from 'react-github-calendar';
 import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLeft, FiChevronRight, FiMenu, FiX } from 'react-icons/fi';
 
 import { SiJavascript, SiPython, SiFastapi, SiPytorch, SiTensorflow, SiNodedotjs, SiGithub, SiGit, SiUbuntu, SiArduino, SiNotion, SiLangchain, SiOpencv, SiPostman, SiRaspberrypi, SiDocker, SiHuggingface } from 'react-icons/si';
@@ -186,6 +187,8 @@ const ProjectCard = ({ project, idx }) => {
 export default function PersonalPortfolio() {
   const [activeTab, setActiveTab] = useState('projects');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [githubUsername] = useState('FeriMauliandi'); // Ganti dengan username GitHub Anda
+
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -612,7 +615,7 @@ export default function PersonalPortfolio() {
           <div className="text-center mb-16 scroll-reveal opacity-0" data-animation="animate-slideInUp">
             <h2 className="text-4xl md:text-6xl font-black mb-2 inline-block bg-white text-black px-8 py-3 brutal-border shadow-[6px_6px_0px_#111] -rotate-2 uppercase">About Me</h2>
             <p className="text-lg md:text-xl text-black font-medium max-w-4xl mx-auto leading-relaxed mt-6 brutal-box p-6 bg-[#C4F069] text-left md:text-center">
-              I am a junior AI Engineer with a strong foundation in Computer Engineering. I specialize in developing practical artificial intelligence solutions, focusing on Deep Learning architectures, object detection models (YOLOv8/v11), and building cutting-edge Large Language Model (LLM) applications using Retrieval-Augmented Generation (RAG). My passion lies in creating intelligent systems that integrate software and hardware, particularly in the fields of computer vision and robotics. I am eager to apply my skills and knowledge to real-world challenges and contribute to innovative projects in the AI domain.
+              Junior AI Engineer specializing in Deep Learning, computer vision (YOLOv8/v11), and building intelligent systems across Agentic AI, Multi-Agent, Multimodal, and RAG architectures. Also a UAV Researcher with 3 years of experience in autonomous drone systems using Pixhawk, ArduPilot, and PX4 — bridging cutting-edge AI with real-world hardware.
             </p>
 
             <div className="mt-10 pt-4 flex flex-col items-center">
@@ -629,6 +632,42 @@ export default function PersonalPortfolio() {
                     {tech.name}
                   </div>
                 ))}
+              </div>
+
+              <h3 className="text-3xl font-black mt-16 mb-10 text-black flex items-center gap-3 bg-[#C4F069] px-8 py-3 brutal-border shadow-[4px_4px_0px_#111] rotate-1 uppercase">
+                GitHub Contributions
+              </h3>
+              <div className="w-full overflow-x-auto brutal-box p-4 md:p-6 bg-white shadow-[4px_4px_0px_#111] flex justify-center">
+                <GitHubCalendar
+                  username={githubUsername}
+                  colorScheme="light"
+                  blockSize={14}
+                  blockMargin={4}
+                  fontSize={14}
+                  theme={{
+                    light: ['#f1f1f1', '#e3f9b0', '#C4F069', '#9b82f3', '#111111'],
+                  }}
+                  labels={{ totalCount: '{{count}} contributions in the last year' }}
+                  tooltips={{
+                    activity: {
+                      text: (activity) => {
+                        const date = new Date(activity.date + 'T00:00:00').toLocaleDateString('en-US', {
+                          month: 'long',
+                          day: 'numeric',
+                        });
+                        const label = activity.count === 1 ? 'contribution' : 'contributions';
+                        return `${activity.count} ${label} on ${date}`;
+                      },
+                      placement: 'top',
+                      hoverRestMs: 100,
+                      withArrow: true,
+                    },
+                    colorLegend: {
+                      text: (level) => `Level ${level}`,
+                      placement: 'bottom',
+                    },
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -774,7 +813,7 @@ export default function PersonalPortfolio() {
               <div className="absolute -top-6 -right-6 w-16 h-16 bg-[#FFC27A] brutal-border rounded-full flex items-center justify-center text-3xl shadow-[4px_4px_0px_#111] rotate-12">
                 ✉️
               </div>
-              <h3 className="text-3xl font-black mb-8 uppercase">Add more</h3>
+              <h3 className="text-3xl font-black mb-8 uppercase">Send Message</h3>
               <form className="space-y-6">
                 <div>
                   <input
