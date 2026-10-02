@@ -29,6 +29,77 @@ const FloatingShape = ({ delay, duration, className }) => (
   />
 );
 
+// Kartu GitHub: foto profil, @username, tombol View Profile, kalender + tooltip
+// Kartu GitHub: foto profil, @username, tombol View Profile, kalender + tooltip
+const GithubCard = ({ username }) => {
+  // Hanya tampilkan 10 bulan terakhir
+  const lastMonths = (contributions) => {
+    const cutoff = new Date();
+    cutoff.setMonth(cutoff.getMonth() - 10);
+    return contributions.filter((day) => new Date(day.date) >= cutoff);
+  };
+
+  return (
+    <div className="w-full bg-white text-black brutal-box p-5 md:p-8 text-left">
+      {/* Header: foto profil, username, View Profile */}
+      <div className="flex items-center justify-between gap-4 mb-6">
+        <div className="flex items-center gap-4">
+          <img
+            src={`https://github.com/${username}.png`}
+            alt={username}
+            className="w-12 h-12 rounded-full border-[3px] border-black object-cover shadow-[2px_2px_0px_#111]"
+          />
+          <span className="font-black text-base md:text-lg text-black">@{username}</span>
+        </div>
+        <a
+          href={`https://github.com/${username}`}
+          target="_blank"
+          rel="noreferrer"
+          className="brutal-btn bg-black text-white inline-flex items-center gap-2 text-sm md:text-base hover:bg-[#C4F069] hover:text-black"
+        >
+          View Profile <FiGithub size={20} strokeWidth={3} />
+        </a>
+      </div>
+
+      {/* Kalender */}
+      <div className="overflow-x-auto">
+        <GitHubCalendar
+          username={username}
+          colorScheme="light"
+          blockSize={14}
+          blockMargin={4}
+          fontSize={13}
+          weekStart={0}
+          showWeekdayLabels
+          transformData={lastMonths}
+          theme={{
+            light: ['#f1f1f1', '#e3f9b0', '#C4F069', '#9b82f3', '#111111'],
+          }}
+          labels={{
+            totalCount: '{{count}} contributions in the last 10 months',
+            legend: { less: 'Less', more: 'More' },
+          }}
+          style={{ color: '#000' }}
+          tooltips={{
+            activity: {
+              text: (activity) => {
+                const date = new Date(activity.date + 'T00:00:00').toLocaleDateString('en-US', {
+                  month: 'long',
+                  day: 'numeric',
+                });
+                return `${activity.count} ${activity.count === 1 ? 'contribution' : 'contributions'} on ${date}`;
+              },
+              placement: 'top',
+              hoverRestMs: 100,
+              withArrow: true,
+            },
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
 const ProjectCard = ({ project, idx }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -229,7 +300,7 @@ export default function PersonalPortfolio() {
     { name: 'PYTHON', bg: 'bg-[#3776AB]', text: 'text-white', icon: <SiPython /> },
     { name: 'JAVASCRIPT', bg: 'bg-[#F7DF1E]', text: 'text-black', icon: <SiJavascript /> },
     { name: 'LANGCHAIN', bg: 'bg-[#1C3C3A]', text: 'text-white', icon: <SiLangchain /> },
-    { name: 'LANGGRAPH', bg: 'bg-[#1C3C3A]', text: 'text-white', icon: <FaNetworkWired/>},
+    { name: 'LANGGRAPH', bg: 'bg-[#1C3C3A]', text: 'text-white', icon: <FaNetworkWired /> },
     { name: 'LANGSMITH', bg: 'bg-[#00979D]', text: 'text-white', icon: <FaTools /> },
     { name: 'CHROMADB', bg: 'bg-[#F04C22]', text: 'text-white', icon: <FaDatabase /> },
     { name: 'FASTAPI', bg: 'bg-[#009688]', text: 'text-white', icon: <SiFastapi /> },
@@ -637,37 +708,8 @@ export default function PersonalPortfolio() {
               <h3 className="text-3xl font-black mt-16 mb-10 text-black flex items-center gap-3 bg-[#C4F069] px-8 py-3 brutal-border shadow-[4px_4px_0px_#111] rotate-1 uppercase">
                 GitHub Contributions
               </h3>
-              <div className="w-full overflow-x-auto brutal-box p-4 md:p-6 bg-white shadow-[4px_4px_0px_#111] flex justify-center">
-                <GitHubCalendar
-                  username={githubUsername}
-                  colorScheme="light"
-                  blockSize={14}
-                  blockMargin={4}
-                  fontSize={14}
-                  theme={{
-                    light: ['#f1f1f1', '#e3f9b0', '#C4F069', '#9b82f3', '#111111'],
-                  }}
-                  labels={{ totalCount: '{{count}} contributions in the last year' }}
-                  tooltips={{
-                    activity: {
-                      text: (activity) => {
-                        const date = new Date(activity.date + 'T00:00:00').toLocaleDateString('en-US', {
-                          month: 'long',
-                          day: 'numeric',
-                        });
-                        const label = activity.count === 1 ? 'contribution' : 'contributions';
-                        return `${activity.count} ${label} on ${date}`;
-                      },
-                      placement: 'top',
-                      hoverRestMs: 100,
-                      withArrow: true,
-                    },
-                    colorLegend: {
-                      text: (level) => `Level ${level}`,
-                      placement: 'bottom',
-                    },
-                  }}
-                />
+              <div className="w-full max-w-4xl">
+                <GithubCard username={githubUsername} />
               </div>
             </div>
           </div>
