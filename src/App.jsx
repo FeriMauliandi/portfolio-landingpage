@@ -529,17 +529,17 @@ export default function PersonalPortfolio() {
   // Tech stack dengan warna segar & maskulin (Forest, Cobalt, Amber, Slate)
   const techStack = [
     { name: 'PYTHON', bg: 'bg-[#2B6CB0]', text: 'text-[#FFFDF7]', icon: <SiPython /> },
-    { name: 'JAVASCRIPT', bg: 'bg-[#E9C46A]', text: 'text-[#1E2D24]', icon: <SiJavascript /> },
-    { name: 'LANGCHAIN', bg: 'bg-[#1B4332]', text: 'text-[#FFFDF7]', icon: <SiLangchain /> },
     { name: 'LANGGRAPH', bg: 'bg-[#2D6A4F]', text: 'text-[#FFFDF7]', icon: <FaNetworkWired /> },
-    { name: 'LANGSMITH', bg: 'bg-[#3B7A57]', text: 'text-[#FFFDF7]', icon: <FaTools /> },
+    { name: 'LANGCHAIN', bg: 'bg-[#1B4332]', text: 'text-[#FFFDF7]', icon: <SiLangchain /> },
     { name: 'CHROMADB', bg: 'bg-[#E07A5F]', text: 'text-[#FFFDF7]', icon: <FaDatabase /> },
+    { name: 'LANGSMITH', bg: 'bg-[#3B7A57]', text: 'text-[#FFFDF7]', icon: <FaTools /> },
     { name: 'FASTAPI', bg: 'bg-[#2A9D8F]', text: 'text-[#FFFDF7]', icon: <SiFastapi /> },
+    { name: 'HUGGING FACE', bg: 'bg-[#E9C46A]', text: 'text-[#1E2D24]', icon: <SiHuggingface /> },
     { name: 'PYTORCH', bg: 'bg-[#D95D39]', text: 'text-[#FFFDF7]', icon: <SiPytorch /> },
     { name: 'TENSORFLOW', bg: 'bg-[#F4A261]', text: 'text-[#1E2D24]', icon: <SiTensorflow /> },
-    { name: 'DOCKER', bg: 'bg-[#3182CE]', text: 'text-[#FFFDF7]', icon: <SiDocker /> },
-    { name: 'HUGGING FACE', bg: 'bg-[#E9C46A]', text: 'text-[#1E2D24]', icon: <SiHuggingface /> },
     { name: 'OPENCV', bg: 'bg-[#2C5282]', text: 'text-[#FFFDF7]', icon: <SiOpencv /> },
+    { name: 'DOCKER', bg: 'bg-[#3182CE]', text: 'text-[#FFFDF7]', icon: <SiDocker /> },
+    { name: 'JAVASCRIPT', bg: 'bg-[#E9C46A]', text: 'text-[#1E2D24]', icon: <SiJavascript /> },
     { name: 'WINDOWS TERMINAL', bg: 'bg-[#2D3748]', text: 'text-[#FFFDF7]', icon: <FaTerminal /> },
     { name: 'UBUNTU', bg: 'bg-[#DD6B20]', text: 'text-[#FFFDF7]', icon: <SiUbuntu /> },
     { name: 'NODE.JS', bg: 'bg-[#38A169]', text: 'text-[#FFFDF7]', icon: <SiNodedotjs /> },
@@ -557,16 +557,6 @@ export default function PersonalPortfolio() {
     projects: [
       {
         id: 1,
-        title: 'Chilicare: Chili Leaf Disease Detection with YOLOv11 and RAG',
-        level: 'Intermediate',
-        description: 'An integrated agricultural assistant. It uses YOLOv11 for disease detection and a dual-purpose LLM/RAG backend to provide detailed visual diagnosis explanations and interactive expert consultations.',
-        tech: ['YOLOv11', 'Python', 'LangChain', 'ChromaDB', 'Chatbot', 'FastAPI'],
-        images: [chili2],
-        bgColor: 'bg-[#D8F3DC]', // Hijau Hutan Muda Segar
-        github: 'https://github.com/FeriMauliandi/Chili-Leaf-Disease-Detection-with-YOLOv11-and-LLM-Based-RAG'
-      },
-      {
-        id: 2,
         title: 'NutriGraph AI: Nutrition Estimation with VLM + Agentic RAG',
         level: 'Intermediate',
         description: 'A Python-based Agentic RAG AI for nutritional analysis. Orchestrated with LangGraph, this multi-agent system executes text extraction, USDA API data fetching, and Advance Search (Vector + Multiquery + BM25), utilizing a cleanly decoupled architecture between a FastAPI backend and a Streamlit frontend.',
@@ -576,34 +566,44 @@ export default function PersonalPortfolio() {
         github: 'https://github.com/FeriMauliandi/NutriGraph_AI-nutrition-agentic-RAG'
       },
       {
-        id: 3,
+        id: 2,
         title: 'RAG Chatbot with Streamlit & FastAPI',
         level: 'Intermediate',
-        description: 'A RAG-powered smart assistant for catfish farming. It extracts knowledge from local PDF documents using ChromaDB and an LLM to provide accurate, context-aware answers to user queries.',
+        description: 'A domain-specific RAG assistant for catfish aquaculture. It extracts knowledge from local technical documentation using ChromaDB vector store and Ollama to provide accurate, context-aware answers without cloud dependency.',
         tech: ['LangChain', 'ChromaDB', 'Ollama', 'Python', 'FastAPI', 'Streamlit'],
         images: [lele],
         bgColor: 'bg-[#DDF2FD]', // Biru Langit Dirgantara Cerah
         github: 'https://github.com/FeriMauliandi/RAG-chatbot-Streamlit-FastAPI'
       },
       {
-        id: 4,
-        title: 'UAVs Development (Programming, Hardware & Ground Station)',
-        level: 'Advanced',
-        description: 'Building, configuring, and testing UAVs (VTOL, Fixed Wing, Long endurance Low altitude) for competitive robotics and aerial mapping. Awarded Best Team (Tim Terbaik) in Fixed Wing Division at KRTI 2026.',
-        tech: ['Ardupilot', 'Flight Controllers', 'Jetson Nano', 'DroneKit', 'Raspberry Pi', 'Ground Station'],
-        images: [drone1, drone2, drone3, drone4, drone5, drone6],
-        bgColor: 'bg-[#F3E9D2]', // Khaki Kertas Peta Ekspedisi
-        github: 'https://github.com/ferimauliandisaputra'
+        id: 3,
+        title: 'Chilicare: Chili Leaf Disease Detection with YOLOv11 and RAG',
+        level: 'Intermediate',
+        description: 'An integrated agricultural assistant. Combines computer vision (YOLOv11) for real-time disease detection with a dual-purpose LLM/RAG backend to provide detailed visual diagnostic explanations and interactive expert consultations.',
+        tech: ['YOLOv11', 'Python', 'LangChain', 'ChromaDB', 'Chatbot', 'FastAPI'],
+        images: [chili2],
+        bgColor: 'bg-[#D8F3DC]', // Hijau Hutan Muda Segar
+        github: 'https://github.com/FeriMauliandi/Chili-Leaf-Disease-Detection-with-YOLOv11-and-LLM-Based-RAG'
       },
       {
-        id: 5,
+        id: 4,
         title: 'LLM-based IHSG Stock Fundamental Explainer with Structured Data',
         level: 'Basic',
-        description: 'An LLM-powered system that explains IHSG stock fundamental indicators using structured financial data (Yahoo Finance) and LangChain.',
+        description: 'An LLM-powered financial explainer that interprets IHSG stock fundamental indicators using structured data pipelines (Yahoo Finance) orchestrated with LangChain.',
         tech: ['Python', 'LLM', 'LangChain', 'yfinance', 'Streamlit'],
         images: [ihsg, ihsg1],
         bgColor: 'bg-[#E2ECE9]', // Sage Slate Segar
         github: 'https://github.com/FeriMauliandi/LLM-based-IHSG-Stock-Fundamental-Explainer-with-Structured-Data'
+      },
+      {
+        id: 5,
+        title: 'UAVs Development (Programming, Hardware & Ground Station)',
+        level: 'Advanced',
+        description: 'Building, configuring, and testing autonomous UAV systems (VTOL, Fixed Wing, Long endurance Low altitude) for competitive robotics and aerial mapping. Awarded Best Team (Tim Terbaik) in Fixed Wing Division at KRTI 2026.',
+        tech: ['Ardupilot', 'Flight Controllers', 'Jetson Nano', 'DroneKit', 'Raspberry Pi', 'Ground Station'],
+        images: [drone1, drone2, drone3, drone4, drone5, drone6],
+        bgColor: 'bg-[#F3E9D2]', // Khaki Kertas Peta Ekspedisi
+        github: 'https://github.com/ferimauliandisaputra'
       }
     ],
     experience: [
@@ -896,23 +896,23 @@ export default function PersonalPortfolio() {
             {/* Kotak Deskripsi Bergaya Catatan Lapangan (Field Notes) */}
             <div className="relative bg-[#FFFDF7]/95 backdrop-blur-sm p-3 pl-5 ghibli-border rounded-2xl shadow-[4px_4px_0px_rgba(45,106,79,0.2)] border-l-[6px] border-l-[#2D6A4F]">
               <p className="text-sm md:text-lg text-[#1E2D24] font-semibold leading-relaxed">
-                Computer Engineering student passionate about Computer Vision, Generative AI, and crafting intelligent systems that harmonize software and hardware.
+                Computer Engineering student & AI Engineer focused on Large Language Models (LLMs), Agentic AI, and Multi-Agent Workflows (RAG & LangGraph), with complementary expertise in Computer Vision and autonomous systems.
               </p>
             </div>
 
             {/* Skill Tags Berbentuk Modul Teknis (Tanpa Warna Pink) */}
             <div className="flex flex-wrap gap-2">
-              <span className="px-2.5 py-2 bg-[#DDF2FD] ghibli-border shadow-[2px_2px_0px_#1E2D24] text-[#1E2D24] rounded-xl text-xs md:text-sm font-extrabold flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#2B6CB0]"></span>
-                Computer Vision
-              </span>
               <span className="px-2.5 py-2 bg-[#D8F3DC] ghibli-border shadow-[2px_2px_0px_#1E2D24] text-[#1E2D24] rounded-xl text-xs md:text-sm font-extrabold flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#2D6A4F]"></span>
-                LLMs & RAG
+                LLMs & Agentic AI
+              </span>
+              <span className="px-2.5 py-2 bg-[#DDF2FD] ghibli-border shadow-[2px_2px_0px_#1E2D24] text-[#1E2D24] rounded-xl text-xs md:text-sm font-extrabold flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#2B6CB0]"></span>
+                RAG & Multi-Agent
               </span>
               <span className="px-2.5 py-2 bg-[#FDEEDC] ghibli-border shadow-[2px_2px_0px_#1E2D24] text-[#1E2D24] rounded-xl text-xs md:text-sm font-extrabold flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#E07A5F]"></span>
-                UAVs & Robotics
+                Computer Vision
               </span>
             </div>
 
@@ -974,24 +974,17 @@ export default function PersonalPortfolio() {
                 </div>
               </div>
 
-              {/* Badge 1: Computer Vision (Gaya Modul Sensor Optik) */}
+              {/* Badge 1: Generative AI & Agentic AI (Top Left) */}
               <div
                 className="absolute top-8 -left-4 md:-left-12 z-20 bg-[#FFFDF7] border-2 border-[#1E2D24] px-3.5 py-2.5 rounded-2xl shadow-[4px_4px_0px_#1E2D24] flex items-center gap-3"
                 style={{ animation: 'float-badge 4.5s ease-in-out infinite' }}
               >
-                <div className="w-10 h-10 bg-[#DDF2FD] border-2 border-[#1E2D24] rounded-xl flex items-center justify-center shrink-0">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E2D24" strokeWidth="2">
-                    <circle cx="12" cy="12" r="8" fill="#FFFDF7" />
-                    <circle cx="12" cy="12" r="3" fill="#2B6CB0" />
-                    <line x1="12" y1="2" x2="12" y2="5" />
-                    <line x1="12" y1="19" x2="12" y2="22" />
-                    <line x1="2" y1="12" x2="5" y2="12" />
-                    <line x1="19" y1="12" x2="22" y2="12" />
-                  </svg>
+                <div className="w-10 h-10 bg-[#D8F3DC] border-2 border-[#1E2D24] rounded-xl flex items-center justify-center shrink-0">
+                  <FiCpu className="text-[#2D6A4F]" size={20} strokeWidth={2.5} />
                 </div>
                 <div className="text-left hidden sm:block pr-1">
-                  <p className="text-[10px] text-[#2B6CB0] font-extrabold uppercase tracking-wider">Computer Vision</p>
-                  <p className="text-[#1E2D24] font-bold text-sm font-serif">YOLO & DETR</p>
+                  <p className="text-[10px] text-[#2D6A4F] font-extrabold uppercase tracking-wider">Agentic AI & LLMs</p>
+                  <p className="text-[#1E2D24] font-bold text-sm font-serif">RAG & Multi-Agent</p>
                 </div>
               </div>
 
@@ -1009,17 +1002,24 @@ export default function PersonalPortfolio() {
                 </div>
               </div>
 
-              {/* Badge 3: Generative AI (Gaya Modul Arsitektur AI) */}
+              {/* Badge 3: Computer Vision (Bottom Left) */}
               <div
                 className="absolute bottom-20 -left-4 md:-left-10 z-20 bg-[#FFFDF7] border-2 border-[#1E2D24] px-3.5 py-2.5 rounded-2xl shadow-[4px_4px_0px_#1E2D24] flex items-center gap-3"
                 style={{ animation: 'float-badge 5.5s ease-in-out 2s infinite' }}
               >
-                <div className="w-10 h-10 bg-[#D8F3DC] border-2 border-[#1E2D24] rounded-xl flex items-center justify-center shrink-0">
-                  <FiCpu className="text-[#2D6A4F]" size={20} strokeWidth={2.5} />
+                <div className="w-10 h-10 bg-[#DDF2FD] border-2 border-[#1E2D24] rounded-xl flex items-center justify-center shrink-0">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E2D24" strokeWidth="2">
+                    <circle cx="12" cy="12" r="8" fill="#FFFDF7" />
+                    <circle cx="12" cy="12" r="3" fill="#2B6CB0" />
+                    <line x1="12" y1="2" x2="12" y2="5" />
+                    <line x1="12" y1="19" x2="12" y2="22" />
+                    <line x1="2" y1="12" x2="5" y2="12" />
+                    <line x1="19" y1="12" x2="22" y2="12" />
+                  </svg>
                 </div>
                 <div className="text-left hidden sm:block pr-1">
-                  <p className="text-[10px] text-[#2D6A4F] font-extrabold uppercase tracking-wider">Generative AI</p>
-                  <p className="text-[#1E2D24] font-bold text-sm font-serif">LLMs & RAG</p>
+                  <p className="text-[10px] text-[#2B6CB0] font-extrabold uppercase tracking-wider">Computer Vision</p>
+                  <p className="text-[#1E2D24] font-bold text-sm font-serif">YOLOv11 & DETR</p>
                 </div>
               </div>
 
@@ -1055,7 +1055,7 @@ export default function PersonalPortfolio() {
             </h2>
 
             <p className="text-base md:text-xl text-[#1E2D24] font-semibold max-w-4xl mx-auto leading-relaxed mt-6 ghibli-box p-6 md:p-8 bg-[#FFFDF7] text-left md:text-center">
-              Junior AI Engineer specializing in Deep Learning, computer vision (YOLOv8/v11), and building intelligent systems across Agentic AI, Multi-Agent, Multimodal, and RAG architectures. Also a UAV Researcher with 3 years of experience in autonomous drone systems using Pixhawk, ArduPilot, and PX4 — bridging cutting-edge AI with real-world hardware.
+              AI Engineer dedicated to developing intelligent systems powered by Large Language Models (LLMs), Agentic AI, Multi-Agent Workflows, and advanced RAG architectures using LangChain and LangGraph. Secondarily experienced in Computer Vision (YOLOv8/v11) and autonomous UAV robotics (Pixhawk, ArduPilot, PX4) — connecting cognitive reasoning agents with practical deployment pipelines and embedded hardware.
             </p>
 
             <div className="mt-14 pt-4 flex flex-col items-center">
@@ -1309,7 +1309,7 @@ export default function PersonalPortfolio() {
             <span>Feri<span className="text-[#2D6A4F]">.M</span></span>
           </div>
           <p className="bg-[#D8F3DC] px-5 py-1.5 rounded-xl ghibli-border font-bold text-xs md:text-sm mb-6 shadow-[2px_2px_0px_#2D6A4F]">
-            Aspiring AI Engineer • Computer Engineering
+            AI Engineer • LLMs, Agentic AI & RAG
           </p>
           <div className="flex justify-center gap-8 mb-6">
             <a href="#home" className="font-bold hover:text-[#2D6A4F] hover:-translate-y-0.5 transition-all">Home</a>

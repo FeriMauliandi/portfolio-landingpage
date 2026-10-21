@@ -11,9 +11,10 @@ const COMPACT_SYSTEM_PROMPT = `You are the AI Portfolio Assistant representing F
 Your role is to introduce Feri to recruiters, hiring managers, and collaborators with accurate technical depth.
 
 ABOUT FERI:
-- Status: Junior AI Engineer & Computer Engineering student based in Universitas Syiah Kuala.
-- Focus Areas: Deep Learning, Computer Vision (YOLOv8/v11, DETR), Generative AI (LLMs, RAG, LangGraph multi-agent architectures), and UAV Drone Robotics.
-- Unique Edge: Bridges software AI algorithms with embedded hardware systems (deploying models on NVIDIA Jetson Nano, Raspberry Pi, Pixhawk, and ArduPilot).
+- Status: AI Engineer & Computer Engineering student based in Universitas Syiah Kuala.
+- Core Focus: Generative AI, Large Language Models (LLMs), Agentic AI, Multi-Agent Workflows (LangGraph, LangChain), and advanced RAG architectures.
+- Secondary Focus: Computer Vision (YOLOv8/v11, DETR) and UAV Drone Robotics.
+- Unique Edge: Combines cognitive AI reasoning workflows (LLMs & Agents) with practical full-stack deployment (FastAPI, Streamlit) and embedded hardware systems (deploying models on NVIDIA Jetson Nano, Raspberry Pi, Pixhawk, and ArduPilot).
 - Career Goals: Actively seeking AI Engineering internships, junior full-time positions, and collaborative research projects.
 - Contacts: Email (feri.19022004@gmail.com), GitHub (github.com/FeriMauliandi), LinkedIn (linkedin.com/in/ferimauliandisaputra).
 
@@ -61,8 +62,8 @@ RESPONSE RULES:
 
 const SUGGESTED_QUESTIONS = [
   "Siapa Feri dan apa keahliannya?",
-  "Ceritakan project ChiliCare",
-  "Pengalaman drone & UAV Feri?",
+  "Apa proyek AI unggulan Feri?",
+  "apa pengalaman Feri?",
   "Bagaimana cara menghubungi Feri?",
 ];
 
@@ -190,10 +191,10 @@ export default function AIChatWidget() {
   const getOfflineFallbackResponse = (userText) => {
     const lower = userText.toLowerCase();
     if (lower.includes('project') || lower.includes('proyek') || lower.includes('karya')) {
-      return `Proyek unggulan Feri:\n• ChiliCare (YOLOv11 + RAG deteksi penyakit cabai)\n• NutriGraph AI (Multi-agent estimasi gizi makanan)\n• RAG Chatbot lele (ChromaDB + Ollama)\n• UAV KRTI Finalist 2024\n• IHSG Stock Fundamental Explainer`;
+      return `Proyek unggulan Feri:\n• NutriGraph AI (Multi-Agent RAG & LangGraph estimasi nutrisi)\n• RAG Chatbot Budidaya Lele (ChromaDB + Ollama)\n• ChiliCare (YOLOv11 + LLM/RAG deteksi penyakit cabai)\n• IHSG Stock Fundamental Explainer (LLM + Structured Data)\n• UAV KRTI Finalist 2024 & Juara 2026`;
     }
     if (lower.includes('siapa') || lower.includes('who') || lower.includes('about')) {
-      return `Feri Mauliandi Saputra adalah Junior AI Engineer & Mahasiswa Teknik Komputer yang berfokus pada Computer Vision, LLM/RAG, dan robotika drone (UAV).`;
+      return `Feri Mauliandi Saputra adalah AI Engineer & Mahasiswa Teknik Komputer yang berfokus utama pada LLMs, Agentic AI, Multi-Agent Workflows, dan RAG, dengan keahlian sekunder di bidang Computer Vision dan robotika drone (UAV).`;
     }
     if (lower.includes('kontak') || lower.includes('contact') || lower.includes('email')) {
       return `Hubungi Feri melalui email: feri.19022004@gmail.com atau LinkedIn: linkedin.com/in/ferimauliandisaputra/`;
