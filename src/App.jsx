@@ -871,7 +871,7 @@ export default function PersonalPortfolio() {
       </nav>
 
       {/* HERO SECTION: Kiri & Kanan Bergaya "Ghibli Aviation & Woodland Engineer" */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center px-5 pt-24 md:pt-20 pb-28 bg-gradient-to-b from-[#90E0EF]/55 via-[#D8F3DC]/70 to-[#FFFDF7]">
+      <section id="home" className="relative min-h-screen flex items-center justify-center px-5 pt-20 md:pt-20 pb-28 bg-gradient-to-b from-[#90E0EF]/55 via-[#D8F3DC]/70 to-[#FFFDF7]">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 md:gap-14 items-center mt-4 md:mt-0 relative z-20">
 
           {/* BAGIAN KIRI: Teks & Identitas Bergaya Jurnal Insinyur Ghibli */}
@@ -887,37 +887,37 @@ export default function PersonalPortfolio() {
             <div>
               <h1 className="text-[44px] md:text-6xl lg:text-7xl font-extrabold leading-none text-[#1E2D24] tracking-tight">
                 Junior <br />
-                <span className="bg-[#2D6A4F] text-[#FFFDF7] px-5 py-1.5 inline-block ghibli-border rounded-2xl mt-2 shadow-[5px_5px_0px_#E9C46A]">
+                <span className="bg-[#2D6A4F] text-[#FFFDF7] px-4 py-1.5 inline-block ghibli-border rounded-2xl mt-2 shadow-[5px_5px_0px_#E9C46A]">
                   AI Engineer
                 </span>
               </h1>
             </div>
 
             {/* Kotak Deskripsi Bergaya Catatan Lapangan (Field Notes) */}
-            <div className="relative bg-[#FFFDF7]/95 backdrop-blur-sm p-5 pl-6 ghibli-border rounded-2xl shadow-[4px_4px_0px_rgba(45,106,79,0.2)] border-l-[6px] border-l-[#2D6A4F]">
+            <div className="relative bg-[#FFFDF7]/95 backdrop-blur-sm p-3 pl-5 ghibli-border rounded-2xl shadow-[4px_4px_0px_rgba(45,106,79,0.2)] border-l-[6px] border-l-[#2D6A4F]">
               <p className="text-sm md:text-lg text-[#1E2D24] font-semibold leading-relaxed">
                 Computer Engineering student passionate about Computer Vision, Generative AI, and crafting intelligent systems that harmonize software and hardware.
               </p>
             </div>
 
             {/* Skill Tags Berbentuk Modul Teknis (Tanpa Warna Pink) */}
-            <div className="flex flex-wrap gap-2.5 py-1">
-              <span className="px-3.5 py-2 bg-[#DDF2FD] ghibli-border shadow-[2px_2px_0px_#1E2D24] text-[#1E2D24] rounded-xl text-xs md:text-sm font-extrabold flex items-center gap-2">
+            <div className="flex flex-wrap gap-2">
+              <span className="px-2.5 py-2 bg-[#DDF2FD] ghibli-border shadow-[2px_2px_0px_#1E2D24] text-[#1E2D24] rounded-xl text-xs md:text-sm font-extrabold flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#2B6CB0]"></span>
                 Computer Vision
               </span>
-              <span className="px-3.5 py-2 bg-[#D8F3DC] ghibli-border shadow-[2px_2px_0px_#1E2D24] text-[#1E2D24] rounded-xl text-xs md:text-sm font-extrabold flex items-center gap-2">
+              <span className="px-2.5 py-2 bg-[#D8F3DC] ghibli-border shadow-[2px_2px_0px_#1E2D24] text-[#1E2D24] rounded-xl text-xs md:text-sm font-extrabold flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#2D6A4F]"></span>
                 LLMs & RAG
               </span>
-              <span className="px-3.5 py-2 bg-[#FDEEDC] ghibli-border shadow-[2px_2px_0px_#1E2D24] text-[#1E2D24] rounded-xl text-xs md:text-sm font-extrabold flex items-center gap-2">
+              <span className="px-2.5 py-2 bg-[#FDEEDC] ghibli-border shadow-[2px_2px_0px_#1E2D24] text-[#1E2D24] rounded-xl text-xs md:text-sm font-extrabold flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#E07A5F]"></span>
                 UAVs & Robotics
               </span>
             </div>
 
             {/* Tombol CTA Maskulin (Terracotta Amber & Forest Green) */}
-            <div className="pt-2 flex flex-wrap items-center gap-4">
+            <div className="pt-0 flex flex-wrap items-center">
               <a
                 href="#contact"
                 className="ghibli-btn bg-[#E07A5F] text-[#FFFDF7] inline-flex items-center gap-2.5 text-base md:text-lg hover:bg-[#2D6A4F] hover:text-white"
@@ -929,7 +929,7 @@ export default function PersonalPortfolio() {
           </div>
 
           {/* BAGIAN KANAN: Bingkai Ekspedisi Dirgantara (The Wind Rises / Laputa Style) */}
-          <div className="w-full max-w-md mx-auto mt-10 md:mt-0 relative">
+          <div className="w-full max-w-md mx-auto -mt-5 md:mt-0 relative">
             <div className="relative scroll-reveal opacity-0" data-animation="animate-slideInRight">
 
               {/* Piringan Kompas Angin Berputar Halus di Belakang Bingkai */}
