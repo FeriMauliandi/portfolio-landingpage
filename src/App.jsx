@@ -18,6 +18,7 @@ import drone5 from './assets/uav2.jpeg';
 import drone6 from './assets/uav3.jpg';
 import dietary from './assets/dietary.png';
 import sertif from './assets/sertif.png';
+import AIChatWidget from './components/AIChatWidget';
 
 // 1. Komponen Animasi Angin Sepoi-Sepoi & Glider Kertas (Ghibli Aviation Breeze)
 const GentleBreeze = () => {
@@ -470,6 +471,25 @@ export default function PersonalPortfolio() {
   const [activeTab, setActiveTab] = useState('projects');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [githubUsername] = useState('FeriMauliandi');
+  const CONTACT_EMAIL = 'feri.19022004@gmail.com';
+  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
+  const [formStatus, setFormStatus] = useState(null);
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    const { name, email, message } = contactForm;
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      setFormStatus('incomplete');
+      setTimeout(() => setFormStatus(null), 3000);
+      return;
+    }
+    const subject = encodeURIComponent(`Portfolio Message from ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+    setFormStatus('success');
+    setContactForm({ name: '', email: '', message: '' });
+    setTimeout(() => setFormStatus(null), 5000);
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -569,7 +589,7 @@ export default function PersonalPortfolio() {
         id: 4,
         title: 'UAVs Development (Programming, Hardware & Ground Station)',
         level: 'Advanced',
-        description: 'Building, configuring, and testing UAVs (VTOL, Fixed Wing, Long endurance Low altitude) for competitive robotics, surveying and aerial mapping.',
+        description: 'Building, configuring, and testing UAVs (VTOL, Fixed Wing, Long endurance Low altitude) for competitive robotics and aerial mapping. Awarded Best Team (Tim Terbaik) in Fixed Wing Division at KRTI 2026.',
         tech: ['Ardupilot', 'Flight Controllers', 'Jetson Nano', 'DroneKit', 'Raspberry Pi', 'Ground Station'],
         images: [drone1, drone2, drone3, drone4, drone5, drone6],
         bgColor: 'bg-[#F3E9D2]', // Khaki Kertas Peta Ekspedisi
@@ -600,24 +620,31 @@ export default function PersonalPortfolio() {
         role: 'Lead Programmer & Ground Station Operator',
         company: 'Seulawah Team & KRTI',
         period: '2023 - 2026',
-        description: 'Active participant in Unmanned Aerial Vehicle (UAV) development, focusing on drone configuration, testing, and flight optimization.',
+        description: 'Active participant in Unmanned Aerial Vehicle (UAV) development, focusing on drone configuration, autonomous mission programming, and flight optimization. Awarded Best Team (Tim Terbaik) in the Fixed Wing Division at KRTI 2026.',
         color: 'bg-[#FDEEDC]'
       },
     ],
     certifications: [
       {
         id: 1,
+        name: 'Best Team (Tim Terbaik) - Divisi Fixed Wing, KRTI 2026',
+        issuer: 'Pusat Prestasi Nasional',
+        year: '2026',
+        image: drone1
+      },
+      {
+        id: 2,
         name: 'Finalist Kontes Robot Terbang Indonesia 2024',
         issuer: 'Pusat Prestasi Nasional',
         year: '2024',
         image: sertif
       },
       {
-        id: 2,
+        id: 3,
         name: 'Introduction to Data Science with Python',
         issuer: 'DQlab',
         year: '2025',
-        image: 'https://placehold.co/600x400/D8F3DC/1E2D24?text=Data+Science+Cert'
+        image: null  // TODO: Add actual certificate image file
       }
     ]
   };
@@ -858,11 +885,6 @@ export default function PersonalPortfolio() {
 
             {/* Judul Utama yang Tegas & Berkarakter */}
             <div>
-              <div className="flex items-center gap-3 mb-1">
-                <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#2D6A4F] bg-[#D8F3DC] px-3 py-1 rounded-md border border-[#1E2D24]/30">
-                  Field & Aero-AI Log
-                </span>
-              </div>
               <h1 className="text-[44px] md:text-6xl lg:text-7xl font-extrabold leading-none text-[#1E2D24] tracking-tight">
                 Junior <br />
                 <span className="bg-[#2D6A4F] text-[#FFFDF7] px-5 py-1.5 inline-block ghibli-border rounded-2xl mt-2 shadow-[5px_5px_0px_#E9C46A]">
@@ -902,12 +924,6 @@ export default function PersonalPortfolio() {
               >
                 <span>Let's Connect</span>
                 <FiNavigation size={18} className="rotate-45" />
-              </a>
-              <a
-                href="#portfolio"
-                className="ghibli-btn bg-[#FFFDF7] text-[#1E2D24] inline-flex items-center gap-2 text-base hover:bg-[#E9C46A]"
-              >
-                Explore Works
               </a>
             </div>
           </div>
@@ -1167,12 +1183,21 @@ export default function PersonalPortfolio() {
                   style={{ animationDelay: `${idx * 0.1}s` }}
                 >
                   <div className="h-48 w-full border-b-2 border-[#1E2D24]">
-                    <img
-                      src={cert.image}
-                      alt={cert.name}
-                      loading="lazy"
-                      className="w-full h-full object-cover"
-                    />
+                    {cert.image ? (
+                      <img
+                        src={cert.image}
+                        alt={cert.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-[#D8F3DC] via-[#DDF2FD] to-[#FDEEDC] flex items-center justify-center">
+                        <div className="text-center px-6">
+                          <span className="text-4xl block mb-2">📜</span>
+                          <p className="text-xs font-bold text-[#2D6A4F] leading-snug">{cert.name}</p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <div className="p-6 flex-1 flex flex-col justify-between bg-[#FFFDF7]">
                     <div>
@@ -1201,7 +1226,7 @@ export default function PersonalPortfolio() {
             </p>
 
             <div className="flex flex-wrap justify-center gap-4 mb-14">
-              <a href="mailto:your.email@example.com" className="social-btn flex items-center gap-2 bg-[#FFFDF7] text-[#1E2D24] ghibli-btn hover:bg-[#E9C46A]">
+              <a href={`mailto:${CONTACT_EMAIL}`} className="social-btn flex items-center gap-2 bg-[#FFFDF7] text-[#1E2D24] ghibli-btn hover:bg-[#E9C46A]">
                 <FiMail size={20} strokeWidth={2.5} />
                 <span className="font-bold text-base">Email Me</span>
               </a>
@@ -1220,11 +1245,24 @@ export default function PersonalPortfolio() {
                 🧭
               </div>
               <h3 className="text-2xl md:text-3xl font-bold mb-6 text-[#1E2D24]">Send a Message</h3>
-              <form className="space-y-5">
+              <form className="space-y-5" onSubmit={handleContactSubmit}>
+                {formStatus === 'success' && (
+                  <div className="p-4 bg-[#D8F3DC] ghibli-border rounded-xl text-center animate-scaleIn">
+                    <p className="font-bold text-[#2D6A4F] text-sm">✅ Email client opened! Your message is ready to send.</p>
+                  </div>
+                )}
+                {formStatus === 'incomplete' && (
+                  <div className="p-4 bg-[#FDEEDC] ghibli-border rounded-xl text-center animate-scaleIn">
+                    <p className="font-bold text-[#E07A5F] text-sm">⚠️ Please fill in all fields before sending.</p>
+                  </div>
+                )}
                 <div>
                   <input
                     type="text"
                     placeholder="Your Name"
+                    value={contactForm.name}
+                    onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
+                    required
                     className="w-full px-5 py-3.5 rounded-xl ghibli-border focus:border-[#2D6A4F] focus:ring-0 outline-none transition-colors shadow-[2px_2px_0px_#52B788] font-semibold text-base bg-[#E6F4EA]/50"
                   />
                 </div>
@@ -1232,6 +1270,9 @@ export default function PersonalPortfolio() {
                   <input
                     type="email"
                     placeholder="Your Email"
+                    value={contactForm.email}
+                    onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
+                    required
                     className="w-full px-5 py-3.5 rounded-xl ghibli-border focus:border-[#2D6A4F] focus:ring-0 outline-none transition-colors shadow-[2px_2px_0px_#52B788] font-semibold text-base bg-[#E6F4EA]/50"
                   />
                 </div>
@@ -1239,11 +1280,14 @@ export default function PersonalPortfolio() {
                   <textarea
                     rows="4"
                     placeholder="Write your message here..."
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
+                    required
                     className="w-full px-5 py-3.5 rounded-xl ghibli-border focus:border-[#2D6A4F] focus:ring-0 outline-none transition-colors shadow-[2px_2px_0px_#52B788] font-semibold text-base bg-[#E6F4EA]/50 resize-none"
                   ></textarea>
                 </div>
                 <button
-                  type="button"
+                  type="submit"
                   className="w-full bg-[#2D6A4F] text-[#FFFDF7] text-lg ghibli-btn hover:bg-[#E07A5F] mt-2"
                 >
                   Send Message ✈️
@@ -1276,6 +1320,9 @@ export default function PersonalPortfolio() {
           <p className="text-xs font-bold text-[#4A5D52]">© 2026 Feri Mauliandi Saputra. Crafted with Studio Ghibli vibes.</p>
         </div>
       </footer>
+
+      {/* AI Portfolio Assistant - Live Demo */}
+      <AIChatWidget />
     </div>
   );
 }
