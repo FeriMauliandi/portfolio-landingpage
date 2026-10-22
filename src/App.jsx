@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { GitHubCalendar } from 'react-github-calendar';
-import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLeft, FiChevronRight, FiMenu, FiX, FiCompass, FiCpu, FiNavigation } from 'react-icons/fi';
+import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLeft, FiChevronRight, FiMenu, FiX, FiCompass, FiCpu, FiNavigation, FiDownload } from 'react-icons/fi';
 
 import { SiJavascript, SiPython, SiFastapi, SiPytorch, SiTensorflow, SiNodedotjs, SiGithub, SiGit, SiUbuntu, SiArduino, SiNotion, SiLangchain, SiOpencv, SiPostman, SiRaspberrypi, SiDocker, SiHuggingface } from 'react-icons/si';
 import { FaTerminal, FaNetworkWired, FaTools, FaDatabase, FaMicrochip, FaPlane } from 'react-icons/fa';
 
 import fotoFeri from './assets/feri1.jpg';
-import chili2 from './assets/chilicare.jpg';
-import lele from './assets/lele.png';
+import chili2 from './assets/chilicareai.jpg';
+import lele from './assets/kawankerja.jpg';
 import ihsg from './assets/saham.png';
 import ihsg1 from './assets/saham1.png';
 import drone1 from './assets/krti1.jpeg';
@@ -19,6 +19,8 @@ import drone6 from './assets/uav3.jpg';
 import dietary from './assets/dietary.png';
 import sertif from './assets/sertif.png';
 import AIChatWidget from './components/AIChatWidget';
+import LanguageToggle from './components/LanguageToggle';
+import { translations } from './data/translations';
 
 // 1. Komponen Animasi Angin Sepoi-Sepoi & Glider Kertas (Ghibli Aviation Breeze)
 const GentleBreeze = () => {
@@ -237,7 +239,7 @@ const FooterGhibliScene = () => (
 );
 
 // Kartu GitHub
-const GithubCard = ({ username }) => {
+const GithubCard = ({ username, lang = 'id', t }) => {
   const lastMonths = (contributions) => {
     const cutoff = new Date();
     cutoff.setMonth(cutoff.getMonth() - 10);
@@ -261,7 +263,7 @@ const GithubCard = ({ username }) => {
           rel="noreferrer"
           className="ghibli-btn bg-[#2D6A4F] text-[#FFFDF7] inline-flex items-center gap-2 text-sm md:text-base hover:bg-[#E07A5F] hover:text-white"
         >
-          View Profile <FiGithub size={18} strokeWidth={2.5} />
+          {t?.about?.githubViewProfile || 'View Profile'} <FiGithub size={18} strokeWidth={2.5} />
         </a>
       </div>
 
@@ -279,18 +281,26 @@ const GithubCard = ({ username }) => {
             light: ['#E6F4EA', '#B7E4C7', '#52B788', '#2D6A4F', '#1B4332'],
           }}
           labels={{
-            totalCount: '{{count}} contributions in the last 10 months',
-            legend: { less: 'Less', more: 'More' },
+            totalCount: `{{count}} ${t?.about?.githubContributions || 'contributions in the last 10 months'}`,
+            legend: {
+              less: t?.about?.githubLess || 'Less',
+              more: t?.about?.githubMore || 'More',
+            },
           }}
           style={{ color: '#1E2D24' }}
           tooltips={{
             activity: {
               text: (activity) => {
-                const date = new Date(activity.date + 'T00:00:00').toLocaleDateString('en-US', {
+                const dateLocale = lang === 'id' ? 'id-ID' : 'en-US';
+                const date = new Date(activity.date + 'T00:00:00').toLocaleDateString(dateLocale, {
                   month: 'long',
                   day: 'numeric',
                 });
-                return `${activity.count} ${activity.count === 1 ? 'contribution' : 'contributions'} on ${date}`;
+                const countUnit = lang === 'id' 
+                  ? 'kontribusi' 
+                  : (activity.count === 1 ? 'contribution' : 'contributions');
+                const onWord = lang === 'id' ? 'pada' : 'on';
+                return `${activity.count} ${countUnit} ${onWord} ${date}`;
               },
               placement: 'top',
               hoverRestMs: 100,
@@ -303,7 +313,7 @@ const GithubCard = ({ username }) => {
   );
 };
 
-const ProjectCard = ({ project, idx }) => {
+const ProjectCard = ({ project, idx, viewRepoText = 'View Repository' }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
@@ -363,13 +373,13 @@ const ProjectCard = ({ project, idx }) => {
               <>
                 <button
                   onClick={prevSlide}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 bg-[#FFFDF7]/95 ghibli-border text-[#1E2D24] p-2 rounded-xl opacity-0 group-hover:opacity-100 hover:bg-[#E9C46A] transition-all z-10"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 bg-[#FFFDF7]/95 ghibli-border text-[#1E2D24] p-2 rounded-xl opacity-0 group-hover:opacity-100 hover:bg-[#E9C46A] transition-all z-10 cursor-pointer"
                 >
                   <FiChevronLeft size={22} strokeWidth={2.5} />
                 </button>
                 <button
                   onClick={nextSlide}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 bg-[#FFFDF7]/95 ghibli-border text-[#1E2D24] p-2 rounded-xl opacity-0 group-hover:opacity-100 hover:bg-[#E9C46A] transition-all z-10"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 bg-[#FFFDF7]/95 ghibli-border text-[#1E2D24] p-2 rounded-xl opacity-0 group-hover:opacity-100 hover:bg-[#E9C46A] transition-all z-10 cursor-pointer"
                 >
                   <FiChevronRight size={22} strokeWidth={2.5} />
                 </button>
@@ -382,8 +392,9 @@ const ProjectCard = ({ project, idx }) => {
                   <button
                     key={dotIdx}
                     onClick={() => setCurrentIndex(dotIdx)}
-                    className={`h-2.5 rounded-full border border-[#1E2D24] transition-all duration-300 ${currentIndex === dotIdx ? 'bg-[#2D6A4F] w-6' : 'bg-[#FFFDF7] w-2.5 hover:bg-[#E9C46A]'
-                      }`}
+                    className={`h-2.5 rounded-full border border-[#1E2D24] transition-all duration-300 cursor-pointer ${
+                      currentIndex === dotIdx ? 'bg-[#2D6A4F] w-6' : 'bg-[#FFFDF7] w-2.5 hover:bg-[#E9C46A]'
+                    }`}
                   />
                 ))}
               </div>
@@ -415,7 +426,7 @@ const ProjectCard = ({ project, idx }) => {
             rel="noreferrer"
             className="ghibli-btn bg-[#2D6A4F] text-[#FFFDF7] w-full sm:w-auto inline-flex items-center justify-center gap-2 hover:bg-[#E07A5F] hover:text-white text-sm"
           >
-            <FiGithub size={18} strokeWidth={2.5} /> View Repository
+            <FiGithub size={18} strokeWidth={2.5} /> {viewRepoText}
           </a>
         </div>
       </div>
@@ -427,7 +438,7 @@ const ProjectCard = ({ project, idx }) => {
           onClick={() => setIsLightboxOpen(false)}
         >
           <button
-            className="absolute top-6 right-6 text-[#1E2D24] bg-[#FFFDF7] ghibli-border hover:bg-[#E07A5F] hover:text-white p-3 rounded-xl transition-colors z-50"
+            className="absolute top-6 right-6 text-[#1E2D24] bg-[#FFFDF7] ghibli-border hover:bg-[#E07A5F] hover:text-white p-3 rounded-xl transition-colors z-50 cursor-pointer"
             onClick={() => setIsLightboxOpen(false)}
           >
             <FiX size={26} strokeWidth={2.5} />
@@ -445,13 +456,13 @@ const ProjectCard = ({ project, idx }) => {
             <>
               <button
                 onClick={(e) => { e.stopPropagation(); prevSlide(); }}
-                className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 bg-[#FFFDF7] ghibli-border text-[#1E2D24] p-3.5 rounded-xl transition-all z-50 hover:bg-[#E9C46A]"
+                className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 bg-[#FFFDF7] ghibli-border text-[#1E2D24] p-3.5 rounded-xl transition-all z-50 hover:bg-[#E9C46A] cursor-pointer"
               >
                 <FiChevronLeft size={28} strokeWidth={2.5} />
               </button>
               <button
                 onClick={(e) => { e.stopPropagation(); nextSlide(); }}
-                className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 bg-[#FFFDF7] ghibli-border text-[#1E2D24] p-3.5 rounded-xl transition-all z-50 hover:bg-[#E9C46A]"
+                className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 bg-[#FFFDF7] ghibli-border text-[#1E2D24] p-3.5 rounded-xl transition-all z-50 hover:bg-[#E9C46A] cursor-pointer"
               >
                 <FiChevronRight size={28} strokeWidth={2.5} />
               </button>
@@ -468,6 +479,27 @@ const ProjectCard = ({ project, idx }) => {
 };
 
 export default function PersonalPortfolio() {
+  const [lang, setLang] = useState(() => {
+    try {
+      const saved = localStorage.getItem('portfolio_lang');
+      if (saved === 'id' || saved === 'en') return saved;
+    } catch {
+      // ignore
+    }
+    return 'id'; // Default Bahasa Indonesia
+  });
+
+  const handleToggleLang = (newLang) => {
+    setLang(newLang);
+    try {
+      localStorage.setItem('portfolio_lang', newLang);
+    } catch {
+      // ignore
+    }
+  };
+
+  const t = translations[lang] || translations.id;
+
   const [activeTab, setActiveTab] = useState('projects');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [githubUsername] = useState('FeriMauliandi');
@@ -524,7 +556,7 @@ export default function PersonalPortfolio() {
       clearTimeout(timeoutId);
       observer.disconnect();
     };
-  }, [activeTab]);
+  }, [activeTab, lang]);
 
   // Tech stack dengan warna segar & maskulin (Forest, Cobalt, Amber, Slate)
   const techStack = [
@@ -553,101 +585,33 @@ export default function PersonalPortfolio() {
     { name: 'ARDUPILOT', bg: 'bg-[#1E4E8C]', text: 'text-[#FFFDF7]', icon: <FaPlane /> },
   ];
 
-  const portfolioData = {
-    projects: [
-      {
-        id: 1,
-        title: 'NutriGraph AI: Nutrition Estimation with VLM + Agentic RAG',
-        level: 'Intermediate',
-        description: 'A Python-based Agentic RAG AI for nutritional analysis. Orchestrated with LangGraph, this multi-agent system executes text extraction, USDA API data fetching, and Advance Search (Vector + Multiquery + BM25), utilizing a cleanly decoupled architecture between a FastAPI backend and a Streamlit frontend.',
-        tech: ['Python', 'LLM', 'VLM', 'LangGraph', 'Streamlit', 'FastAPI'],
-        images: [dietary],
-        bgColor: 'bg-[#FDEEDC]', // Warm Sand / Amber Muda
-        github: 'https://github.com/FeriMauliandi/NutriGraph_AI-nutrition-agentic-RAG'
-      },
-      {
-        id: 2,
-        title: 'RAG Chatbot with Streamlit & FastAPI',
-        level: 'Intermediate',
-        description: 'A domain-specific RAG assistant for catfish aquaculture. It extracts knowledge from local technical documentation using ChromaDB vector store and Ollama to provide accurate, context-aware answers without cloud dependency.',
-        tech: ['LangChain', 'ChromaDB', 'Ollama', 'Python', 'FastAPI', 'Streamlit'],
-        images: [lele],
-        bgColor: 'bg-[#DDF2FD]', // Biru Langit Dirgantara Cerah
-        github: 'https://github.com/FeriMauliandi/RAG-chatbot-Streamlit-FastAPI'
-      },
-      {
-        id: 3,
-        title: 'Chilicare: Chili Leaf Disease Detection with YOLOv11 and RAG',
-        level: 'Intermediate',
-        description: 'An integrated agricultural assistant. Combines computer vision (YOLOv11) for real-time disease detection with a dual-purpose LLM/RAG backend to provide detailed visual diagnostic explanations and interactive expert consultations.',
-        tech: ['YOLOv11', 'Python', 'LangChain', 'ChromaDB', 'Chatbot', 'FastAPI'],
-        images: [chili2],
-        bgColor: 'bg-[#D8F3DC]', // Hijau Hutan Muda Segar
-        github: 'https://github.com/FeriMauliandi/Chili-Leaf-Disease-Detection-with-YOLOv11-and-LLM-Based-RAG'
-      },
-      {
-        id: 4,
-        title: 'LLM-based IHSG Stock Fundamental Explainer with Structured Data',
-        level: 'Basic',
-        description: 'An LLM-powered financial explainer that interprets IHSG stock fundamental indicators using structured data pipelines (Yahoo Finance) orchestrated with LangChain.',
-        tech: ['Python', 'LLM', 'LangChain', 'yfinance', 'Streamlit'],
-        images: [ihsg, ihsg1],
-        bgColor: 'bg-[#E2ECE9]', // Sage Slate Segar
-        github: 'https://github.com/FeriMauliandi/LLM-based-IHSG-Stock-Fundamental-Explainer-with-Structured-Data'
-      },
-      {
-        id: 5,
-        title: 'UAVs Development (Programming, Hardware & Ground Station)',
-        level: 'Advanced',
-        description: 'Building, configuring, and testing autonomous UAV systems (VTOL, Fixed Wing, Long endurance Low altitude) for competitive robotics and aerial mapping. Awarded Best Team (Tim Terbaik) in Fixed Wing Division at KRTI 2026.',
-        tech: ['Ardupilot', 'Flight Controllers', 'Jetson Nano', 'DroneKit', 'Raspberry Pi', 'Ground Station'],
-        images: [drone1, drone2, drone3, drone4, drone5, drone6],
-        bgColor: 'bg-[#F3E9D2]', // Khaki Kertas Peta Ekspedisi
-        github: 'https://github.com/ferimauliandisaputra'
-      }
-    ],
-    experience: [
-      {
-        id: 1,
-        role: 'Backend Developer Intern',
-        company: 'PT Angkasa Pura',
-        period: 'September 2025 - Oktober 2025',
-        description: 'Developed a CRUD application system for recording and tracking UPS inventory data to streamline asset management workflows.',
-        color: 'bg-[#D8F3DC]'
-      },
-      {
-        id: 2,
-        role: 'Lead Programmer & Ground Station Operator',
-        company: 'Seulawah Team & KRTI',
-        period: '2023 - 2026',
-        description: 'Active participant in Unmanned Aerial Vehicle (UAV) development, focusing on drone configuration, autonomous mission programming, and flight optimization. Awarded Best Team (Tim Terbaik) in the Fixed Wing Division at KRTI 2026.',
-        color: 'bg-[#FDEEDC]'
-      },
-    ],
-    certifications: [
-      {
-        id: 1,
-        name: 'Best Team (Tim Terbaik) - Divisi Fixed Wing, KRTI 2026',
-        issuer: 'Pusat Prestasi Nasional',
-        year: '2026',
-        image: drone1
-      },
-      {
-        id: 2,
-        name: 'Finalist Kontes Robot Terbang Indonesia 2024',
-        issuer: 'Pusat Prestasi Nasional',
-        year: '2024',
-        image: sertif
-      },
-      {
-        id: 3,
-        name: 'Introduction to Data Science with Python',
-        issuer: 'DQlab',
-        year: '2025',
-        image: null  // TODO: Add actual certificate image file
-      }
-    ]
-  };
+  // Map project items dengan data media & tema
+  const projectMetadata = [
+    { images: [dietary], bgColor: 'bg-[#FDEEDC]', github: 'https://github.com/FeriMauliandi/NutriGraph_AI-nutrition-agentic-RAG' },
+    { images: [lele], bgColor: 'bg-[#DDF2FD]', github: 'https://github.com/FeriMauliandi/RAG-chatbot-Streamlit-FastAPI' },
+    { images: [chili2], bgColor: 'bg-[#D8F3DC]', github: 'https://github.com/FeriMauliandi/Chili-Leaf-Disease-Detection-with-YOLOv11-and-LLM-Based-RAG' },
+    { images: [ihsg, ihsg1], bgColor: 'bg-[#E2ECE9]', github: 'https://github.com/FeriMauliandi/LLM-based-IHSG-Stock-Fundamental-Explainer-with-Structured-Data' },
+    { images: [drone1, drone2, drone3, drone4, drone5, drone6], bgColor: 'bg-[#F3E9D2]', github: 'https://github.com/ferimauliandisaputra' }
+  ];
+
+  const projects = t.portfolio.projects.map((proj, idx) => ({
+    ...proj,
+    images: projectMetadata[idx]?.images || [dietary],
+    bgColor: projectMetadata[idx]?.bgColor || 'bg-[#FDEEDC]',
+    github: projectMetadata[idx]?.github || 'https://github.com/FeriMauliandi'
+  }));
+
+  const experienceColors = ['bg-[#D8F3DC]', 'bg-[#FDEEDC]'];
+  const experience = t.portfolio.experience.map((exp, idx) => ({
+    ...exp,
+    color: experienceColors[idx % experienceColors.length]
+  }));
+
+  const certImages = [drone1, sertif, null];
+  const certifications = t.portfolio.certifications.map((cert, idx) => ({
+    ...cert,
+    image: certImages[idx] || null
+  }));
 
   return (
     <div className="min-h-screen bg-[#FFFDF7] overflow-hidden text-[#1E2D24] font-sans selection:bg-[#2D6A4F] selection:text-[#FFFDF7] relative">
@@ -843,35 +807,44 @@ export default function PersonalPortfolio() {
             </div>
 
             {/* Desktop Menu */}
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#home" className="text-[#1E2D24] hover:text-[#2D6A4F] transition-colors font-bold">Home</a>
-              <a href="#about" className="text-[#1E2D24] hover:text-[#E07A5F] transition-colors font-bold">About</a>
-              <a href="#portfolio" className="text-[#1E2D24] hover:text-[#2B6CB0] transition-colors font-bold">Portfolio</a>
-              <a href="#contact" className="text-[#1E2D24] hover:text-[#2D6A4F] transition-colors font-bold">Contact</a>
+            <div className="hidden md:flex items-center gap-7">
+              <a href="#home" className="text-[#1E2D24] hover:text-[#2D6A4F] transition-colors font-bold">{t.nav.home}</a>
+              <a href="#about" className="text-[#1E2D24] hover:text-[#E07A5F] transition-colors font-bold">{t.nav.about}</a>
+              <a href="#portfolio" className="text-[#1E2D24] hover:text-[#2B6CB0] transition-colors font-bold">{t.nav.portfolio}</a>
+              <a href="#contact" className="text-[#1E2D24] hover:text-[#2D6A4F] transition-colors font-bold">{t.nav.contact}</a>
+              
+              {/* Language Selector Toggle Desktop */}
+              <LanguageToggle currentLang={lang} onToggle={handleToggleLang} />
             </div>
 
-            <button
-              className="md:hidden bg-[#D8F3DC] ghibli-border p-2 rounded-xl shadow-[2px_2px_0px_#1E2D24]"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <FiX size={24} strokeWidth={2.5} /> : <FiMenu size={24} strokeWidth={2.5} />}
-            </button>
+            {/* Mobile Actions: Language Toggle & Menu Button */}
+            <div className="flex items-center gap-2 md:hidden">
+              <LanguageToggle currentLang={lang} onToggle={handleToggleLang} />
+              
+              <button
+                className="bg-[#D8F3DC] ghibli-border p-2 rounded-xl shadow-[2px_2px_0px_#1E2D24] cursor-pointer"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label="Toggle Navigation Menu"
+              >
+                {isMenuOpen ? <FiX size={24} strokeWidth={2.5} /> : <FiMenu size={24} strokeWidth={2.5} />}
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Mobile Menu Dropdown */}
         {isMenuOpen && (
           <div className="md:hidden bg-[#FFFDF7] border-b-2 border-[#1E2D24] flex flex-col p-6 gap-4">
-            <a href="#home" onClick={() => setIsMenuOpen(false)} className="text-[#1E2D24] font-bold text-lg">Home</a>
-            <a href="#about" onClick={() => setIsMenuOpen(false)} className="text-[#1E2D24] font-bold text-lg">About</a>
-            <a href="#portfolio" onClick={() => setIsMenuOpen(false)} className="text-[#1E2D24] font-bold text-lg">Portfolio</a>
-            <a href="#contact" onClick={() => setIsMenuOpen(false)} className="text-[#1E2D24] font-bold text-lg">Contact</a>
+            <a href="#home" onClick={() => setIsMenuOpen(false)} className="text-[#1E2D24] font-bold text-lg">{t.nav.home}</a>
+            <a href="#about" onClick={() => setIsMenuOpen(false)} className="text-[#1E2D24] font-bold text-lg">{t.nav.about}</a>
+            <a href="#portfolio" onClick={() => setIsMenuOpen(false)} className="text-[#1E2D24] font-bold text-lg">{t.nav.portfolio}</a>
+            <a href="#contact" onClick={() => setIsMenuOpen(false)} className="text-[#1E2D24] font-bold text-lg">{t.nav.contact}</a>
           </div>
         )}
       </nav>
 
       {/* HERO SECTION: Kiri & Kanan Bergaya "Ghibli Aviation & Woodland Engineer" */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center px-5 pt-20 md:pt-20 pb-28 bg-gradient-to-b from-[#90E0EF]/55 via-[#D8F3DC]/70 to-[#FFFDF7]">
+      <section id="home" className="relative min-h-screen flex items-center justify-center px-5 pt-24 md:pt-20 pb-28 bg-gradient-to-b from-[#90E0EF]/55 via-[#D8F3DC]/70 to-[#FFFDF7]">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 md:gap-14 items-center mt-4 md:mt-0 relative z-20">
 
           {/* BAGIAN KIRI: Teks & Identitas Bergaya Jurnal Insinyur Ghibli */}
@@ -880,15 +853,15 @@ export default function PersonalPortfolio() {
             {/* Badge Sapaan dengan Kompas Ekspedisi */}
             <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-[#F3E9D2] text-[#1E2D24] ghibli-border rounded-xl text-xs md:text-sm font-extrabold shadow-[3px_3px_0px_#2D6A4F]">
               <FiCompass className="text-[#E07A5F] shrink-0" size={18} />
-              <span>Hi, I am Feri Mauliandi Saputra</span>
+              <span>{t.hero.greeting}</span>
             </div>
 
             {/* Judul Utama yang Tegas & Berkarakter */}
             <div>
               <h1 className="text-[44px] md:text-6xl lg:text-7xl font-extrabold leading-none text-[#1E2D24] tracking-tight">
-                Junior <br />
+                {t.hero.rolePrefix} <br />
                 <span className="bg-[#2D6A4F] text-[#FFFDF7] px-4 py-1.5 inline-block ghibli-border rounded-2xl mt-2 shadow-[5px_5px_0px_#E9C46A]">
-                  AI Engineer
+                  {t.hero.roleTitle}
                 </span>
               </h1>
             </div>
@@ -896,40 +869,49 @@ export default function PersonalPortfolio() {
             {/* Kotak Deskripsi Bergaya Catatan Lapangan (Field Notes) */}
             <div className="relative bg-[#FFFDF7]/95 backdrop-blur-sm p-3 pl-5 ghibli-border rounded-2xl shadow-[4px_4px_0px_rgba(45,106,79,0.2)] border-l-[6px] border-l-[#2D6A4F]">
               <p className="text-sm md:text-lg text-[#1E2D24] font-semibold leading-relaxed">
-                Computer Engineering student & AI Engineer focused on Large Language Models (LLMs), Agentic AI, and Multi-Agent Workflows (RAG & LangGraph), with complementary expertise in Computer Vision and autonomous systems.
+                {t.hero.description}
               </p>
             </div>
 
-            {/* Skill Tags Berbentuk Modul Teknis (Tanpa Warna Pink) */}
-            <div className="flex flex-wrap gap-2">
-              <span className="px-2.5 py-2 bg-[#D8F3DC] ghibli-border shadow-[2px_2px_0px_#1E2D24] text-[#1E2D24] rounded-xl text-xs md:text-sm font-extrabold flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#2D6A4F]"></span>
-                LLMs & Agentic AI
-              </span>
-              <span className="px-2.5 py-2 bg-[#DDF2FD] ghibli-border shadow-[2px_2px_0px_#1E2D24] text-[#1E2D24] rounded-xl text-xs md:text-sm font-extrabold flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#2B6CB0]"></span>
-                RAG & Multi-Agent
-              </span>
-              <span className="px-2.5 py-2 bg-[#FDEEDC] ghibli-border shadow-[2px_2px_0px_#1E2D24] text-[#1E2D24] rounded-xl text-xs md:text-sm font-extrabold flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#E07A5F]"></span>
-                Computer Vision
-              </span>
+            {/* Tombol GitHub & LinkedIn */}
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="https://github.com/FeriMauliandi"
+                target="_blank"
+                rel="noreferrer"
+                className="ghibli-btn bg-[#1E2D24] text-[#FFFDF7] inline-flex items-center gap-2 text-sm md:text-base hover:bg-[#2D6A4F] hover:text-white"
+              >
+                <FiGithub size={18} strokeWidth={2.5} />
+                <span>GitHub</span>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/ferimauliandisaputra/"
+                target="_blank"
+                rel="noreferrer"
+                className="ghibli-btn bg-[#2B6CB0] text-[#FFFDF7] inline-flex items-center gap-2 text-sm md:text-base hover:bg-[#1E4E8C] hover:text-white"
+              >
+                <FiLinkedin size={18} strokeWidth={2.5} />
+                <span>LinkedIn</span>
+              </a>
             </div>
 
-            {/* Tombol CTA Maskulin (Terracotta Amber & Forest Green) */}
-            <div className="pt-0 flex flex-wrap items-center">
+            {/* Tombol Download CV */}
+            <div className="pt-1 flex flex-wrap items-center">
               <a
-                href="#contact"
+                href="/cv.pdf"
+                target="_blank"
+                rel="noreferrer"
+                download="CV_Feri_Mauliandi.pdf"
                 className="ghibli-btn bg-[#E07A5F] text-[#FFFDF7] inline-flex items-center gap-2.5 text-base md:text-lg hover:bg-[#2D6A4F] hover:text-white"
               >
-                <span>Let's Connect</span>
-                <FiNavigation size={18} className="rotate-45" />
+                <FiDownload size={19} strokeWidth={2.5} />
+                <span>{t.hero.ctaDownloadCv || 'Download CV'}</span>
               </a>
             </div>
           </div>
 
-          {/* BAGIAN KANAN: Bingkai Ekspedisi Dirgantara (The Wind Rises / Laputa Style) */}
-          <div className="w-full max-w-md mx-auto -mt-5 md:mt-0 relative">
+          {/* BAGIAN KANAN: Bingkai Ekspedisi Dirgantara */}
+          <div className="w-full max-w-sm sm:max-w-md mx-auto mt-2 md:mt-0 px-2 sm:px-0 relative">
             <div className="relative scroll-reveal opacity-0" data-animation="animate-slideInRight">
 
               {/* Piringan Kompas Angin Berputar Halus di Belakang Bingkai */}
@@ -946,7 +928,7 @@ export default function PersonalPortfolio() {
                 <polygon points="98,50 86,54 86,46" fill="currentColor" />
               </svg>
 
-              {/* Bingkai Utama: Field Expedition Frame dengan Sudut Siku Kuningan */}
+              {/* Bingkai Utama: Field Expedition Frame */}
               <div className="relative z-10 p-3.5 bg-[#F3E9D2] border-2 border-[#1E2D24] rounded-3xl shadow-[8px_8px_0px_#2D6A4F] transition-transform duration-500">
 
                 {/* Plat Siku Kuningan (Brass Corner Brackets) di Keempat Sudut */}
@@ -957,7 +939,7 @@ export default function PersonalPortfolio() {
 
                 {/* Header Kecil di Atas Foto ala Logbook Penerbangan */}
                 <div className="flex items-center justify-between px-2 pb-2 text-[11px] font-extrabold tracking-widest uppercase text-[#2D6A4F]">
-                  <span>✦ FLIGHT & AI LOG // 01</span>
+                  <span>{t.hero.flightLogTitle}</span>
                   <span>UAV-RES</span>
                 </div>
 
@@ -969,46 +951,45 @@ export default function PersonalPortfolio() {
                     loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
                   />
-                  {/* Grid Bidik Tipis di Atas Foto */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#1E2D24]/30 via-transparent to-transparent pointer-events-none" />
                 </div>
               </div>
 
               {/* Badge 1: Generative AI & Agentic AI (Top Left) */}
               <div
-                className="absolute top-8 -left-4 md:-left-12 z-20 bg-[#FFFDF7] border-2 border-[#1E2D24] px-3.5 py-2.5 rounded-2xl shadow-[4px_4px_0px_#1E2D24] flex items-center gap-3"
+                className="absolute top-4 sm:top-8 -left-2 sm:-left-6 md:-left-12 z-20 bg-[#FFFDF7] border-2 border-[#1E2D24] px-2.5 py-1.5 sm:px-3 sm:py-2 md:px-3.5 md:py-2.5 rounded-xl md:rounded-2xl shadow-[3px_3px_0px_#1E2D24] md:shadow-[4px_4px_0px_#1E2D24] flex items-center gap-2 sm:gap-2.5 md:gap-3"
                 style={{ animation: 'float-badge 4.5s ease-in-out infinite' }}
               >
-                <div className="w-10 h-10 bg-[#D8F3DC] border-2 border-[#1E2D24] rounded-xl flex items-center justify-center shrink-0">
-                  <FiCpu className="text-[#2D6A4F]" size={20} strokeWidth={2.5} />
+                <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-[#D8F3DC] border-2 border-[#1E2D24] rounded-lg md:rounded-xl flex items-center justify-center shrink-0">
+                  <FiCpu className="text-[#2D6A4F]" size={16} strokeWidth={2.5} />
                 </div>
-                <div className="text-left hidden sm:block pr-1">
-                  <p className="text-[10px] text-[#2D6A4F] font-extrabold uppercase tracking-wider">Agentic AI & LLMs</p>
-                  <p className="text-[#1E2D24] font-bold text-sm font-serif">RAG & Multi-Agent</p>
+                <div className="text-left pr-0.5 md:pr-1">
+                  <p className="text-[9px] sm:text-[10px] text-[#2D6A4F] font-extrabold uppercase tracking-wider leading-tight">{t.hero.badgeAgenticSub}</p>
+                  <p className="text-[#1E2D24] font-bold text-xs sm:text-sm font-serif leading-tight">{t.hero.badgeAgenticMain}</p>
                 </div>
               </div>
 
-              {/* Badge 2: Hardware / UAV (Gaya Modul Avionik) */}
+              {/* Badge 2: Hardware / UAV */}
               <div
-                className="absolute top-1/3 -right-4 md:-right-12 z-20 bg-[#FFFDF7] border-2 border-[#1E2D24] px-3.5 py-2.5 rounded-2xl shadow-[4px_4px_0px_#1E2D24] flex items-center gap-3"
+                className="absolute top-1/3 -right-2 sm:-right-6 md:-right-12 z-20 bg-[#FFFDF7] border-2 border-[#1E2D24] px-2.5 py-1.5 sm:px-3 sm:py-2 md:px-3.5 md:py-2.5 rounded-xl md:rounded-2xl shadow-[3px_3px_0px_#1E2D24] md:shadow-[4px_4px_0px_#1E2D24] flex items-center gap-2 sm:gap-2.5 md:gap-3"
                 style={{ animation: 'float-badge 5s ease-in-out 1s infinite' }}
               >
-                <div className="text-right hidden sm:block pl-1">
-                  <p className="text-[10px] text-[#E07A5F] font-extrabold uppercase tracking-wider">Hardware</p>
-                  <p className="text-[#1E2D24] font-bold text-sm font-serif">Robotics & UAVs</p>
+                <div className="text-right pl-0.5 md:pl-1">
+                  <p className="text-[9px] sm:text-[10px] text-[#E07A5F] font-extrabold uppercase tracking-wider leading-tight">{t.hero.badgeHwSub}</p>
+                  <p className="text-[#1E2D24] font-bold text-xs sm:text-sm font-serif leading-tight">{t.hero.badgeHwMain}</p>
                 </div>
-                <div className="w-10 h-10 bg-[#FDEEDC] border-2 border-[#1E2D24] rounded-xl flex items-center justify-center shrink-0">
-                  <FaPlane className="text-[#E07A5F] -rotate-45" size={18} />
+                <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-[#FDEEDC] border-2 border-[#1E2D24] rounded-lg md:rounded-xl flex items-center justify-center shrink-0">
+                  <FaPlane className="text-[#E07A5F] -rotate-45" size={15} />
                 </div>
               </div>
 
               {/* Badge 3: Computer Vision (Bottom Left) */}
               <div
-                className="absolute bottom-20 -left-4 md:-left-10 z-20 bg-[#FFFDF7] border-2 border-[#1E2D24] px-3.5 py-2.5 rounded-2xl shadow-[4px_4px_0px_#1E2D24] flex items-center gap-3"
+                className="absolute bottom-14 sm:bottom-18 md:bottom-20 -left-2 sm:-left-6 md:-left-10 z-20 bg-[#FFFDF7] border-2 border-[#1E2D24] px-2.5 py-1.5 sm:px-3 sm:py-2 md:px-3.5 md:py-2.5 rounded-xl md:rounded-2xl shadow-[3px_3px_0px_#1E2D24] md:shadow-[4px_4px_0px_#1E2D24] flex items-center gap-2 sm:gap-2.5 md:gap-3"
                 style={{ animation: 'float-badge 5.5s ease-in-out 2s infinite' }}
               >
-                <div className="w-10 h-10 bg-[#DDF2FD] border-2 border-[#1E2D24] rounded-xl flex items-center justify-center shrink-0">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E2D24" strokeWidth="2">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-[#DDF2FD] border-2 border-[#1E2D24] rounded-lg md:rounded-xl flex items-center justify-center shrink-0">
+                  <svg className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none" stroke="#1E2D24" strokeWidth="2">
                     <circle cx="12" cy="12" r="8" fill="#FFFDF7" />
                     <circle cx="12" cy="12" r="3" fill="#2B6CB0" />
                     <line x1="12" y1="2" x2="12" y2="5" />
@@ -1017,23 +998,23 @@ export default function PersonalPortfolio() {
                     <line x1="19" y1="12" x2="22" y2="12" />
                   </svg>
                 </div>
-                <div className="text-left hidden sm:block pr-1">
-                  <p className="text-[10px] text-[#2B6CB0] font-extrabold uppercase tracking-wider">Computer Vision</p>
-                  <p className="text-[#1E2D24] font-bold text-sm font-serif">YOLOv11 & DETR</p>
+                <div className="text-left pr-0.5 md:pr-1">
+                  <p className="text-[9px] sm:text-[10px] text-[#2B6CB0] font-extrabold uppercase tracking-wider leading-tight">{t.hero.badgeCvSub}</p>
+                  <p className="text-[#1E2D24] font-bold text-xs sm:text-sm font-serif leading-tight">{t.hero.badgeCvMain}</p>
                 </div>
               </div>
 
-              {/* Badge 4: Open for Work (Indikator Hijau Zamrud Tegas) */}
+              {/* Badge 4: Open for Work */}
               <div
-                className="absolute -bottom-5 right-2 md:-right-4 z-20 bg-[#E9C46A] border-2 border-[#1E2D24] px-4 py-2 rounded-xl shadow-[4px_4px_0px_#1E2D24] flex items-center gap-2.5"
+                className="absolute -bottom-5 right-1 sm:right-2 md:-right-4 z-20 bg-[#E9C46A] border-2 border-[#1E2D24] px-3 py-1.5 md:px-4 md:py-2 rounded-xl shadow-[3px_3px_0px_#1E2D24] md:shadow-[4px_4px_0px_#1E2D24] flex items-center gap-2"
                 style={{ animation: 'float-badge 4s ease-in-out 0.5s infinite' }}
               >
-                <span className="relative flex h-3 w-3">
+                <span className="relative flex h-2.5 w-2.5 md:h-3 md:w-3">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2D6A4F] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-[#2D6A4F] border border-[#1E2D24]"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 md:h-3 md:w-3 bg-[#2D6A4F] border border-[#1E2D24]"></span>
                 </span>
-                <p className="text-[#1E2D24] font-extrabold text-xs md:text-sm tracking-tight">
-                  Open for Work & Internships
+                <p className="text-[#1E2D24] font-extrabold text-[11px] sm:text-xs md:text-sm tracking-tight leading-tight">
+                  {t.hero.badgeOpenWork}
                 </p>
               </div>
 
@@ -1049,18 +1030,18 @@ export default function PersonalPortfolio() {
       <section id="about" className="relative py-16 px-6 bg-[#E6F4EA] border-b-2 border-[#1E2D24]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16 scroll-reveal opacity-0" data-animation="animate-slideInUp">
-            <span className="text-sm font-extrabold uppercase tracking-widest text-[#2D6A4F] block mb-2">✦ Story & Background ✦</span>
+            <span className="text-sm font-extrabold uppercase tracking-widest text-[#2D6A4F] block mb-2">{t.about.tag}</span>
             <h2 className="text-4xl md:text-5xl font-bold mb-4 inline-block bg-[#FFFDF7] text-[#1E2D24] px-8 py-3 ghibli-box">
-              About Me
+              {t.about.title}
             </h2>
 
             <p className="text-base md:text-xl text-[#1E2D24] font-semibold max-w-4xl mx-auto leading-relaxed mt-6 ghibli-box p-6 md:p-8 bg-[#FFFDF7] text-left md:text-center">
-              AI Engineer dedicated to developing intelligent systems powered by Large Language Models (LLMs), Agentic AI, Multi-Agent Workflows, and advanced RAG architectures using LangChain and LangGraph. Secondarily experienced in Computer Vision (YOLOv8/v11) and autonomous UAV robotics (Pixhawk, ArduPilot, PX4) — connecting cognitive reasoning agents with practical deployment pipelines and embedded hardware.
+              {t.about.bio}
             </p>
 
             <div className="mt-14 pt-4 flex flex-col items-center">
               <h3 className="text-2xl md:text-3xl font-bold mb-8 text-[#1E2D24] flex items-center gap-3 bg-[#E9C46A] px-7 py-2.5 ghibli-border rounded-xl shadow-[3px_3px_0px_#2D6A4F]">
-                <span>🛠️</span> Tech Stack & Tools
+                <span>🛠️</span> {t.about.techStackTitle}
               </h3>
 
               <div className="flex flex-wrap justify-center gap-3 max-w-5xl">
@@ -1076,10 +1057,10 @@ export default function PersonalPortfolio() {
               </div>
 
               <h3 className="text-2xl md:text-3xl font-bold mt-16 mb-8 text-[#1E2D24] flex items-center gap-3 bg-[#DDF2FD] px-7 py-2.5 ghibli-border rounded-xl shadow-[3px_3px_0px_#2D6A4F]">
-                <span>🌱</span> GitHub Contributions
+                <span>🌱</span> {t.about.githubTitle}
               </h3>
               <div className="w-full max-w-4xl">
-                <GithubCard username={githubUsername} />
+                <GithubCard username={githubUsername} lang={lang} t={t} />
               </div>
             </div>
           </div>
@@ -1090,10 +1071,10 @@ export default function PersonalPortfolio() {
       <section id="portfolio" className="relative py-20 px-6 bg-[#FFFDF7]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10 scroll-reveal opacity-0" data-animation="animate-slideInUp">
-            <span className="text-sm font-extrabold uppercase tracking-widest text-[#E07A5F] block mb-2">✦ Works & Chronicles ✦</span>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[#1E2D24]">Technical Journey</h2>
+            <span className="text-sm font-extrabold uppercase tracking-widest text-[#E07A5F] block mb-2">{t.portfolio.tag}</span>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[#1E2D24]">{t.portfolio.title}</h2>
             <p className="text-base md:text-lg text-[#1E2D24] font-semibold max-w-3xl mx-auto bg-[#D8F3DC] inline-block px-6 py-4 ghibli-box">
-              Explore my latest AI projects, internships, competitive robotics experience, and technical expertise.
+              {t.portfolio.subtitle}
             </p>
           </div>
 
@@ -1101,41 +1082,41 @@ export default function PersonalPortfolio() {
           <div className="flex justify-center gap-3 mb-12 flex-wrap scroll-reveal opacity-0" data-animation="animate-scaleIn">
             <button
               onClick={() => setActiveTab('projects')}
-              className={`flex items-center gap-2 px-6 py-3 font-bold transition-all ghibli-btn ${activeTab === 'projects'
+              className={`flex items-center gap-2 px-6 py-3 font-bold transition-all ghibli-btn cursor-pointer ${activeTab === 'projects'
                   ? 'bg-[#2D6A4F] text-[#FFFDF7] translate-y-0.5'
                   : 'bg-[#FFFDF7] text-[#1E2D24] hover:bg-[#D8F3DC]'
                 }`}
             >
               <FiCode size={18} strokeWidth={2.5} />
-              Projects
+              {t.portfolio.tabProjects}
             </button>
             <button
               onClick={() => setActiveTab('experience')}
-              className={`flex items-center gap-2 px-6 py-3 font-bold transition-all ghibli-btn ${activeTab === 'experience'
+              className={`flex items-center gap-2 px-6 py-3 font-bold transition-all ghibli-btn cursor-pointer ${activeTab === 'experience'
                   ? 'bg-[#2D6A4F] text-[#FFFDF7] translate-y-0.5'
                   : 'bg-[#FFFDF7] text-[#1E2D24] hover:bg-[#D8F3DC]'
                 }`}
             >
               <FiBriefcase size={18} strokeWidth={2.5} />
-              Experience
+              {t.portfolio.tabExperience}
             </button>
             <button
               onClick={() => setActiveTab('certifications')}
-              className={`flex items-center gap-2 px-6 py-3 font-bold transition-all ghibli-btn ${activeTab === 'certifications'
+              className={`flex items-center gap-2 px-6 py-3 font-bold transition-all ghibli-btn cursor-pointer ${activeTab === 'certifications'
                   ? 'bg-[#2D6A4F] text-[#FFFDF7] translate-y-0.5'
                   : 'bg-[#FFFDF7] text-[#1E2D24] hover:bg-[#D8F3DC]'
                 }`}
             >
               <FiAward size={18} strokeWidth={2.5} />
-              Certificates
+              {t.portfolio.tabCertificates}
             </button>
           </div>
 
           {/* Projects Tab */}
           {activeTab === 'projects' && (
             <div className="grid md:grid-cols-2 gap-8">
-              {portfolioData.projects.map((project, idx) => (
-                <ProjectCard key={project.id} project={project} idx={idx} />
+              {projects.map((project, idx) => (
+                <ProjectCard key={project.id} project={project} idx={idx} viewRepoText={t.portfolio.viewRepo} />
               ))}
             </div>
           )}
@@ -1143,7 +1124,7 @@ export default function PersonalPortfolio() {
           {/* Experience Tab */}
           {activeTab === 'experience' && (
             <div className="space-y-8 max-w-3xl mx-auto">
-              {portfolioData.experience.map((exp, idx) => (
+              {experience.map((exp, idx) => (
                 <div
                   key={exp.id}
                   className="bg-[#FFFDF7] ghibli-box p-8 card-hover scroll-reveal opacity-0"
@@ -1175,7 +1156,7 @@ export default function PersonalPortfolio() {
           {/* Certifications Tab */}
           {activeTab === 'certifications' && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {portfolioData.certifications.map((cert, idx) => (
+              {certifications.map((cert, idx) => (
                 <div
                   key={cert.id}
                   className="bg-[#FFFDF7] ghibli-box overflow-hidden card-hover scroll-reveal opacity-0 flex flex-col"
@@ -1219,16 +1200,16 @@ export default function PersonalPortfolio() {
       <section id="contact" className="relative pt-20 pb-8 px-6 bg-[#F3E9D2] border-t-2 border-[#1E2D24]">
         <div className="max-w-4xl mx-auto text-center">
           <div className="scroll-reveal opacity-0" data-animation="animate-slideInUp">
-            <span className="text-sm font-extrabold uppercase tracking-widest text-[#E07A5F] block mb-2">✦ Dispatch & Contact ✦</span>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[#1E2D24]">Let's Work Together!</h2>
+            <span className="text-sm font-extrabold uppercase tracking-widest text-[#E07A5F] block mb-2">{t.contact.tag}</span>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[#1E2D24]">{t.contact.title}</h2>
             <p className="text-base md:text-lg text-[#1E2D24] font-semibold mb-10 max-w-2xl mx-auto bg-[#FFFDF7] inline-block px-6 py-4 ghibli-box">
-              I am actively looking for AI Engineering internships and collaborative projects. Feel free to reach out via email or connect with me on LinkedIn!
+              {t.contact.subtitle}
             </p>
 
             <div className="flex flex-wrap justify-center gap-4 mb-14">
               <a href={`mailto:${CONTACT_EMAIL}`} className="social-btn flex items-center gap-2 bg-[#FFFDF7] text-[#1E2D24] ghibli-btn hover:bg-[#E9C46A]">
                 <FiMail size={20} strokeWidth={2.5} />
-                <span className="font-bold text-base">Email Me</span>
+                <span className="font-bold text-base">{t.contact.emailBtn}</span>
               </a>
               <a href="https://github.com/FeriMauliandi" target="_blank" rel="noreferrer" className="social-btn flex items-center gap-2 bg-[#1E2D24] text-[#FFFDF7] ghibli-btn hover:bg-[#2D6A4F]">
                 <FiGithub size={20} strokeWidth={2.5} />
@@ -1244,22 +1225,22 @@ export default function PersonalPortfolio() {
               <div className="absolute -top-6 -right-4 w-14 h-14 bg-[#E9C46A] ghibli-border rounded-2xl flex items-center justify-center text-2xl shadow-[3px_3px_0px_#2D6A4F] rotate-6">
                 🧭
               </div>
-              <h3 className="text-2xl md:text-3xl font-bold mb-6 text-[#1E2D24]">Send a Message</h3>
+              <h3 className="text-2xl md:text-3xl font-bold mb-6 text-[#1E2D24]">{t.contact.formTitle}</h3>
               <form className="space-y-5" onSubmit={handleContactSubmit}>
                 {formStatus === 'success' && (
                   <div className="p-4 bg-[#D8F3DC] ghibli-border rounded-xl text-center animate-scaleIn">
-                    <p className="font-bold text-[#2D6A4F] text-sm">✅ Email client opened! Your message is ready to send.</p>
+                    <p className="font-bold text-[#2D6A4F] text-sm">{t.contact.successMsg}</p>
                   </div>
                 )}
                 {formStatus === 'incomplete' && (
                   <div className="p-4 bg-[#FDEEDC] ghibli-border rounded-xl text-center animate-scaleIn">
-                    <p className="font-bold text-[#E07A5F] text-sm">⚠️ Please fill in all fields before sending.</p>
+                    <p className="font-bold text-[#E07A5F] text-sm">{t.contact.incompleteMsg}</p>
                   </div>
                 )}
                 <div>
                   <input
                     type="text"
-                    placeholder="Your Name"
+                    placeholder={t.contact.namePlaceholder}
                     value={contactForm.name}
                     onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
                     required
@@ -1269,7 +1250,7 @@ export default function PersonalPortfolio() {
                 <div>
                   <input
                     type="email"
-                    placeholder="Your Email"
+                    placeholder={t.contact.emailPlaceholder}
                     value={contactForm.email}
                     onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
                     required
@@ -1279,7 +1260,7 @@ export default function PersonalPortfolio() {
                 <div>
                   <textarea
                     rows="4"
-                    placeholder="Write your message here..."
+                    placeholder={t.contact.messagePlaceholder}
                     value={contactForm.message}
                     onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
                     required
@@ -1290,7 +1271,7 @@ export default function PersonalPortfolio() {
                   type="submit"
                   className="w-full bg-[#2D6A4F] text-[#FFFDF7] text-lg ghibli-btn hover:bg-[#E07A5F] mt-2"
                 >
-                  Send Message ✈️
+                  {t.contact.sendBtn}
                 </button>
               </form>
             </div>
@@ -1309,19 +1290,19 @@ export default function PersonalPortfolio() {
             <span>Feri<span className="text-[#2D6A4F]">.M</span></span>
           </div>
           <p className="bg-[#D8F3DC] px-5 py-1.5 rounded-xl ghibli-border font-bold text-xs md:text-sm mb-6 shadow-[2px_2px_0px_#2D6A4F]">
-            AI Engineer • LLMs, Agentic AI & RAG
+            {t.footer.role}
           </p>
           <div className="flex justify-center gap-8 mb-6">
-            <a href="#home" className="font-bold hover:text-[#2D6A4F] hover:-translate-y-0.5 transition-all">Home</a>
-            <a href="#portfolio" className="font-bold hover:text-[#E07A5F] hover:-translate-y-0.5 transition-all">Portfolio</a>
-            <a href="#contact" className="font-bold hover:text-[#2B6CB0] hover:-translate-y-0.5 transition-all">Contact</a>
+            <a href="#home" className="font-bold hover:text-[#2D6A4F] hover:-translate-y-0.5 transition-all">{t.nav.home}</a>
+            <a href="#portfolio" className="font-bold hover:text-[#E07A5F] hover:-translate-y-0.5 transition-all">{t.nav.portfolio}</a>
+            <a href="#contact" className="font-bold hover:text-[#2B6CB0] hover:-translate-y-0.5 transition-all">{t.nav.contact}</a>
           </div>
           <div className="w-20 h-0.5 bg-[#52B788]/50 rounded-full mb-5"></div>
-          <p className="text-xs font-bold text-[#4A5D52]">© 2026 Feri Mauliandi Saputra. Crafted with Studio Ghibli vibes.</p>
+          <p className="text-xs font-bold text-[#4A5D52]">{t.footer.copyright}</p>
         </div>
       </footer>
 
-      {/* AI Portfolio Assistant - Live Demo */}
+      {/* AI Portfolio Assistant - Live Demo (Respon otomatis mendeteksi bahasa input pengguna) */}
       <AIChatWidget />
     </div>
   );

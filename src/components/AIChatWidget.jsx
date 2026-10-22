@@ -6,6 +6,7 @@ import { FiMessageCircle, FiX, FiSend, FiCpu, FiAlertCircle } from 'react-icons/
 // ============================================================
 // Cukup detail dan informatif untuk menjawab pertanyaan teknis
 // mendalam, namun tetap aman dari kuota 6.000 TPM Groq.
+// Respon SELALU menyesuaikan bahasa yang diinput oleh pengguna.
 // ============================================================
 const COMPACT_SYSTEM_PROMPT = `You are the AI Portfolio Assistant representing Feri Mauliandi Saputra.
 Your role is to introduce Feri to recruiters, hiring managers, and collaborators with accurate technical depth.
@@ -31,7 +32,7 @@ FEATURED AI PROJECTS (TECHNICAL DETAILS):
 
 3. RAG Chatbot for Catfish Aquaculture:
    - Domain-specific smart assistant that ingests local PDF documentation on catfish farming into ChromaDB vector storage.
-   - Employs Ollama for local LLM inference (privacy-first & zero-cloud cost) connected via FastAPI and Streamlit.
+   - Employs Ollama for local LLM inference (privacy-first & zero-cloud cost) connected via FastAPI dan Streamlit.
 
 4. UAVs & Autonomous Robotics Development:
    - 3+ years hands-on experience building, calibrating, and flying Fixed Wing & VTOL drones for competitive robotics and aerial surveys.
@@ -56,33 +57,30 @@ CORE TECH STACK:
 
 RESPONSE RULES:
 - Tone: Friendly, humble, technically competent, and professional.
-- Language: Always match the user's language (Indonesian for Indonesian queries, English for English queries).
+- LANGUAGE: Always strictly match the language used by the user in their prompt. If the user writes in English, reply entirely in English. If the user writes in Indonesian, reply entirely in Indonesian. Never force a specific language; adapt automatically to whatever language the user inputs.
 - LENGTH: Keep responses focused and concise (3 to 5 sentences or 3 to 4 bullet points max). Do NOT write overly long walls of text.
 - FORMATTING: NEVER use markdown headers ('###', '##', '#'). NEVER use raw asterisks for titles. Use clean bullet points ('•') and bold text for key terms.`;
 
 const SUGGESTED_QUESTIONS = [
   "Siapa Feri dan apa keahliannya?",
-  "Apa proyek AI unggulan Feri?",
-  "apa pengalaman Feri?",
-  "Bagaimana cara menghubungi Feri?",
+  "What are Feri's top AI projects?",
+  "Apa pengalaman Feri di UAV & robotics?",
+  "How can I contact Feri?",
 ];
 
 // Parser aman untuk membersihkan format markdown kasar (###, **, dll)
 function formatMessageContent(text) {
   if (!text) return null;
 
-  // Bersihkan tanda heading '### ', '## ', '# '
   const cleanedText = text
-    .replace(/^#{1,6}\s+/gm, '') // Hapus tanda # di awal baris
-    .replace(/\n#{1,6}\s+/g, '\n') // Hapus tanda # setelah baris baru
-    .replace(/^\*\s+/gm, '• ') // Ubah '* ' jadi '• '
-    .replace(/^-\s+/gm, '• '); // Ubah '- ' jadi '• '
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/\n#{1,6}\s+/g, '\n')
+    .replace(/^\*\s+/gm, '• ')
+    .replace(/^-\s+/gm, '• ');
 
-  // Pisahkan baris
   const lines = cleanedText.split('\n');
 
   return lines.map((line, lineIdx) => {
-    // Parse tag **bold** menjadi <strong>
     const parts = line.split(/(\*\*[^*]+\*\*)/g);
 
     return (
@@ -108,7 +106,7 @@ export default function AIChatWidget() {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Halo! 👋 Saya asisten AI Feri Mauliandi Saputra.\n\nTanyakan apa saja tentang skill, project AI, atau pengalaman UAV Feri secara singkat dan langsung!",
+      content: "Halo! 👋 Saya asisten AI Feri Mauliandi Saputra.\n\nTanyakan apa saja tentang skill, project AI, atau pengalaman UAV Feri secara singkat dan langsung! (Feel free to ask in English or Indonesian)",
     },
   ]);
   const [input, setInput] = useState('');
@@ -149,7 +147,7 @@ export default function AIChatWidget() {
     // Ambil HANYA 2 pesan terakhir (hemat token drastis agar tidak kena limit 6.000 TPM)
     const recentHistory = chatHistory.slice(-2).map((msg) => ({
       role: msg.role === 'user' ? 'user' : 'assistant',
-      content: msg.content.slice(0, 300), // Pangkas pesan lama agar tetap ramping
+      content: msg.content.slice(0, 300),
     }));
 
     const payloadMessages = [
@@ -168,7 +166,7 @@ export default function AIChatWidget() {
         model: GROQ_MODEL,
         messages: payloadMessages,
         temperature: 0.5,
-        max_tokens: 260, // Jawaban padat & informatif tanpa kepotong
+        max_tokens: 260,
       }),
     });
 
@@ -176,7 +174,6 @@ export default function AIChatWidget() {
       const errData = await response.json().catch(() => ({}));
       const errorMsg = errData?.error?.message || `HTTP ${response.status}: ${response.statusText}`;
 
-      // Deteksi error Rate Limit (429)
       if (response.status === 429 || errorMsg.toLowerCase().includes('rate limit')) {
         throw new Error('RATE_LIMIT_HIT');
       }
@@ -187,16 +184,32 @@ export default function AIChatWidget() {
     return data?.choices?.[0]?.message?.content || 'Maaf, tidak ada respons dari model.';
   };
 
-  // Fallback offline jika API key belum dimasukkan
+  // Fallback offline jika API key belum dimasukkan (merespon sesuai bahasa yang diinput)
   const getOfflineFallbackResponse = (userText) => {
     const lower = userText.toLowerCase();
+    const isEnglish = /\b(who|what|where|how|tell|project|projects|experience|skill|skills|contact|email|hire|hello|hi)\b/i.test(lower);
+
+    if (isEnglish) {
+      if (lower.includes('project') || lower.includes('work')) {
+        return `Feri's featured projects:\n• NutriGraph AI (Multi-Agent RAG with LangGraph for nutrition analysis)\n• RAG Chatbot for Catfish Aquaculture (ChromaDB + Ollama)\n• ChiliCare (YOLOv11 + LLM/RAG chili leaf disease detection)\n• IHSG Stock Fundamental Explainer (LLM + Structured Data)\n• UAV Robotics (National KRTI Fixed Wing 2026 Champion)`;
+      }
+      if (lower.includes('who') || lower.includes('about') || lower.includes('feri')) {
+        return `Feri Mauliandi Saputra is an AI Engineer and Computer Engineering student specializing in LLMs, Agentic AI, Multi-Agent Workflows, and RAG architectures, with secondary expertise in Computer Vision and autonomous UAV systems.`;
+      }
+      if (lower.includes('contact') || lower.includes('email') || lower.includes('reach')) {
+        return `You can reach Feri via email at feri.19022004@gmail.com or on LinkedIn: linkedin.com/in/ferimauliandisaputra/`;
+      }
+      return `Feel free to ask about Feri's AI engineering skills, projects, UAV robotics research, or contact information!`;
+    }
+
+    // Default Indonesian response
     if (lower.includes('project') || lower.includes('proyek') || lower.includes('karya')) {
       return `Proyek unggulan Feri:\n• NutriGraph AI (Multi-Agent RAG & LangGraph estimasi nutrisi)\n• RAG Chatbot Budidaya Lele (ChromaDB + Ollama)\n• ChiliCare (YOLOv11 + LLM/RAG deteksi penyakit cabai)\n• IHSG Stock Fundamental Explainer (LLM + Structured Data)\n• UAV KRTI Finalist 2024 & Juara 2026`;
     }
-    if (lower.includes('siapa') || lower.includes('who') || lower.includes('about')) {
+    if (lower.includes('siapa') || lower.includes('tentang')) {
       return `Feri Mauliandi Saputra adalah AI Engineer & Mahasiswa Teknik Komputer yang berfokus utama pada LLMs, Agentic AI, Multi-Agent Workflows, dan RAG, dengan keahlian sekunder di bidang Computer Vision dan robotika drone (UAV).`;
     }
-    if (lower.includes('kontak') || lower.includes('contact') || lower.includes('email')) {
+    if (lower.includes('kontak') || lower.includes('email') || lower.includes('hubungi')) {
       return `Hubungi Feri melalui email: feri.19022004@gmail.com atau LinkedIn: linkedin.com/in/ferimauliandisaputra/`;
     }
     return `Silakan tanyakan tentang keahlian AI, proyek, riset UAV, atau kontak Feri!`;
@@ -224,12 +237,15 @@ export default function AIChatWidget() {
     } catch (err) {
       console.error('Groq Error:', err);
       if (err.message === 'RATE_LIMIT_HIT') {
-        setRateLimitWarning('Batas kuota TPM Groq tercapai. Tunggu 10-20 detik.');
+        const isEnglish = /\b(who|what|where|how|tell|project|experience|skills|contact|email)\b/i.test(messageText);
+        setRateLimitWarning(isEnglish ? 'Groq TPM rate limit reached. Please wait 10-20 seconds.' : 'Batas kuota TPM Groq tercapai. Tunggu 10-20 detik.');
         setMessages((prev) => [
           ...prev,
           {
             role: 'assistant',
-            content: `⏳ Kuota request Groq sementara penuh (Rate Limit). Mohon tunggu sekitar 15-20 detik sebelum mengirim pesan berikutnya.`,
+            content: isEnglish
+              ? '⏳ Groq request rate limit exceeded temporarily. Please wait 15-20 seconds before asking again.'
+              : '⏳ Kuota request Groq sementara penuh (Rate Limit). Mohon tunggu sekitar 15-20 detik sebelum mengirim pesan berikutnya.',
           },
         ]);
       } else {
@@ -259,7 +275,7 @@ export default function AIChatWidget() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-[80] w-16 h-16 bg-[#2D6A4F] text-[#FFFDF7] rounded-2xl ghibli-border flex items-center justify-center hover:bg-[#E07A5F] transition-all hover:-translate-y-1 group"
+          className="fixed bottom-6 right-6 z-[80] w-16 h-16 bg-[#2D6A4F] text-[#FFFDF7] rounded-2xl ghibli-border flex items-center justify-center hover:bg-[#E07A5F] transition-all hover:-translate-y-1 group cursor-pointer"
           style={{ boxShadow: '4px 4px 0px #1E2D24' }}
           aria-label="Buka AI Chat Assistant"
         >
@@ -305,7 +321,7 @@ export default function AIChatWidget() {
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-[#FFFDF7] hover:text-[#E9C46A] transition-colors p-1.5 hover:bg-[#1B4332] rounded-lg"
+              className="text-[#FFFDF7] hover:text-[#E9C46A] transition-colors p-1.5 hover:bg-[#1B4332] rounded-lg cursor-pointer"
               aria-label="Tutup chat"
             >
               <FiX size={22} strokeWidth={2.5} />
@@ -375,7 +391,7 @@ export default function AIChatWidget() {
                 <button
                   key={i}
                   onClick={() => handleSend(q)}
-                  className="text-[11px] font-bold px-2.5 py-1.5 bg-[#D8F3DC] rounded-lg hover:bg-[#E9C46A] transition-colors border border-[#1E2D24]/30"
+                  className="text-[11px] font-bold px-2.5 py-1.5 bg-[#D8F3DC] rounded-lg hover:bg-[#E9C46A] transition-colors border border-[#1E2D24]/30 cursor-pointer"
                 >
                   {q}
                 </button>
@@ -391,14 +407,14 @@ export default function AIChatWidget() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Tanyakan sesuatu..."
+              placeholder="Tanya dalam Bahasa Indonesia atau English..."
               className="flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold outline-none transition-colors border-2 border-[#1E2D24]/30 focus:border-[#2D6A4F] bg-[#E6F4EA]/20"
               disabled={isTyping}
             />
             <button
               onClick={() => handleSend()}
               disabled={!input.trim() || isTyping}
-              className="w-11 h-11 bg-[#2D6A4F] text-[#FFFDF7] rounded-xl flex items-center justify-center hover:bg-[#E07A5F] transition-all disabled:opacity-40 disabled:cursor-not-allowed shrink-0 border-2 border-[#1E2D24]"
+              className="w-11 h-11 bg-[#2D6A4F] text-[#FFFDF7] rounded-xl flex items-center justify-center hover:bg-[#E07A5F] transition-all disabled:opacity-40 disabled:cursor-not-allowed shrink-0 border-2 border-[#1E2D24] cursor-pointer"
               style={{ boxShadow: '2px 2px 0px #1E2D24' }}
               aria-label="Kirim pesan"
             >
@@ -409,7 +425,7 @@ export default function AIChatWidget() {
           {/* Footer note */}
           <div className="px-3 py-1.5 bg-[#F3E9D2] text-center shrink-0 border-t border-[#1E2D24]/20 flex items-center justify-between text-[10px] font-bold text-[#1E2D24]/70">
             <span>Powered by Groq LPUs</span>
-            <span className="font-mono">Concise Mode</span>
+            <span className="font-mono">Auto Language Detection</span>
           </div>
         </div>
       )}
