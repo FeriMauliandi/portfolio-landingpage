@@ -7,8 +7,9 @@ import { FaTerminal, FaNetworkWired, FaTools, FaDatabase, FaMicrochip, FaPlane }
 
 import fotoFeri from './assets/feri1.jpg';
 import chili2 from './assets/chilicareai.jpg';
-import lele from './assets/kawankerja.jpg';
-import ihsg from './assets/saham.png';
+import kawankerja from './assets/kawankerja2.png';
+import kawankerja1 from './assets/kawankerja1.png';
+import ihsg from './assets/stockai1.png';
 import ihsg1 from './assets/saham1.png';
 import drone1 from './assets/krti1.jpeg';
 import drone2 from './assets/krti.jpeg';
@@ -588,7 +589,7 @@ export default function PersonalPortfolio() {
   // Map project items dengan data media & tema
   const projectMetadata = [
     { images: [dietary], bgColor: 'bg-[#FDEEDC]', github: 'https://github.com/FeriMauliandi/NutriGraph_AI-nutrition-agentic-RAG' },
-    { images: [lele], bgColor: 'bg-[#DDF2FD]', github: 'https://github.com/FeriMauliandi/RAG-chatbot-Streamlit-FastAPI' },
+    { images: [kawankerja, kawankerja1], bgColor: 'bg-[#DDF2FD]', github: 'https://github.com/FeriMauliandi/RAG-chatbot-Streamlit-FastAPI' },
     { images: [chili2], bgColor: 'bg-[#D8F3DC]', github: 'https://github.com/FeriMauliandi/Chili-Leaf-Disease-Detection-with-YOLOv11-and-LLM-Based-RAG' },
     { images: [ihsg, ihsg1], bgColor: 'bg-[#E2ECE9]', github: 'https://github.com/FeriMauliandi/LLM-based-IHSG-Stock-Fundamental-Explainer-with-Structured-Data' },
     { images: [drone1, drone2, drone3, drone4, drone5, drone6], bgColor: 'bg-[#F3E9D2]', github: 'https://github.com/ferimauliandisaputra' }

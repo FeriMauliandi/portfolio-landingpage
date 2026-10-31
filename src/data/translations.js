@@ -229,7 +229,7 @@ export const translations = {
         },
         {
           id: 4,
-          title: 'LLM-based IHSG Stock Fundamental Explainer with Structured Data',
+          title: 'FINSIGHT//IDX: IHSG Stock Fundamental Explainer with Structured Data',
           level: 'Basic',
           description: 'An LLM-powered financial explainer that interprets IHSG stock fundamental indicators using structured data pipelines (Yahoo Finance) orchestrated with LangChain.',
           tech: ['Python', 'LLM', 'LangChain', 'yfinance', 'Streamlit'],
