@@ -30,9 +30,10 @@ FEATURED AI PROJECTS (TECHNICAL DETAILS):
    - Uses Vision-Language Models (VLM) for food identification, automated USDA FoodData API querying, and Hybrid Search (Vector + Multiquery + BM25).
    - Cleanly decoupled FastAPI backend with an interactive Streamlit frontend.
 
-3. RAG Chatbot for Catfish Aquaculture:
-   - Domain-specific smart assistant that ingests local PDF documentation on catfish farming into ChromaDB vector storage.
-   - Employs Ollama for local LLM inference (privacy-first & zero-cloud cost) connected via FastAPI dan Streamlit.
+3. KawanKerjaAI (Labor Regulation RAG Chatbot):
+   - Domain-specific smart assistant that analyzes and answers queries regarding Indonesian labor regulations, specifically PP No. 35/2021.
+   - Ingests legal documents into ChromaDB vector storage and employs Ollama for local LLM inference (privacy-first & zero-cloud cost), cleanly integrated with a FastAPI backend and Streamlit interface.
+   - Stack: LangChain, ChromaDB, Ollama, Python, FastAPI, Streamlit.
 
 4. UAVs & Autonomous Robotics Development:
    - 3+ years hands-on experience building, calibrating, and flying Fixed Wing & VTOL drones for competitive robotics and aerial surveys.
@@ -191,7 +192,7 @@ export default function AIChatWidget() {
 
     if (isEnglish) {
       if (lower.includes('project') || lower.includes('work')) {
-        return `Feri's featured projects:\n• NutriGraph AI (Multi-Agent RAG with LangGraph for nutrition analysis)\n• RAG Chatbot for Catfish Aquaculture (ChromaDB + Ollama)\n• ChiliCare (YOLOv11 + LLM/RAG chili leaf disease detection)\n• IHSG Stock Fundamental Explainer (LLM + Structured Data)\n• UAV Robotics (National KRTI Fixed Wing 2026 Champion)`;
+        return `Feri's featured projects:\n• NutriGraph AI (Multi-Agent RAG with LangGraph for nutrition analysis)\n• KawanKerjaAI (Labor Regulation RAG Chatbot with ChromaDB & Ollama)\n• ChiliCare (YOLOv11 + LLM/RAG chili leaf disease detection)\n• IHSG Stock Fundamental Explainer (LLM + Structured Data)\n• UAV Robotics (National KRTI Fixed Wing 2026 Champion)`;
       }
       if (lower.includes('who') || lower.includes('about') || lower.includes('feri')) {
         return `Feri Mauliandi Saputra is an AI Engineer and Computer Engineering student specializing in LLMs, Agentic AI, Multi-Agent Workflows, and RAG architectures, with secondary expertise in Computer Vision and autonomous UAV systems.`;
@@ -204,7 +205,7 @@ export default function AIChatWidget() {
 
     // Default Indonesian response
     if (lower.includes('project') || lower.includes('proyek') || lower.includes('karya')) {
-      return `Proyek unggulan Feri:\n• NutriGraph AI (Multi-Agent RAG & LangGraph estimasi nutrisi)\n• RAG Chatbot Budidaya Lele (ChromaDB + Ollama)\n• ChiliCare (YOLOv11 + LLM/RAG deteksi penyakit cabai)\n• IHSG Stock Fundamental Explainer (LLM + Structured Data)\n• UAV KRTI Finalist 2024 & Juara 2026`;
+      return `Proyek unggulan Feri:\n• NutriGraph AI (Multi-Agent RAG & LangGraph estimasi nutrisi)\n• KawanKerjaAI (RAG Chatbot Regulasi Ketenagakerjaan PP 35/2021)\n• ChiliCare (YOLOv11 + LLM/RAG deteksi penyakit cabai)\n• IHSG Stock Fundamental Explainer (LLM + Structured Data)\n• UAV KRTI Finalist 2024 & Juara 2026`;
     }
     if (lower.includes('siapa') || lower.includes('tentang')) {
       return `Feri Mauliandi Saputra adalah AI Engineer & Mahasiswa Teknik Komputer yang berfokus utama pada LLMs, Agentic AI, Multi-Agent Workflows, dan RAG, dengan keahlian sekunder di bidang Computer Vision dan robotika drone (UAV).`;

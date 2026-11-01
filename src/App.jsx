@@ -10,7 +10,7 @@ import chili2 from './assets/chilicareai.jpg';
 import kawankerja from './assets/kawankerja2.png';
 import kawankerja1 from './assets/kawankerja1.png';
 import ihsg from './assets/stockai1.png';
-import ihsg1 from './assets/saham1.png';
+import ihsg1 from './assets/finsight.png';
 import drone1 from './assets/krti1.jpeg';
 import drone2 from './assets/krti.jpeg';
 import drone3 from './assets/uav.jpeg';
