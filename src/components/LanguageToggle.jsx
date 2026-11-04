@@ -1,7 +1,7 @@
 import React from 'react';
 import { FiGlobe } from 'react-icons/fi';
 
-export default function LanguageToggle({ currentLang, onToggle, className = '' }) {
+export default function LanguageToggle({ currentLang = 'en', onToggle, className = '' }) {
   return (
     <div
       className={`inline-flex items-center gap-1 p-1 bg-[#FFFDF7] border-2 border-[#1E2D24] rounded-xl shadow-[2px_2px_0px_#1E2D24] select-none ${className}`}

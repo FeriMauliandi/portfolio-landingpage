@@ -240,7 +240,7 @@ const FooterGhibliScene = () => (
 );
 
 // Kartu GitHub
-const GithubCard = ({ username, lang = 'id', t }) => {
+const GithubCard = ({ username, lang = 'en', t }) => {
   const lastMonths = (contributions) => {
     const cutoff = new Date();
     cutoff.setMonth(cutoff.getMonth() - 10);
@@ -487,7 +487,7 @@ export default function PersonalPortfolio() {
     } catch {
       // ignore
     }
-    return 'id'; // Default Bahasa Indonesia
+    return 'en'; // Default English
   });
 
   const handleToggleLang = (newLang) => {
@@ -499,7 +499,11 @@ export default function PersonalPortfolio() {
     }
   };
 
-  const t = translations[lang] || translations.id;
+  const t = translations[lang] || translations.en;
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   const [activeTab, setActiveTab] = useState('projects');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
