@@ -1028,6 +1028,30 @@ export default function PersonalPortfolio() {
         </div>
       </section>
 
+      {/* Quick Info — Horizontal Flowing Strip */}
+      <div className="relative z-20 -mt-12 md:-mt-32 mb-10 md:mb-2 bg-gradient-to-b from-transparent via-[#D8F3DC]/40 to-transparent">
+        <div className="max-w-6xl mx-auto px-5">
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2 py-4 text-[12px] sm:text-sm md:text-sm">
+            {[
+              { icon: <FiNavigation size={13} className="text-[#2D6A4F]" />, label: t.hero.quickInfo?.basedIn, value: t.hero.quickInfo?.basedInValue },
+              { icon: <FiBriefcase size={13} className="text-[#E07A5F]" />, label: t.hero.quickInfo?.openTo, value: t.hero.quickInfo?.openToValue },
+              { icon: <FiCompass size={13} className="text-[#2B6CB0]" />, label: t.hero.quickInfo?.availability, value: t.hero.quickInfo?.availabilityValue },
+              { icon: <FiCode size={13} className="text-[#2D6A4F]" />, label: t.hero.quickInfo?.workPref, value: t.hero.quickInfo?.workPrefValue },
+              { icon: <FiMail size={13} className="text-[#E07A5F]" />, label: t.hero.quickInfo?.languages, value: t.hero.quickInfo?.languagesValue },
+            ].map((item, i, arr) => (
+              <span key={i} className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                {item.icon}
+                <span className="font-extrabold text-[#1E2D24]">{item.label}:</span>
+                <span className="font-semibold text-[#2F3E35]">{item.value}</span>
+                {i < arr.length - 1 && (
+                  <span className="text-[#52B788] font-bold mx-1 select-none">•</span>
+                )}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Ilustrasi SVG Perbukitan Hijau Segar & Kincir Angin */}
       <GhibliHillsDivider />
 
