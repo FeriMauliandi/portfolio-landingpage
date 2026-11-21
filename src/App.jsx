@@ -1,9 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { GitHubCalendar } from 'react-github-calendar';
-import { FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, FiChevronLeft, FiChevronRight, FiMenu, FiX, FiCompass, FiCpu, FiNavigation, FiDownload } from 'react-icons/fi';
+import { 
+  FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, 
+  FiChevronLeft, FiChevronRight, FiMenu, FiX, FiCompass, FiCpu, 
+  FiNavigation, FiDownload, FiBookOpen, FiMapPin, FiCalendar, 
+  FiSettings, FiMinus, FiStar 
+} from 'react-icons/fi';
 
-import { SiJavascript, SiPython, SiFastapi, SiPytorch, SiTensorflow, SiNodedotjs, SiGithub, SiGit, SiUbuntu, SiArduino, SiNotion, SiLangchain, SiOpencv, SiPostman, SiRaspberrypi, SiDocker, SiHuggingface } from 'react-icons/si';
-import { FaTerminal, FaNetworkWired, FaTools, FaDatabase, FaMicrochip, FaPlane } from 'react-icons/fa';
+import { 
+  SiJavascript, SiPython, SiFastapi, SiPytorch, SiTensorflow, 
+  SiNodedotjs, SiGithub, SiGit, SiUbuntu, SiArduino, SiNotion, 
+  SiLangchain, SiOpencv, SiPostman, SiRaspberrypi, SiDocker, 
+  SiHuggingface 
+} from 'react-icons/si';
+
+import { 
+  FaTerminal, FaNetworkWired, FaTools, FaDatabase, FaMicrochip, 
+  FaPlane, FaGraduationCap, FaSeedling, FaUniversity, FaScroll, 
+  FaStar 
+} from 'react-icons/fa';
+
+import { HiSparkles } from 'react-icons/hi2';
 
 import fotoFeri from './assets/feri1.jpg';
 import chili2 from './assets/chilicareai.jpg';
@@ -23,96 +40,24 @@ import AIChatWidget from './components/AIChatWidget';
 import LanguageToggle from './components/LanguageToggle';
 import { translations } from './data/translations';
 
-// 1. Komponen Animasi Angin Sepoi-Sepoi & Glider Kertas (Ghibli Aviation Breeze)
-const GentleBreeze = () => {
-  const gusts = [
-    { id: 1, top: '16%', delay: '0s', duration: '8s', scale: 1 },
-    { id: 2, top: '44%', delay: '3s', duration: '10s', scale: 0.9 },
-    { id: 3, top: '70%', delay: '1.5s', duration: '9s', scale: 1.1 },
-    { id: 4, top: '85%', delay: '5s', duration: '11s', scale: 0.85 },
-  ];
-
-  const gliders = [
-    { id: 1, top: '22%', delay: '2s', duration: '18s' },
-    { id: 2, top: '62%', delay: '9s', duration: '22s' },
-  ];
-
-  return (
-    <div className="fixed inset-0 pointer-events-none z-30 overflow-hidden">
-      {/* Garis Aliran Angin (Aerodynamic Wind Lines) */}
-      {gusts.map((gust) => (
-        <div
-          key={gust.id}
-          className="absolute -left-64 w-full"
-          style={{
-            top: gust.top,
-            transform: `scale(${gust.scale})`,
-            animation: `breeze-drift ${gust.duration} ease-in-out ${gust.delay} infinite`,
-          }}
-        >
-          <svg width="380" height="80" viewBox="0 0 380 80" fill="none">
-            <path
-              d="M10,45 Q120,15 230,45 T350,30"
-              stroke="#FFFFFF"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              className="breeze-path opacity-75"
-              style={{ animationDelay: gust.delay }}
-            />
-            <path
-              d="M45,60 Q150,35 255,60 T365,48"
-              stroke="#52B788"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              className="breeze-path opacity-45"
-              style={{ animationDelay: gust.delay }}
-            />
-          </svg>
-        </div>
-      ))}
-
-      {/* Siluet Glider Kecil Melayang Mengikuti Angin (Ala The Wind Rises) */}
-      {gliders.map((glider) => (
-        <div
-          key={`glider-${glider.id}`}
-          className="absolute -left-16"
-          style={{
-            top: glider.top,
-            animation: `seed-float ${glider.duration} linear ${glider.delay} infinite`,
-          }}
-        >
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="#FFFDF7" stroke="#1E2D24" strokeWidth="1.5" className="drop-shadow-sm opacity-85">
-            <path d="M22 2L11 13" />
-            <path d="M22 2L15 22L11 13L2 9L22 2Z" />
-          </svg>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-// 2. Komponen Daun Hutan Segar (Tanpa Kelopak Bunga Pink)
+// 1. Komponen Daun Hutan Gugur (Minimalis: 3 helai pelan, hemat CPU/GPU)
 const FallingLeaves = () => {
   const leaves = [
-    { id: 1, left: '4%', delay: '0s', duration: '13s', size: 16, color: '#2D6A4F' },
-    { id: 2, left: '16%', delay: '2.5s', duration: '16s', size: 14, color: '#52B788' },
-    { id: 3, left: '29%', delay: '6s', duration: '14s', size: 18, color: '#40916C' },
-    { id: 4, left: '43%', delay: '1.2s', duration: '15s', size: 15, color: '#E9C46A' },
-    { id: 5, left: '58%', delay: '4.5s', duration: '17s', size: 14, color: '#52B788' },
-    { id: 6, left: '71%', delay: '2s', duration: '12s', size: 17, color: '#2D6A4F' },
-    { id: 7, left: '84%', delay: '7.5s', duration: '16s', size: 15, color: '#74C69D' },
-    { id: 8, left: '93%', delay: '3.8s', duration: '14s', size: 14, color: '#E07A5F' },
+    { id: 1, left: '6%', delay: '0s', duration: '20s', size: 14, color: '#2D6A4F' },
+    { id: 2, left: '48%', delay: '7s', duration: '23s', size: 15, color: '#52B788' },
+    { id: 3, left: '90%', delay: '14s', duration: '21s', size: 13, color: '#40916C' },
   ];
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-30 overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none z-20 overflow-hidden" aria-hidden="true">
       {leaves.map((leaf) => (
         <div
           key={leaf.id}
-          className="absolute -top-10 opacity-80"
+          className="absolute -top-10 opacity-60"
           style={{
             left: leaf.left,
             animation: `leaf-fall ${leaf.duration} linear ${leaf.delay} infinite`,
+            willChange: 'transform',
           }}
         >
           <svg
@@ -120,9 +65,6 @@ const FallingLeaves = () => {
             height={leaf.size}
             viewBox="0 0 24 24"
             fill={leaf.color}
-            style={{
-              animation: `leaf-sway 3s ease-in-out ${leaf.delay} infinite alternate`,
-            }}
           >
             <path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z" />
           </svg>
@@ -132,15 +74,17 @@ const FallingLeaves = () => {
   );
 };
 
-// 3. Elemen Awan Kumulus Ghibli
+// 2. Elemen Awan Kumulus di Langit Hero
 const FloatingCloud = ({ delay, duration, className }) => (
   <div
-    className={`absolute pointer-events-none opacity-85 ${className}`}
+    className={`absolute pointer-events-none opacity-80 ${className}`}
     style={{
       animation: `float ${duration}s ease-in-out ${delay}s infinite alternate`,
+      willChange: 'transform',
     }}
+    aria-hidden="true"
   >
-    <svg viewBox="0 0 200 100" className="w-full h-full fill-white drop-shadow-[0_10px_18px_rgba(29,53,87,0.1)]">
+    <svg viewBox="0 0 200 100" className="w-full h-full fill-white drop-shadow-[0_8px_16px_rgba(29,53,87,0.08)]">
       <path d="M 45 80 L 160 80 C 180 80 190 65 185 50 C 180 35 165 30 155 35 C 145 15 115 10 95 25 C 75 10 45 20 40 45 C 20 45 10 60 20 75 C 25 80 35 80 45 80 Z" />
     </svg>
   </div>
@@ -176,14 +120,14 @@ const GhibliHillsDivider = () => (
         </g>
       </g>
       {/* Deretan Pohon Pinus/Cemara */}
-      <g fill="#1B4332" className="animate-grass-sway">
+      <g fill="#1B4332">
         <polygon points="220,98 208,134 232,134" />
         <polygon points="240,106 230,138 250,138" />
         <polygon points="890,90 878,126 902,126" />
         <polygon points="910,100 900,128 920,128" />
       </g>
-      {/* Rumput Padang yang Bergoyang Ditiup Angin */}
-      <g stroke="#1B4332" strokeWidth="2.5" strokeLinecap="round" fill="none" className="animate-grass-sway">
+      {/* Rumput Padang */}
+      <g stroke="#1B4332" strokeWidth="2.5" strokeLinecap="round" fill="none">
         <path d="M140,175 Q148,155 156,148" />
         <path d="M145,175 Q142,158 135,152" />
         <path d="M520,178 Q530,158 538,150" />
@@ -206,14 +150,14 @@ const FooterGhibliScene = () => (
   <div className="w-full overflow-hidden leading-none relative z-10 bg-[#F3E9D2] pt-8 pointer-events-none select-none">
     <div className="max-w-6xl mx-auto px-10 flex justify-between items-end -mb-3 relative z-20">
       <div className="flex items-end gap-3">
-        <svg width="34" height="46" viewBox="0 0 40 55" className="drop-shadow-sm" style={{ animation: 'kodama-tilt 3s ease-in-out infinite alternate' }}>
+        <svg width="34" height="46" viewBox="0 0 40 55" className="drop-shadow-sm">
           <path d="M15,24 L13,50 L18,50 L20,38 L22,50 L27,50 L25,24 Z" fill="#FFFDF7" stroke="#1E2D24" strokeWidth="2" />
           <ellipse cx="20" cy="15" rx="13" ry="11" fill="#FFFDF7" stroke="#1E2D24" strokeWidth="2" />
           <circle cx="15" cy="13" r="2.2" fill="#1E2D24" />
           <circle cx="25" cy="14" r="1.8" fill="#1E2D24" />
           <ellipse cx="20" cy="20" rx="2" ry="2.5" fill="#1E2D24" />
         </svg>
-        <svg width="26" height="36" viewBox="0 0 40 55" className="drop-shadow-sm" style={{ animation: 'kodama-tilt 2.4s ease-in-out 1s infinite alternate-reverse' }}>
+        <svg width="26" height="36" viewBox="0 0 40 55" className="drop-shadow-sm">
           <path d="M15,24 L14,48 L19,48 L20,38 L21,48 L26,48 L25,24 Z" fill="#FFFDF7" stroke="#1E2D24" strokeWidth="2" />
           <ellipse cx="20" cy="15" rx="12" ry="11" fill="#FFFDF7" stroke="#1E2D24" strokeWidth="2" />
           <circle cx="15" cy="14" r="2" fill="#1E2D24" />
@@ -221,7 +165,7 @@ const FooterGhibliScene = () => (
           <circle cx="20" cy="19" r="1.8" fill="#1E2D24" />
         </svg>
       </div>
-      <div className="text-2xl animate-grass-sway">🌲🍃</div>
+      <div className="text-2xl">🌲🍃</div>
     </div>
 
     <svg viewBox="0 0 1440 90" className="w-full h-[50px] md:h-[75px] block" preserveAspectRatio="none">
@@ -403,9 +347,16 @@ const ProjectCard = ({ project, idx, viewRepoText = 'View Repository' }) => {
           </div>
 
           <div className="flex items-center justify-between gap-2 mb-3">
-            <span className="px-3.5 py-1 bg-[#FFFDF7] ghibli-border text-[#2D6A4F] rounded-lg text-xs font-extrabold inline-block w-fit shadow-[2px_2px_0px_#52B788] uppercase tracking-wider">
-              ⚙️ {project.level}
+            <span className="px-3.5 py-1 bg-[#FFFDF7] ghibli-border text-[#2D6A4F] rounded-lg text-xs font-extrabold inline-flex items-center gap-1.5 w-fit shadow-[2px_2px_0px_#52B788] uppercase tracking-wider">
+              <FiSettings size={12} className="text-[#2D6A4F]" />
+              {project.level}
             </span>
+            {project.featured && (
+              <span className="px-2.5 py-0.5 bg-[#E9C46A] text-[#1E2D24] ghibli-border rounded-lg text-xs font-extrabold shadow-[1px_1px_0px_#1E2D24] inline-flex items-center gap-1">
+                <FaStar size={11} className="text-[#1E2D24]" />
+                Featured
+              </span>
+            )}
           </div>
 
           <h3 className="text-2xl font-bold mb-3 text-[#1E2D24] tracking-tight leading-snug">{project.title}</h3>
@@ -592,18 +543,19 @@ export default function PersonalPortfolio() {
 
   // Map project items dengan data media & tema
   const projectMetadata = [
-    { images: [dietary], bgColor: 'bg-[#FDEEDC]', github: 'https://github.com/FeriMauliandi/NutriGraph_AI-nutrition-agentic-RAG' },
-    { images: [kawankerja, kawankerja1], bgColor: 'bg-[#DDF2FD]', github: 'https://github.com/FeriMauliandi/RAG-chatbot-Streamlit-FastAPI' },
-    { images: [chili2], bgColor: 'bg-[#D8F3DC]', github: 'https://github.com/FeriMauliandi/Chili-Leaf-Disease-Detection-with-YOLOv11-and-LLM-Based-RAG' },
-    { images: [ihsg, ihsg1], bgColor: 'bg-[#E2ECE9]', github: 'https://github.com/FeriMauliandi/LLM-based-IHSG-Stock-Fundamental-Explainer-with-Structured-Data' },
-    { images: [drone1, drone2, drone3, drone4, drone5, drone6], bgColor: 'bg-[#F3E9D2]', github: 'https://github.com/ferimauliandisaputra' }
+    { images: [dietary], bgColor: 'bg-[#FDEEDC]', github: 'https://github.com/FeriMauliandi/NutriGraph_AI-nutrition-agentic-RAG', featured: false },
+    { images: [kawankerja, kawankerja1], bgColor: 'bg-[#DDF2FD]', github: 'https://github.com/FeriMauliandi/RAG-chatbot-Streamlit-FastAPI', featured: false },
+    { images: [chili2], bgColor: 'bg-[#D8F3DC]', github: 'https://github.com/FeriMauliandi/Chili-Leaf-Disease-Detection-with-YOLOv11-and-LLM-Based-RAG', featured: true },
+    { images: [ihsg, ihsg1], bgColor: 'bg-[#E2ECE9]', github: 'https://github.com/FeriMauliandi/LLM-based-IHSG-Stock-Fundamental-Explainer-with-Structured-Data', featured: false },
+    { images: [drone1, drone2, drone3, drone4, drone5, drone6], bgColor: 'bg-[#F3E9D2]', github: 'https://github.com/ferimauliandisaputra', featured: true }
   ];
 
   const projects = t.portfolio.projects.map((proj, idx) => ({
     ...proj,
     images: projectMetadata[idx]?.images || [dietary],
     bgColor: projectMetadata[idx]?.bgColor || 'bg-[#FDEEDC]',
-    github: projectMetadata[idx]?.github || 'https://github.com/FeriMauliandi'
+    github: projectMetadata[idx]?.github || 'https://github.com/FeriMauliandi',
+    featured: projectMetadata[idx]?.featured || false
   }));
 
   const experienceColors = ['bg-[#D8F3DC]', 'bg-[#FDEEDC]'];
@@ -617,6 +569,8 @@ export default function PersonalPortfolio() {
     ...cert,
     image: certImages[idx] || null
   }));
+
+  const education = t.portfolio.education || [];
 
   return (
     <div className="min-h-screen bg-[#FFFDF7] overflow-hidden text-[#1E2D24] font-sans selection:bg-[#2D6A4F] selection:text-[#FFFDF7] relative">
@@ -651,66 +605,32 @@ export default function PersonalPortfolio() {
           50% { transform: translateY(-7px); }
         }
 
-        @keyframes breeze-drift {
-          0% { transform: translateX(-20vw) translateY(0px); opacity: 0; }
-          20% { opacity: 0.85; }
-          80% { opacity: 0.85; }
-          100% { transform: translateX(115vw) translateY(-25px); opacity: 0; }
-        }
-
-        @keyframes breeze-draw {
-          0% { stroke-dasharray: 0 400; stroke-dashoffset: 0; }
-          50% { stroke-dasharray: 220 400; stroke-dashoffset: -60; }
-          100% { stroke-dasharray: 0 400; stroke-dashoffset: -360; }
-        }
-
-        .breeze-path {
-          animation: breeze-draw 5s ease-in-out infinite;
-        }
-
-        @keyframes seed-float {
-          0% { transform: translateX(-10vw) translateY(0px) rotate(-5deg); opacity: 0; }
-          15% { opacity: 0.9; }
-          50% { transform: translateX(50vw) translateY(-35px) rotate(8deg); }
-          85% { opacity: 0.9; }
-          100% { transform: translateX(110vw) translateY(-10px) rotate(-5deg); opacity: 0; }
-        }
-
-        @keyframes grass-sway {
-          0% { transform: skewX(-4deg); }
-          100% { transform: skewX(6deg); }
-        }
-
-        .animate-grass-sway {
-          transform-origin: bottom center;
-          animation: grass-sway 3.2s ease-in-out infinite alternate;
-        }
-
+        /* 1. Animasi Daun Gugur Lembut */
         @keyframes leaf-fall {
-          0% { transform: translateY(-10vh) translateX(0px); opacity: 0; }
-          10% { opacity: 0.85; }
-          90% { opacity: 0.85; }
-          100% { transform: translateY(110vh) translateX(180px); opacity: 0; }
+          0% { transform: translateY(-8vh) rotate(0deg); opacity: 0; }
+          15% { opacity: 0.65; }
+          85% { opacity: 0.65; }
+          100% { transform: translateY(105vh) rotate(25deg); opacity: 0; }
         }
 
-        @keyframes leaf-sway {
-          0% { transform: rotate(-25deg) scale(0.95); }
-          100% { transform: rotate(35deg) scale(1.05); }
-        }
-
+        /* 2. Animasi Kincir Angin */
         @keyframes spin-slow {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
         }
 
-        @keyframes kodama-tilt {
-          0%, 70% { transform: rotate(0deg); }
-          85% { transform: rotate(10deg); }
-          100% { transform: rotate(-8deg); }
-        }
-
         .animate-spin-slow {
           animation: spin-slow 12s linear infinite;
+        }
+
+        /* Dukungan Aksesibilitas: Matikan total jika mode hemat gerak aktif di OS */
+        @media (prefers-reduced-motion: reduce) {
+          *, ::before, ::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+          }
         }
         
         @keyframes slideInUp {
@@ -793,14 +713,12 @@ export default function PersonalPortfolio() {
         }
       `}</style>
 
-      {/* Efek Angin Sepoi-Sepoi & Daun Hutan Segar */}
-      <GentleBreeze />
+      {/* 1 dari 3: Daun Gugur Minimalis (3 helai pelan di pinggir, sangat hemat CPU) */}
       <FallingLeaves />
 
-      {/* Awan Kumulus Putih Cerah */}
-      <FloatingCloud delay="0" duration="12" className="w-64 h-32 top-20 left-6" />
-      <FloatingCloud delay="2" duration="16" className="w-80 h-40 top-28 right-12" />
-      <FloatingCloud delay="1" duration="14" className="w-56 h-28 top-1/2 left-1/3" />
+      {/* 2 dari 3: Awan Kumulus di Langit Hero */}
+      <FloatingCloud delay="0" duration="14" className="w-64 h-32 top-20 left-6" />
+      <FloatingCloud delay="2" duration="18" className="w-80 h-40 top-28 right-12" />
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#FFFDF7]/90 backdrop-blur-md border-b-2 border-[#1E2D24]">
@@ -944,7 +862,10 @@ export default function PersonalPortfolio() {
 
                 {/* Header Kecil di Atas Foto ala Logbook Penerbangan */}
                 <div className="flex items-center justify-between px-2 pb-2 text-[11px] font-extrabold tracking-widest uppercase text-[#2D6A4F]">
-                  <span>{t.hero.flightLogTitle}</span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <HiSparkles size={13} className="text-[#E07A5F]" />
+                    {t.hero.flightLogTitle}
+                  </span>
                   <span>UAV-RES</span>
                 </div>
 
@@ -1028,12 +949,12 @@ export default function PersonalPortfolio() {
         </div>
       </section>
 
-      {/* Quick Info — Horizontal Flowing Strip */}
+      {/* Quick Info: Horizontal Flowing Strip */}
       <div className="relative z-20 -mt-12 md:-mt-32 mb-10 md:mb-2 bg-gradient-to-b from-transparent via-[#D8F3DC]/40 to-transparent">
         <div className="max-w-6xl mx-auto px-5">
           <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2 py-4 text-[12px] sm:text-sm md:text-sm">
             {[
-              { icon: <FiNavigation size={13} className="text-[#2D6A4F]" />, label: t.hero.quickInfo?.basedIn, value: t.hero.quickInfo?.basedInValue },
+              { icon: <FiMapPin size={13} className="text-[#2D6A4F]" />, label: t.hero.quickInfo?.basedIn, value: t.hero.quickInfo?.basedInValue },
               { icon: <FiBriefcase size={13} className="text-[#E07A5F]" />, label: t.hero.quickInfo?.openTo, value: t.hero.quickInfo?.openToValue },
               { icon: <FiCompass size={13} className="text-[#2B6CB0]" />, label: t.hero.quickInfo?.availability, value: t.hero.quickInfo?.availabilityValue },
               { icon: <FiCode size={13} className="text-[#2D6A4F]" />, label: t.hero.quickInfo?.workPref, value: t.hero.quickInfo?.workPrefValue },
@@ -1044,7 +965,9 @@ export default function PersonalPortfolio() {
                 <span className="font-extrabold text-[#1E2D24]">{item.label}:</span>
                 <span className="font-semibold text-[#2F3E35]">{item.value}</span>
                 {i < arr.length - 1 && (
-                  <span className="text-[#52B788] font-bold mx-1 select-none">•</span>
+                  <span className="text-[#52B788] font-bold mx-1 select-none inline-flex items-center">
+                    <FiMinus size={11} />
+                  </span>
                 )}
               </span>
             ))}
@@ -1058,9 +981,13 @@ export default function PersonalPortfolio() {
       {/* About Me Section - Nuansa Padang Rumput Segar */}
       <section id="about" className="relative py-16 px-6 bg-[#E6F4EA] border-b-2 border-[#1E2D24]">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16 scroll-reveal opacity-0" data-animation="animate-slideInUp">
-            <span className="text-sm font-extrabold uppercase tracking-widest text-[#2D6A4F] block mb-2">{t.about.tag}</span>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 inline-block bg-[#FFFDF7] text-[#1E2D24] px-8 py-3 ghibli-box">
+          <div className="flex flex-col items-center text-center mb-16 scroll-reveal opacity-0" data-animation="animate-slideInUp">
+            <span className="text-sm font-extrabold uppercase tracking-widest text-[#2D6A4F] inline-flex items-center gap-2 mb-3">
+              <HiSparkles size={14} className="text-[#E07A5F]" />
+              {t.about.tag}
+              <HiSparkles size={14} className="text-[#E07A5F]" />
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-[#FFFDF7] text-[#1E2D24] px-8 py-3 ghibli-box">
               {t.about.title}
             </h2>
 
@@ -1070,7 +997,7 @@ export default function PersonalPortfolio() {
 
             <div className="mt-14 pt-4 flex flex-col items-center">
               <h3 className="text-2xl md:text-3xl font-bold mb-8 text-[#1E2D24] flex items-center gap-3 bg-[#E9C46A] px-7 py-2.5 ghibli-border rounded-xl shadow-[3px_3px_0px_#2D6A4F]">
-                <span>🛠️</span> {t.about.techStackTitle}
+                <FaTools size={20} className="text-[#1E2D24]" /> {t.about.techStackTitle}
               </h3>
 
               <div className="flex flex-wrap justify-center gap-3 max-w-5xl">
@@ -1086,7 +1013,7 @@ export default function PersonalPortfolio() {
               </div>
 
               <h3 className="text-2xl md:text-3xl font-bold mt-16 mb-8 text-[#1E2D24] flex items-center gap-3 bg-[#DDF2FD] px-7 py-2.5 ghibli-border rounded-xl shadow-[3px_3px_0px_#2D6A4F]">
-                <span>🌱</span> {t.about.githubTitle}
+                <FaSeedling size={22} className="text-[#2D6A4F]" /> {t.about.githubTitle}
               </h3>
               <div className="w-full max-w-4xl">
                 <GithubCard username={githubUsername} lang={lang} t={t} />
@@ -1099,8 +1026,12 @@ export default function PersonalPortfolio() {
       {/* Portfolio Showcase Section */}
       <section id="portfolio" className="relative py-20 px-6 bg-[#FFFDF7]">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-10 scroll-reveal opacity-0" data-animation="animate-slideInUp">
-            <span className="text-sm font-extrabold uppercase tracking-widest text-[#E07A5F] block mb-2">{t.portfolio.tag}</span>
+          <div className="flex flex-col items-center text-center mb-10 scroll-reveal opacity-0" data-animation="animate-slideInUp">
+            <span className="text-sm font-extrabold uppercase tracking-widest text-[#E07A5F] inline-flex items-center gap-2 mb-3">
+              <HiSparkles size={14} className="text-[#2D6A4F]" />
+              {t.portfolio.tag}
+              <HiSparkles size={14} className="text-[#2D6A4F]" />
+            </span>
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[#1E2D24]">{t.portfolio.title}</h2>
             <p className="text-base md:text-lg text-[#1E2D24] font-semibold max-w-3xl mx-auto bg-[#D8F3DC] inline-block px-6 py-4 ghibli-box">
               {t.portfolio.subtitle}
@@ -1130,13 +1061,23 @@ export default function PersonalPortfolio() {
               {t.portfolio.tabExperience}
             </button>
             <button
+              onClick={() => setActiveTab('education')}
+              className={`flex items-center gap-2 px-6 py-3 font-bold transition-all ghibli-btn cursor-pointer ${activeTab === 'education'
+                  ? 'bg-[#2D6A4F] text-[#FFFDF7] translate-y-0.5'
+                  : 'bg-[#FFFDF7] text-[#1E2D24] hover:bg-[#D8F3DC]'
+                }`}
+            >
+              <FaGraduationCap size={19} />
+              {t.portfolio.tabEducation || 'Pendidikan'}
+            </button>
+            <button
               onClick={() => setActiveTab('certifications')}
               className={`flex items-center gap-2 px-6 py-3 font-bold transition-all ghibli-btn cursor-pointer ${activeTab === 'certifications'
                   ? 'bg-[#2D6A4F] text-[#FFFDF7] translate-y-0.5'
                   : 'bg-[#FFFDF7] text-[#1E2D24] hover:bg-[#D8F3DC]'
                 }`}
             >
-              <FiAward size={18} strokeWidth={2.5} />
+              <FaScroll size={17} />
               {t.portfolio.tabCertificates}
             </button>
           </div>
@@ -1161,21 +1102,114 @@ export default function PersonalPortfolio() {
                   style={{ animationDelay: `${idx * 0.1}s` }}
                 >
                   <div className="flex items-start gap-6 flex-col md:flex-row">
-                    <div className={`w-16 h-16 ${exp.color} ghibli-border rounded-2xl flex items-center justify-center text-3xl shrink-0 shadow-[3px_3px_0px_#2D6A4F]`}>
-                      💼
+                    <div className={`w-16 h-16 ${exp.color} ghibli-border rounded-2xl flex items-center justify-center shrink-0 shadow-[3px_3px_0px_#2D6A4F]`}>
+                      <FiBriefcase size={26} className="text-[#1E2D24]" strokeWidth={2.5} />
                     </div>
                     <div className="flex-1">
                       <h3 className="text-2xl md:text-3xl font-bold mb-2 text-[#1E2D24] leading-tight">{exp.role}</h3>
                       <div className="flex flex-wrap items-center gap-2 mb-4">
-                        <span className="text-sm font-bold bg-[#E9C46A] px-4 py-1 ghibli-border rounded-lg">
+                        <span className="text-sm font-bold bg-[#E9C46A] px-4 py-1 ghibli-border rounded-lg inline-flex items-center gap-1.5">
+                          <FaUniversity size={13} className="text-[#1E2D24]" />
                           {exp.company}
                         </span>
-                        <span className="text-[#1E2D24] font-bold text-xs bg-[#D8F3DC] px-3 py-1 ghibli-border rounded-lg">
-                          🗓️ {exp.period}
+                        <span className="text-[#1E2D24] font-bold text-xs bg-[#D8F3DC] px-3 py-1 ghibli-border rounded-lg inline-flex items-center gap-1.5">
+                          <FiCalendar size={12} className="text-[#2D6A4F]" />
+                          {exp.period}
+                        </span>
+                        <span className="text-[#1E2D24] font-bold text-xs bg-[#FDEEDC] px-3 py-1 ghibli-border rounded-lg inline-flex items-center gap-1.5">
+                          <FiMapPin size={12} className="text-[#E07A5F]" />
+                          Banda Aceh
                         </span>
                       </div>
                       <p className="text-[#2F3E35] font-semibold text-base leading-relaxed">{exp.description}</p>
                     </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Education Tab */}
+          {activeTab === 'education' && (
+            <div className="space-y-8 max-w-3xl mx-auto">
+              {education.map((edu, idx) => (
+                <div
+                  key={edu.id}
+                  className="bg-[#FFFDF7] ghibli-box p-6 md:p-8 card-hover scroll-reveal opacity-0"
+                  data-animation="animate-slideInLeft"
+                  style={{ animationDelay: `${idx * 0.1}s` }}
+                >
+                  <div>
+                    <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+                      <h3 className="text-2xl md:text-3xl font-bold text-[#1E2D24] leading-tight font-serif flex items-center gap-2.5">
+                        <FaGraduationCap size={24} className="text-[#2D6A4F] shrink-0" />
+                        {edu.degree}
+                      </h3>
+                      <span className="px-3 py-1 bg-[#D8F3DC] ghibli-border rounded-lg text-xs font-extrabold text-[#2D6A4F]">
+                        {edu.status}
+                      </span>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2.5 mb-4">
+                      <span className="text-xs font-bold bg-[#E9C46A] px-3 py-1 ghibli-border rounded-lg text-[#1E2D24] inline-flex items-center gap-1.5">
+                        <FaUniversity size={13} className="text-[#1E2D24]" />
+                        {edu.institution}
+                      </span>
+                      <span className="text-[#1E2D24] font-bold text-xs bg-[#F3E9D2] px-3 py-1 ghibli-border rounded-lg inline-flex items-center gap-1.5">
+                        <FiMapPin size={12} className="text-[#E07A5F]" />
+                        {edu.location}
+                      </span>
+                      <span className="text-[#1E2D24] font-bold text-xs bg-[#FFFDF7] px-3 py-1 ghibli-border rounded-lg inline-flex items-center gap-1.5">
+                        <FiCalendar size={12} className="text-[#2D6A4F]" />
+                        {edu.period}
+                      </span>
+                    </div>
+
+                    <p className="text-[#2F3E35] font-semibold text-sm md:text-base leading-relaxed mb-5">
+                      {edu.description}
+                    </p>
+
+                    {/* Skripsi / Thesis Highlight Box */}
+                    {edu.thesisTitle && (
+                      <div className="mb-5 p-5 bg-[#FDEEDC]/80 ghibli-border rounded-2xl shadow-[3px_3px_0px_#2D6A4F] border-l-[6px] border-l-[#2D6A4F]">
+                        <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                          <span className="text-[11px] md:text-xs font-black uppercase tracking-wider text-[#2D6A4F] flex items-center gap-1.5">
+                            <FiBookOpen size={14} /> {edu.thesisLabel || 'Skripsi'}
+                          </span>
+                          {edu.thesisMetric && (
+                            <span className="px-2.5 py-0.5 bg-[#2D6A4F] text-[#FFFDF7] ghibli-border rounded-lg text-xs font-extrabold shadow-[1px_1px_0px_#1E2D24] inline-flex items-center gap-1.5">
+                              <FaStar size={11} className="text-[#E9C46A]" />
+                              {edu.thesisMetric}
+                            </span>
+                          )}
+                        </div>
+                        <h4 className="font-extrabold text-base md:text-lg text-[#1E2D24] mb-2 leading-snug font-serif">
+                          "{edu.thesisTitle}"
+                        </h4>
+                        <p className="text-xs md:text-sm text-[#2F3E35] font-semibold leading-relaxed">
+                          {edu.thesisDetail}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Academic Highlights */}
+                    {edu.highlights?.length > 0 && (
+                      <div className="pt-3 border-t border-dashed border-[#1E2D24]/20">
+                        <p className="text-xs font-extrabold uppercase tracking-wider text-[#E07A5F] mb-2.5">
+                          {edu.highlightsTitle}
+                        </p>
+                        <ul className="space-y-2 text-xs md:text-sm font-semibold text-[#2F3E35]">
+                          {edu.highlights.map((hl, hIdx) => (
+                            <li key={hIdx} className="flex items-start gap-2">
+                              <span className="mt-1 shrink-0 text-[#E07A5F]">
+                                <FaStar size={10} />
+                              </span>
+                              <span>{hl}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -1203,7 +1237,7 @@ export default function PersonalPortfolio() {
                     ) : (
                       <div className="w-full h-full bg-gradient-to-br from-[#D8F3DC] via-[#DDF2FD] to-[#FDEEDC] flex items-center justify-center">
                         <div className="text-center px-6">
-                          <span className="text-4xl block mb-2">📜</span>
+                          <FaScroll size={36} className="text-[#2D6A4F] mx-auto mb-2" />
                           <p className="text-xs font-bold text-[#2D6A4F] leading-snug">{cert.name}</p>
                         </div>
                       </div>
@@ -1212,11 +1246,15 @@ export default function PersonalPortfolio() {
                   <div className="p-6 flex-1 flex flex-col justify-between bg-[#FFFDF7]">
                     <div>
                       <h3 className="text-xl font-bold mb-3 leading-snug text-[#1E2D24]">{cert.name}</h3>
-                      <p className="text-[#1E2D24] font-bold bg-[#D8F3DC] inline-block px-3 py-1 ghibli-border rounded-lg text-xs mb-4">
+                      <p className="text-[#1E2D24] font-bold bg-[#D8F3DC] inline-flex items-center gap-1.5 px-3 py-1 ghibli-border rounded-lg text-xs mb-4">
+                        <FaScroll size={12} className="text-[#2D6A4F]" />
                         {cert.issuer}
                       </p>
                     </div>
-                    <p className="text-[#2D6A4F] font-bold text-right text-lg font-serif">{cert.year}</p>
+                    <p className="text-[#2D6A4F] font-bold text-right text-lg font-serif inline-flex items-center justify-end gap-1.5">
+                      <FiCalendar size={15} className="text-[#2D6A4F]" />
+                      {cert.year}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -1228,8 +1266,12 @@ export default function PersonalPortfolio() {
       {/* Contact Section - Nuansa Kertas Peta Ekspedisi Hangat */}
       <section id="contact" className="relative pt-20 pb-8 px-6 bg-[#F3E9D2] border-t-2 border-[#1E2D24]">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="scroll-reveal opacity-0" data-animation="animate-slideInUp">
-            <span className="text-sm font-extrabold uppercase tracking-widest text-[#E07A5F] block mb-2">{t.contact.tag}</span>
+          <div className="flex flex-col items-center scroll-reveal opacity-0" data-animation="animate-slideInUp">
+            <span className="text-sm font-extrabold uppercase tracking-widest text-[#E07A5F] inline-flex items-center gap-2 mb-3">
+              <HiSparkles size={14} className="text-[#E9C46A]" />
+              {t.contact.tag}
+              <HiSparkles size={14} className="text-[#E9C46A]" />
+            </span>
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[#1E2D24]">{t.contact.title}</h2>
             <p className="text-base md:text-lg text-[#1E2D24] font-semibold mb-10 max-w-2xl mx-auto bg-[#FFFDF7] inline-block px-6 py-4 ghibli-box">
               {t.contact.subtitle}
@@ -1251,8 +1293,8 @@ export default function PersonalPortfolio() {
             </div>
 
             <div className="bg-[#FFFDF7] ghibli-box p-8 md:p-12 max-w-2xl mx-auto text-left relative">
-              <div className="absolute -top-6 -right-4 w-14 h-14 bg-[#E9C46A] ghibli-border rounded-2xl flex items-center justify-center text-2xl shadow-[3px_3px_0px_#2D6A4F] rotate-6">
-                🧭
+              <div className="absolute -top-6 -right-4 w-14 h-14 bg-[#E9C46A] ghibli-border rounded-2xl flex items-center justify-center shadow-[3px_3px_0px_#2D6A4F] rotate-6">
+                <FiCompass size={28} className="text-[#1E2D24]" strokeWidth={2.5} />
               </div>
               <h3 className="text-2xl md:text-3xl font-bold mb-6 text-[#1E2D24]">{t.contact.formTitle}</h3>
               <form className="space-y-5" onSubmit={handleContactSubmit}>

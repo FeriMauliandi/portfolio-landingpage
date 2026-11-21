@@ -1,0 +1,18 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+
+# Mapping /api/chat ke Netlify Functions
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# SPA fallback agar refresh di route apapun tetap membuka index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -1,66 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { FiMessageCircle, FiX, FiSend, FiCpu, FiAlertCircle } from 'react-icons/fi';
-
-// ============================================================
-// SYSTEM PROMPT — BALANCED & INFORMATIVE (~700 tokens)
-// ============================================================
-// Cukup detail dan informatif untuk menjawab pertanyaan teknis
-// mendalam, namun tetap aman dari kuota 6.000 TPM Groq.
-// Respon SELALU menyesuaikan bahasa yang diinput oleh pengguna.
-// ============================================================
-const COMPACT_SYSTEM_PROMPT = `You are the AI Portfolio Assistant representing Feri Mauliandi Saputra.
-Your role is to introduce Feri to recruiters, hiring managers, and collaborators with accurate technical depth.
-
-ABOUT FERI:
-- Status: AI Engineer & Computer Engineering student based in Universitas Syiah Kuala.
-- Core Focus: Generative AI, Large Language Models (LLMs), Agentic AI, Multi-Agent Workflows (LangGraph, LangChain), and advanced RAG architectures.
-- Secondary Focus: Computer Vision (YOLOv8/v11, DETR) and UAV Drone Robotics.
-- Unique Edge: Combines cognitive AI reasoning workflows (LLMs & Agents) with practical full-stack deployment (FastAPI, Streamlit) and embedded hardware systems (deploying models on NVIDIA Jetson Nano, Raspberry Pi, Pixhawk, and ArduPilot).
-- Career Goals: Actively seeking AI Engineering internships, junior full-time positions, and collaborative research projects.
-- Contacts: Email (feri.19022004@gmail.com), GitHub (github.com/FeriMauliandi), LinkedIn (linkedin.com/in/ferimauliandisaputra).
-
-FEATURED AI PROJECTS (TECHNICAL DETAILS):
-1. ChiliCare (Chili Leaf Disease Detection & RAG):
-   - Integrates YOLOv11 for real-time agricultural disease classification on chili plants.
-   - Dual-purpose backend: Combines computer vision detection with an LLM/RAG assistant via ChromaDB and LangChain to generate detailed visual diagnostic reports and interactive farmer consultations.
-   - Stack: YOLOv11, Python, LangChain, ChromaDB, FastAPI.
-
-2. NutriGraph AI (Nutrition Estimation with VLM + Agentic RAG):
-   - Autonomous multi-agent pipeline orchestrated with LangGraph for dietary and nutritional analysis.
-   - Uses Vision-Language Models (VLM) for food identification, automated USDA FoodData API querying, and Hybrid Search (Vector + Multiquery + BM25).
-   - Cleanly decoupled FastAPI backend with an interactive Streamlit frontend.
-
-3. KawanKerjaAI (Labor Regulation RAG Chatbot):
-   - Domain-specific smart assistant that analyzes and answers queries regarding Indonesian labor regulations, specifically PP No. 35/2021.
-   - Ingests legal documents into ChromaDB vector storage and employs Ollama for local LLM inference (privacy-first & zero-cloud cost), cleanly integrated with a FastAPI backend and Streamlit interface.
-   - Stack: LangChain, ChromaDB, Ollama, Python, FastAPI, Streamlit.
-
-4. UAVs & Autonomous Robotics Development:
-   - 3+ years hands-on experience building, calibrating, and flying Fixed Wing & VTOL drones for competitive robotics and aerial surveys.
-   - Lead Programmer & Ground Station Operator at Seulawah UAV Team.
-   - Achievements: Awarded Best Team (Tim Terbaik) - Divisi Fixed Wing at KRTI 2026; Finalist in KRTI 2024 divisi VTOL.
-   - Stack: Pixhawk, ArduPilot, PX4, DroneKit, Jetson Nano, Raspberry Pi.
-
-5. IHSG Stock Fundamental Explainer:
-   - Financial AI assistant that processes structured Indonesian stock market metrics from Yahoo Finance (yfinance) and explains fundamental valuation indicators in plain, understandable language using LangChain and Streamlit.
-
-EXPERIENCE & CREDENTIALS:
-- Best Team (Tim Terbaik) - Divisi Fixed Wing di Kontes Robot Terbang Indonesia (KRTI) 2026 — Pusat Prestasi Nasional.
-- Finalist KRTI 2024 — Pusat Prestasi Nasional (Robotics Flight Competition).
-- PT Angkasa Pura (Sep-Oct 2025): Backend Developer Intern — Developed CRUD inventory management application tracking UPS power systems to optimize airport asset workflows.
-- Introduction to Data Science with Python certification — DQLab (2025).
-
-CORE TECH STACK:
-- Languages: Python, JavaScript, C/C++ (Arduino/Embedded).
-- Frameworks & AI: PyTorch, TensorFlow, LangChain, LangGraph, LangSmith, ChromaDB, Hugging Face, OpenCV, Ollama.
-- Backend & DevOps: FastAPI, Docker, Node.js, Git, Linux/Ubuntu, Postman.
-- Hardware: NVIDIA Jetson Nano, Raspberry Pi, Arduino, Pixhawk, ArduPilot.
-
-RESPONSE RULES:
-- Tone: Friendly, humble, technically competent, and professional.
-- LANGUAGE: Always strictly match the language used by the user in their prompt. If the user writes in English, reply entirely in English. If the user writes in Indonesian, reply entirely in Indonesian. Never force a specific language; adapt automatically to whatever language the user inputs.
-- LENGTH: Keep responses focused and concise (3 to 5 sentences or 3 to 4 bullet points max). Do NOT write overly long walls of text.
-- FORMATTING: NEVER use markdown headers ('###', '##', '#'). NEVER use raw asterisks for titles. Use clean bullet points ('•') and bold text for key terms.`;
+import { FiMessageCircle, FiX, FiSend, FiCpu, FiAlertCircle, FiMinus } from 'react-icons/fi';
 
 const SUGGESTED_QUESTIONS = [
   "Siapa Feri dan apa keahliannya?",
@@ -102,6 +41,36 @@ function formatMessageContent(text) {
   });
 }
 
+// Fallback offline jika backend proxy belum tersedia
+function getOfflineFallbackResponse(userText) {
+  const lower = userText.toLowerCase();
+  const isEnglish = /\b(who|what|where|how|tell|project|projects|experience|skill|skills|contact|email|hire|hello|hi)\b/i.test(lower);
+
+  if (isEnglish) {
+    if (lower.includes('project') || lower.includes('work') || lower.includes('thesis') || lower.includes('skripsi')) {
+      return `Feri's featured projects:\n• ChiliCare (Thesis benchmark winner: YOLOv11s mAP@0.5=0.903 + LLM/RAG)\n• NutriGraph AI (Multi-Agent RAG with LangGraph for nutrition analysis)\n• KawanKerjaAI (Labor Regulation RAG Chatbot with ChromaDB & Ollama)\n• IHSG Stock Fundamental Explainer (LLM + Structured Data)\n• UAV Robotics (National KRTI Fixed Wing 2026 Champion)`;
+    }
+    if (lower.includes('who') || lower.includes('about') || lower.includes('feri') || lower.includes('education') || lower.includes('graduat')) {
+      return `Feri Mauliandi Saputra is a Fresh Graduate in Computer Engineering (Dec 2026) from Universitas Syiah Kuala and Junior AI Engineer specializing in LLMs, Agentic AI, Multi-Agent Workflows, and Computer Vision (thesis benchmark on YOLOv11s with 90.3% mAP).`;
+    }
+    if (lower.includes('contact') || lower.includes('email') || lower.includes('reach')) {
+      return `You can reach Feri via email at feri.19022004@gmail.com or on LinkedIn: linkedin.com/in/ferimauliandisaputra/`;
+    }
+    return `Feel free to ask about Feri's AI engineering skills, projects, thesis research, or contact information!`;
+  }
+
+  if (lower.includes('project') || lower.includes('proyek') || lower.includes('karya') || lower.includes('skripsi') || lower.includes('thesis')) {
+    return `Proyek unggulan Feri:\n• ChiliCare (Hasil riset skripsi: YOLOv11s mAP@0.5=0,903 + LLM/RAG)\n• NutriGraph AI (Multi-Agent RAG & LangGraph estimasi nutrisi)\n• KawanKerjaAI (RAG Chatbot Regulasi Ketenagakerjaan PP 35/2021)\n• IHSG Stock Fundamental Explainer (LLM + Structured Data)\n• UAV KRTI Finalist 2024 & Juara 2026`;
+  }
+  if (lower.includes('siapa') || lower.includes('tentang') || lower.includes('pendidikan') || lower.includes('lulus') || lower.includes('kuliah')) {
+    return `Feri Mauliandi Saputra adalah Fresh Graduate S1 Teknik Komputer (Lulus Desember 2026) dari Universitas Syiah Kuala & Junior AI Engineer yang berfokus pada LLMs, Agentic AI, Multi-Agent Workflows, dan Computer Vision (skripsi benchmark YOLOv11s dengan mAP 0,903).`;
+  }
+  if (lower.includes('kontak') || lower.includes('email') || lower.includes('hubungi')) {
+    return `Hubungi Feri melalui email: feri.19022004@gmail.com atau LinkedIn: linkedin.com/in/ferimauliandisaputra/`;
+  }
+  return `Silakan tanyakan tentang keahlian AI, proyek, riset UAV, atau kontak Feri!`;
+}
+
 export default function AIChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
@@ -113,13 +82,25 @@ export default function AIChatWidget() {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [rateLimitWarning, setRateLimitWarning] = useState(null);
+  const [backendAvailable, setBackendAvailable] = useState(null);
 
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY || '';
-  const GROQ_MODEL = import.meta.env.VITE_GROQ_MODEL || 'qwen/qwen3.8-27b';
-  const isGroqConfigured = Boolean(GROQ_API_KEY && GROQ_API_KEY.trim().length > 0 && !GROQ_API_KEY.includes('your_groq_api_key'));
+  // Cek apakah backend proxy tersedia saat pertama kali chat dibuka
+  useEffect(() => {
+    if (!isOpen || backendAvailable !== null) return;
+
+    fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: '__ping__' }) })
+      .then((res) => {
+        // Jika mendapat respons HTTP (even error), backend tersedia
+        setBackendAvailable(res.ok || res.status === 400 || res.status === 429 || res.status === 500);
+      })
+      .catch(() => {
+        // Fetch gagal total (CORS, network, 404 HTML) → pakai fallback
+        setBackendAvailable(false);
+      });
+  }, [isOpen, backendAvailable]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -143,77 +124,33 @@ export default function AIChatWidget() {
     return () => window.removeEventListener('keydown', handleEsc);
   }, [isOpen]);
 
-  // Panggil Groq API dengan Token Budgeting ketat
-  const callGroqAPI = async (userMessage, chatHistory) => {
-    // Ambil HANYA 2 pesan terakhir (hemat token drastis agar tidak kena limit 6.000 TPM)
+  // Panggil backend proxy /api/chat
+  const callBackendProxy = async (userMessage, chatHistory) => {
     const recentHistory = chatHistory.slice(-2).map((msg) => ({
-      role: msg.role === 'user' ? 'user' : 'assistant',
+      role: msg.role,
       content: msg.content.slice(0, 300),
     }));
 
-    const payloadMessages = [
-      { role: 'system', content: COMPACT_SYSTEM_PROMPT },
-      ...recentHistory,
-      { role: 'user', content: userMessage },
-    ];
-
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const response = await fetch('/api/chat', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${GROQ_API_KEY}`,
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: GROQ_MODEL,
-        messages: payloadMessages,
-        temperature: 0.5,
-        max_tokens: 260,
+        message: userMessage,
+        history: recentHistory,
       }),
     });
 
     if (!response.ok) {
       const errData = await response.json().catch(() => ({}));
-      const errorMsg = errData?.error?.message || `HTTP ${response.status}: ${response.statusText}`;
 
-      if (response.status === 429 || errorMsg.toLowerCase().includes('rate limit')) {
+      if (response.status === 429 || errData?.error === 'RATE_LIMIT_HIT') {
         throw new Error('RATE_LIMIT_HIT');
       }
-      throw new Error(errorMsg);
+      throw new Error(errData?.error || `Server error ${response.status}`);
     }
 
     const data = await response.json();
-    return data?.choices?.[0]?.message?.content || 'Maaf, tidak ada respons dari model.';
-  };
-
-  // Fallback offline jika API key belum dimasukkan (merespon sesuai bahasa yang diinput)
-  const getOfflineFallbackResponse = (userText) => {
-    const lower = userText.toLowerCase();
-    const isEnglish = /\b(who|what|where|how|tell|project|projects|experience|skill|skills|contact|email|hire|hello|hi)\b/i.test(lower);
-
-    if (isEnglish) {
-      if (lower.includes('project') || lower.includes('work')) {
-        return `Feri's featured projects:\n• NutriGraph AI (Multi-Agent RAG with LangGraph for nutrition analysis)\n• KawanKerjaAI (Labor Regulation RAG Chatbot with ChromaDB & Ollama)\n• ChiliCare (YOLOv11 + LLM/RAG chili leaf disease detection)\n• IHSG Stock Fundamental Explainer (LLM + Structured Data)\n• UAV Robotics (National KRTI Fixed Wing 2026 Champion)`;
-      }
-      if (lower.includes('who') || lower.includes('about') || lower.includes('feri')) {
-        return `Feri Mauliandi Saputra is an AI Engineer and Computer Engineering student specializing in LLMs, Agentic AI, Multi-Agent Workflows, and RAG architectures, with secondary expertise in Computer Vision and autonomous UAV systems.`;
-      }
-      if (lower.includes('contact') || lower.includes('email') || lower.includes('reach')) {
-        return `You can reach Feri via email at feri.19022004@gmail.com or on LinkedIn: linkedin.com/in/ferimauliandisaputra/`;
-      }
-      return `Feel free to ask about Feri's AI engineering skills, projects, UAV robotics research, or contact information!`;
-    }
-
-    // Default Indonesian response
-    if (lower.includes('project') || lower.includes('proyek') || lower.includes('karya')) {
-      return `Proyek unggulan Feri:\n• NutriGraph AI (Multi-Agent RAG & LangGraph estimasi nutrisi)\n• KawanKerjaAI (RAG Chatbot Regulasi Ketenagakerjaan PP 35/2021)\n• ChiliCare (YOLOv11 + LLM/RAG deteksi penyakit cabai)\n• IHSG Stock Fundamental Explainer (LLM + Structured Data)\n• UAV KRTI Finalist 2024 & Juara 2026`;
-    }
-    if (lower.includes('siapa') || lower.includes('tentang')) {
-      return `Feri Mauliandi Saputra adalah AI Engineer & Mahasiswa Teknik Komputer yang berfokus utama pada LLMs, Agentic AI, Multi-Agent Workflows, dan RAG, dengan keahlian sekunder di bidang Computer Vision dan robotika drone (UAV).`;
-    }
-    if (lower.includes('kontak') || lower.includes('email') || lower.includes('hubungi')) {
-      return `Hubungi Feri melalui email: feri.19022004@gmail.com atau LinkedIn: linkedin.com/in/ferimauliandisaputra/`;
-    }
-    return `Silakan tanyakan tentang keahlian AI, proyek, riset UAV, atau kontak Feri!`;
+    return data?.reply || 'Maaf, tidak ada respons dari model.';
   };
 
   const handleSend = async (text) => {
@@ -227,8 +164,8 @@ export default function AIChatWidget() {
     setRateLimitWarning(null);
 
     try {
-      if (isGroqConfigured) {
-        const reply = await callGroqAPI(messageText, messages);
+      if (backendAvailable) {
+        const reply = await callBackendProxy(messageText, messages);
         setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
       } else {
         await new Promise((resolve) => setTimeout(resolve, 500));
@@ -236,27 +173,23 @@ export default function AIChatWidget() {
         setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
       }
     } catch (err) {
-      console.error('Groq Error:', err);
+      console.error('Chat error:', err);
       if (err.message === 'RATE_LIMIT_HIT') {
         const isEnglish = /\b(who|what|where|how|tell|project|experience|skills|contact|email)\b/i.test(messageText);
-        setRateLimitWarning(isEnglish ? 'Groq TPM rate limit reached. Please wait 10-20 seconds.' : 'Batas kuota TPM Groq tercapai. Tunggu 10-20 detik.');
+        setRateLimitWarning(isEnglish ? 'Rate limit reached. Please wait 10-20 seconds.' : 'Batas kuota tercapai. Tunggu 10-20 detik.');
         setMessages((prev) => [
           ...prev,
           {
             role: 'assistant',
             content: isEnglish
-              ? '⏳ Groq request rate limit exceeded temporarily. Please wait 15-20 seconds before asking again.'
-              : '⏳ Kuota request Groq sementara penuh (Rate Limit). Mohon tunggu sekitar 15-20 detik sebelum mengirim pesan berikutnya.',
+              ? '⏳ Request rate limit exceeded temporarily. Please wait 15-20 seconds before asking again.'
+              : '⏳ Kuota request sementara penuh (Rate Limit). Mohon tunggu sekitar 15-20 detik sebelum mengirim pesan berikutnya.',
           },
         ]);
       } else {
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: 'assistant',
-            content: `⚠️ Kendala: ${err.message}`,
-          },
-        ]);
+        // Jika backend error, fallback ke offline
+        const reply = getOfflineFallbackResponse(messageText);
+        setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
       }
     } finally {
       setIsTyping(false);
@@ -269,6 +202,12 @@ export default function AIChatWidget() {
       handleSend();
     }
   };
+
+  const modeLabel = backendAvailable === null
+    ? 'Connecting...'
+    : backendAvailable
+      ? '⚡ AI-Powered'
+      : '📋 Quick-Response Mode';
 
   return (
     <>
@@ -315,8 +254,8 @@ export default function AIChatWidget() {
                   AI Portfolio Assistant
                   <span className="w-2 h-2 rounded-full bg-[#E9C46A] animate-pulse"></span>
                 </p>
-                <p className="text-[#B7E4C7] text-[11px] font-semibold flex items-center gap-1">
-                  ⚡ Groq • <span className="font-mono text-[10px] text-white bg-[#1B4332] px-1.5 py-0.2 rounded truncate max-w-[150px]">{GROQ_MODEL}</span>
+                <p className="text-[#B7E4C7] text-[11px] font-semibold">
+                  {modeLabel}
                 </p>
               </div>
             </div>
@@ -329,12 +268,12 @@ export default function AIChatWidget() {
             </button>
           </div>
 
-          {/* Banner Peringatan jika API Key belum terkonfigurasi */}
-          {!isGroqConfigured && (
+          {/* Banner jika backend tidak tersedia */}
+          {backendAvailable === false && (
             <div className="bg-[#FDEEDC] border-b-2 border-[#1E2D24] px-4 py-2 flex items-center gap-2 shrink-0">
               <FiAlertCircle className="text-[#E07A5F] shrink-0" size={16} />
               <p className="text-[11px] font-bold text-[#1E2D24] leading-tight">
-                Mode Offline. Tambahkan <code className="bg-[#FFFDF7] px-1 rounded">VITE_GROQ_API_KEY</code> di file <code className="bg-[#FFFDF7] px-1 rounded">.env</code>.
+                Mode Offline <FiMinus size={11} className="inline opacity-60 mx-0.5" /> respons template lokal. Konfigurasikan environment variable di Netlify untuk respons AI penuh.
               </p>
             </div>
           )}
@@ -425,7 +364,7 @@ export default function AIChatWidget() {
 
           {/* Footer note */}
           <div className="px-3 py-1.5 bg-[#F3E9D2] text-center shrink-0 border-t border-[#1E2D24]/20 flex items-center justify-between text-[10px] font-bold text-[#1E2D24]/70">
-            <span>Powered by Groq LPUs</span>
+            <span>{backendAvailable ? 'Secured Server Proxy' : 'Offline Mode'}</span>
             <span className="font-mono">Auto Language Detection</span>
           </div>
         </div>
