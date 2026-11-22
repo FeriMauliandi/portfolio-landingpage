@@ -4,7 +4,7 @@ import {
   FiMail, FiGithub, FiLinkedin, FiCode, FiBriefcase, FiAward, 
   FiChevronLeft, FiChevronRight, FiMenu, FiX, FiCompass, FiCpu, 
   FiNavigation, FiDownload, FiBookOpen, FiMapPin, FiCalendar, 
-  FiSettings, FiMinus, FiStar 
+  FiSettings, FiMinus, FiStar, FiEye, FiExternalLink 
 } from 'react-icons/fi';
 
 import { 
@@ -185,15 +185,36 @@ const FooterGhibliScene = () => (
 
 // Kartu GitHub
 const GithubCard = ({ username, lang = 'en', t }) => {
+  const [monthsToShow, setMonthsToShow] = useState(10);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 640px)');
+    const updateLayout = () => {
+      const mobile = mediaQuery.matches;
+      setIsMobile(mobile);
+      setMonthsToShow(mobile ? 4 : 10);
+    };
+
+    updateLayout();
+    mediaQuery.addEventListener('change', updateLayout);
+    return () => mediaQuery.removeEventListener('change', updateLayout);
+  }, []);
+
   const lastMonths = (contributions) => {
     const cutoff = new Date();
-    cutoff.setMonth(cutoff.getMonth() - 10);
+    cutoff.setMonth(cutoff.getMonth() - monthsToShow);
     return contributions.filter((day) => new Date(day.date) >= cutoff);
   };
 
+  const contributionsLabel = monthsToShow < 10
+    ? (t?.about?.githubContributionsShort || `${monthsToShow} months`)
+    : (t?.about?.githubContributions || 'contributions in the last 10 months');
+
   return (
-    <div className="w-full bg-[#FFFDF7] text-[#1E2D24] ghibli-box p-5 md:p-8 text-left">
-      <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
+    <div className="w-full min-w-0 overflow-hidden bg-[#FFFDF7] text-[#1E2D24] ghibli-box p-5 md:p-8 text-left">
+      <div className="w-full max-w-4xl mx-auto">
+        <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
         <div className="flex items-center gap-4">
           <img
             src={`https://github.com/${username}.png`}
@@ -212,13 +233,13 @@ const GithubCard = ({ username, lang = 'en', t }) => {
         </a>
       </div>
 
-      <div className="overflow-x-auto pb-2">
+      <div className="w-full min-w-0 overflow-x-auto pb-2 flex justify-center">
         <GitHubCalendar
           username={username}
           colorScheme="light"
-          blockSize={14}
-          blockMargin={4}
-          fontSize={13}
+          blockSize={isMobile ? 9 : 14}
+          blockMargin={isMobile ? 3 : 4}
+          fontSize={isMobile ? 9 : 13}
           weekStart={0}
           showWeekdayLabels
           transformData={lastMonths}
@@ -226,7 +247,7 @@ const GithubCard = ({ username, lang = 'en', t }) => {
             light: ['#E6F4EA', '#B7E4C7', '#52B788', '#2D6A4F', '#1B4332'],
           }}
           labels={{
-            totalCount: `{{count}} ${t?.about?.githubContributions || 'contributions in the last 10 months'}`,
+            totalCount: `{{count}} ${contributionsLabel}`,
             legend: {
               less: t?.about?.githubLess || 'Less',
               more: t?.about?.githubMore || 'More',
@@ -254,11 +275,12 @@ const GithubCard = ({ username, lang = 'en', t }) => {
           }}
         />
       </div>
+      </div>
     </div>
   );
 };
 
-const ProjectCard = ({ project, idx, viewRepoText = 'View Repository' }) => {
+const ProjectCard = ({ project, idx, viewRepoText = 'View Repository', viewDemoText = 'Live Demo' }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
@@ -371,7 +393,17 @@ const ProjectCard = ({ project, idx, viewRepoText = 'View Repository' }) => {
           </div>
         </div>
 
-        <div className="mt-auto pt-4 border-t-2 border-dashed border-[#1E2D24]/20">
+        <div className="mt-auto pt-4 border-t-2 border-dashed border-[#1E2D24]/20 flex flex-wrap gap-2.5">
+          {project.demo && (
+            <a
+              href={project.demo}
+              target="_blank"
+              rel="noreferrer"
+              className="ghibli-btn bg-[#E07A5F] text-[#FFFDF7] w-full sm:w-auto inline-flex items-center justify-center gap-2 hover:bg-[#2D6A4F] hover:text-white text-sm"
+            >
+              <FiExternalLink size={18} strokeWidth={2.5} /> {viewDemoText}
+            </a>
+          )}
           <a
             href={project.github}
             target="_blank"
@@ -458,10 +490,29 @@ export default function PersonalPortfolio() {
 
   const [activeTab, setActiveTab] = useState('projects');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCvPreviewOpen, setIsCvPreviewOpen] = useState(false);
   const [githubUsername] = useState('FeriMauliandi');
   const CONTACT_EMAIL = 'feri.19022004@gmail.com';
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
   const [formStatus, setFormStatus] = useState(null);
+
+  // Kunci scroll & tangani tombol Escape saat pratinjau CV terbuka
+  useEffect(() => {
+    if (!isCvPreviewOpen) return;
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setIsCvPreviewOpen(false);
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isCvPreviewOpen]);
 
   const handleContactSubmit = (e) => {
     e.preventDefault();
@@ -545,7 +596,7 @@ export default function PersonalPortfolio() {
   const projectMetadata = [
     { images: [dietary], bgColor: 'bg-[#FDEEDC]', github: 'https://github.com/FeriMauliandi/NutriGraph_AI-nutrition-agentic-RAG', featured: false },
     { images: [kawankerja, kawankerja1], bgColor: 'bg-[#DDF2FD]', github: 'https://github.com/FeriMauliandi/RAG-chatbot-Streamlit-FastAPI', featured: false },
-    { images: [chili2], bgColor: 'bg-[#D8F3DC]', github: 'https://github.com/FeriMauliandi/Chili-Leaf-Disease-Detection-with-YOLOv11-and-LLM-Based-RAG', featured: true },
+    { images: [chili2], bgColor: 'bg-[#D8F3DC]', github: 'https://github.com/FeriMauliandi/Chili-Leaf-Disease-Detection-with-YOLOv11-and-LLM-Based-RAG', demo: 'https://chilicareai.netlify.app', featured: true },
     { images: [ihsg, ihsg1], bgColor: 'bg-[#E2ECE9]', github: 'https://github.com/FeriMauliandi/LLM-based-IHSG-Stock-Fundamental-Explainer-with-Structured-Data', featured: false },
     { images: [drone1, drone2, drone3, drone4, drone5, drone6], bgColor: 'bg-[#F3E9D2]', github: 'https://github.com/ferimauliandisaputra', featured: true }
   ];
@@ -555,6 +606,7 @@ export default function PersonalPortfolio() {
     images: projectMetadata[idx]?.images || [dietary],
     bgColor: projectMetadata[idx]?.bgColor || 'bg-[#FDEEDC]',
     github: projectMetadata[idx]?.github || 'https://github.com/FeriMauliandi',
+    demo: projectMetadata[idx]?.demo || null,
     featured: projectMetadata[idx]?.featured || false
   }));
 
@@ -771,7 +823,7 @@ export default function PersonalPortfolio() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 md:gap-14 items-center mt-4 md:mt-0 relative z-20">
 
           {/* BAGIAN KIRI: Teks & Identitas Bergaya Jurnal Insinyur Ghibli */}
-          <div className="space-y-5 scroll-reveal opacity-0" data-animation="animate-slideInLeft">
+          <div className="space-y-5 scroll-reveal opacity-0 min-w-0" data-animation="animate-slideInLeft">
 
             {/* Badge Sapaan dengan Kompas Ekspedisi */}
             <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-[#F3E9D2] text-[#1E2D24] ghibli-border rounded-xl text-xs md:text-sm font-extrabold shadow-[3px_3px_0px_#2D6A4F]">
@@ -818,23 +870,23 @@ export default function PersonalPortfolio() {
               </a>
             </div>
 
-            {/* Tombol Download CV */}
+            {/* Tombol CV: menampilkan pratinjau dulu sebelum diunduh */}
             <div className="pt-1 flex flex-wrap items-center">
-              <a
-                href="/cv.pdf"
-                target="_blank"
-                rel="noreferrer"
-                download="CV_Feri_Mauliandi.pdf"
+              <button
+                type="button"
+                onClick={() => setIsCvPreviewOpen(true)}
+                aria-haspopup="dialog"
+                aria-expanded={isCvPreviewOpen}
                 className="ghibli-btn bg-[#E07A5F] text-[#FFFDF7] inline-flex items-center gap-2.5 text-base md:text-lg hover:bg-[#2D6A4F] hover:text-white"
               >
-                <FiDownload size={19} strokeWidth={2.5} />
+                <FiEye size={19} strokeWidth={2.5} />
                 <span>{t.hero.ctaDownloadCv || 'Download CV'}</span>
-              </a>
+              </button>
             </div>
           </div>
 
           {/* BAGIAN KANAN: Bingkai Ekspedisi Dirgantara */}
-          <div className="w-full max-w-sm sm:max-w-md mx-auto mt-2 md:mt-0 px-2 sm:px-0 relative">
+          <div className="w-full max-w-sm sm:max-w-md mx-auto mt-2 md:mt-0 px-2 sm:px-0 relative min-w-0">
             <div className="relative scroll-reveal opacity-0" data-animation="animate-slideInRight">
 
               {/* Piringan Kompas Angin Berputar Halus di Belakang Bingkai */}
@@ -960,7 +1012,7 @@ export default function PersonalPortfolio() {
               { icon: <FiCode size={13} className="text-[#2D6A4F]" />, label: t.hero.quickInfo?.workPref, value: t.hero.quickInfo?.workPrefValue },
               { icon: <FiMail size={13} className="text-[#E07A5F]" />, label: t.hero.quickInfo?.languages, value: t.hero.quickInfo?.languagesValue },
             ].map((item, i, arr) => (
-              <span key={i} className="inline-flex items-center gap-1.5 whitespace-nowrap">
+              <span key={i} className="inline-flex items-center gap-1.5 whitespace-normal sm:whitespace-nowrap text-center">
                 {item.icon}
                 <span className="font-extrabold text-[#1E2D24]">{item.label}:</span>
                 <span className="font-semibold text-[#2F3E35]">{item.value}</span>
@@ -979,45 +1031,74 @@ export default function PersonalPortfolio() {
       <GhibliHillsDivider />
 
       {/* About Me Section - Nuansa Padang Rumput Segar */}
-      <section id="about" className="relative py-16 px-6 bg-[#E6F4EA] border-b-2 border-[#1E2D24]">
+      <section id="about" className="relative py-14 px-5 md:px-6 bg-[#E6F4EA] border-b-2 border-[#1E2D24]">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col items-center text-center mb-16 scroll-reveal opacity-0" data-animation="animate-slideInUp">
-            <span className="text-sm font-extrabold uppercase tracking-widest text-[#2D6A4F] inline-flex items-center gap-2 mb-3">
-              <HiSparkles size={14} className="text-[#E07A5F]" />
+          <div className="flex flex-col items-center text-center mb-8 scroll-reveal opacity-0" data-animation="animate-slideInUp">
+            <span className="text-xs md:text-sm font-extrabold uppercase tracking-widest text-[#2D6A4F] inline-flex items-center gap-2 mb-2.5">
+              <HiSparkles size={13} className="text-[#E07A5F]" />
               {t.about.tag}
-              <HiSparkles size={14} className="text-[#E07A5F]" />
+              <HiSparkles size={13} className="text-[#E07A5F]" />
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-[#FFFDF7] text-[#1E2D24] px-8 py-3 ghibli-box">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1E2D24] bg-[#FFFDF7] px-6 py-2.5 ghibli-box">
               {t.about.title}
             </h2>
+          </div>
 
-            <p className="text-base md:text-xl text-[#1E2D24] font-semibold max-w-4xl mx-auto leading-relaxed mt-6 ghibli-box p-6 md:p-8 bg-[#FFFDF7] text-left md:text-center">
-              {t.about.bio}
-            </p>
+          {/* Desktop: bio + tech stack berdampingan, GitHub full-width. Mobile: satu kolom. */}
+          <div className="grid md:grid-cols-2 gap-5 md:gap-6 items-stretch">
+            {/* Bio */}
+            <div
+              className="min-w-0 bg-[#FFFDF7] ghibli-box p-6 md:p-7 scroll-reveal opacity-0 flex flex-col"
+              data-animation="animate-slideInLeft"
+            >
+              <div className="flex items-center gap-2.5 mb-4">
+                <span className="w-9 h-9 bg-[#D8F3DC] ghibli-border rounded-lg flex items-center justify-center shadow-[2px_2px_0px_#2D6A4F] shrink-0">
+                  <FaScroll size={15} className="text-[#1E2D24]" />
+                </span>
+                <h3 className="text-base md:text-lg font-bold text-[#1E2D24]">{t.about.bioTitle}</h3>
+              </div>
+              <p className="text-sm md:text-base text-[#2F3E35] font-semibold leading-relaxed">
+                {t.about.bio}
+              </p>
+            </div>
 
-            <div className="mt-14 pt-4 flex flex-col items-center">
-              <h3 className="text-2xl md:text-3xl font-bold mb-8 text-[#1E2D24] flex items-center gap-3 bg-[#E9C46A] px-7 py-2.5 ghibli-border rounded-xl shadow-[3px_3px_0px_#2D6A4F]">
-                <FaTools size={20} className="text-[#1E2D24]" /> {t.about.techStackTitle}
-              </h3>
+            {/* Tech Stack */}
+            <div
+              className="min-w-0 bg-[#FFFDF7] ghibli-box p-6 md:p-7 scroll-reveal opacity-0 flex flex-col"
+              data-animation="animate-slideInRight"
+            >
+              <div className="flex items-center gap-2.5 mb-4">
+                <span className="w-9 h-9 bg-[#E9C46A] ghibli-border rounded-lg flex items-center justify-center shadow-[2px_2px_0px_#2D6A4F] shrink-0">
+                  <FaTools size={16} className="text-[#1E2D24]" />
+                </span>
+                <h3 className="text-base md:text-lg font-bold text-[#1E2D24]">{t.about.techStackTitle}</h3>
+              </div>
 
-              <div className="flex flex-wrap justify-center gap-3 max-w-5xl">
+              <div className="flex flex-wrap gap-2">
                 {techStack.map((tech, index) => (
                   <div
                     key={index}
-                    className={`tech-badge flex items-center gap-2 px-4 py-2 ${tech.bg} ${tech.text} text-xs md:text-sm font-bold tracking-wider rounded-xl ghibli-border shadow-[2px_2px_0px_#1E2D24] cursor-default`}
+                    className={`tech-badge flex items-center gap-1.5 px-2.5 py-1.5 ${tech.bg} ${tech.text} text-[10px] md:text-xs font-bold tracking-wide rounded-lg ghibli-border shadow-[1px_2px_0px_#1E2D24] cursor-default`}
                   >
-                    <span className="text-base md:text-lg">{tech.icon}</span>
+                    <span className="text-sm">{tech.icon}</span>
                     {tech.name}
                   </div>
                 ))}
               </div>
+            </div>
 
-              <h3 className="text-2xl md:text-3xl font-bold mt-16 mb-8 text-[#1E2D24] flex items-center gap-3 bg-[#DDF2FD] px-7 py-2.5 ghibli-border rounded-xl shadow-[3px_3px_0px_#2D6A4F]">
-                <FaSeedling size={22} className="text-[#2D6A4F]" /> {t.about.githubTitle}
-              </h3>
-              <div className="w-full max-w-4xl">
-                <GithubCard username={githubUsername} lang={lang} t={t} />
+            {/* GitHub Contributions */}
+            <div
+              className="md:col-span-2 min-w-0 scroll-reveal opacity-0"
+              data-animation="animate-slideInUp"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <FaSeedling size={18} className="text-[#2D6A4F]" />
+                <h3 className="text-xs md:text-sm font-extrabold uppercase tracking-widest text-[#2D6A4F]">
+                  {t.about.githubTitle}
+                </h3>
               </div>
+              <GithubCard username={githubUsername} lang={lang} t={t} />
             </div>
           </div>
         </div>
@@ -1086,7 +1167,7 @@ export default function PersonalPortfolio() {
           {activeTab === 'projects' && (
             <div className="grid md:grid-cols-2 gap-8">
               {projects.map((project, idx) => (
-                <ProjectCard key={project.id} project={project} idx={idx} viewRepoText={t.portfolio.viewRepo} />
+                <ProjectCard key={project.id} project={project} idx={idx} viewRepoText={t.portfolio.viewRepo} viewDemoText={t.portfolio.viewDemo} />
               ))}
             </div>
           )}
@@ -1372,6 +1453,75 @@ export default function PersonalPortfolio() {
           <p className="text-xs font-bold text-[#4A5D52]">{t.footer.copyright}</p>
         </div>
       </footer>
+
+      {/* Modal Pratinjau CV: tampil dulu sebelum pengguna mengunduh */}
+      {isCvPreviewOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-[#1E2D24]/70 backdrop-blur-sm"
+          onClick={() => setIsCvPreviewOpen(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="cv-preview-title"
+        >
+          <div
+            className="flex flex-col w-full max-w-4xl h-[88vh] sm:h-[85vh] bg-[#FFFDF7] border-2 border-[#1E2D24] rounded-2xl shadow-[6px_6px_0px_#2D6A4F] overflow-hidden"
+            onClick={(event) => event.stopPropagation()}
+          >
+            {/* Header Modal */}
+            <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3 bg-[#F3E9D2] border-b-2 border-[#1E2D24]">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <FiBookOpen className="text-[#2D6A4F] shrink-0" size={20} strokeWidth={2.5} />
+                <h3 id="cv-preview-title" className="font-extrabold text-sm sm:text-lg text-[#1E2D24] truncate">
+                  {t.hero.cvPreviewTitle}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsCvPreviewOpen(false)}
+                aria-label={t.hero.cvPreviewClose}
+                className="shrink-0 bg-[#E07A5F] text-[#FFFDF7] border-2 border-[#1E2D24] rounded-lg p-1.5 shadow-[2px_2px_0px_#1E2D24] hover:bg-[#2D6A4F] transition-colors cursor-pointer"
+              >
+                <FiX size={20} strokeWidth={2.5} />
+              </button>
+            </div>
+
+            {/* Viewer PDF */}
+            <div className="flex-1 min-h-0 bg-[#E6F4EA]">
+              <iframe
+                src="/cv.pdf#view=FitH&toolbar=0&navpanes=0"
+                title={t.hero.cvPreviewTitle}
+                className="w-full h-full border-0"
+              />
+            </div>
+
+            {/* Footer Modal: Aksi */}
+            <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3 bg-[#F3E9D2] border-t-2 border-[#1E2D24]">
+              <p className="hidden sm:block text-xs font-bold text-[#4A5D52]">
+                {t.hero.cvPreviewHint}
+              </p>
+              <div className="flex flex-wrap items-center gap-2.5 ml-auto">
+                <a
+                  href="/cv.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#FFFDF7] text-[#1E2D24] border-2 border-[#1E2D24] rounded-xl shadow-[2px_2px_0px_#1E2D24] font-bold text-sm hover:bg-[#D8F3DC] transition-colors"
+                >
+                  <FiExternalLink size={16} strokeWidth={2.5} />
+                  <span>{t.hero.cvPreviewOpenNewTab}</span>
+                </a>
+                <a
+                  href="/cv.pdf"
+                  download="CV_Feri_Mauliandi.pdf"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#2D6A4F] text-[#FFFDF7] border-2 border-[#1E2D24] rounded-xl shadow-[2px_2px_0px_#1E2D24] font-bold text-sm hover:bg-[#E07A5F] transition-colors"
+                >
+                  <FiDownload size={16} strokeWidth={2.5} />
+                  <span>{t.hero.cvPreviewDownload}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* AI Portfolio Assistant - Live Demo (Respon otomatis mendeteksi bahasa input pengguna) */}
       <AIChatWidget />
